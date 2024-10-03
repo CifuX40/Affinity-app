@@ -1,5 +1,8 @@
-package org.affinity.project
+package org.appaffinity.project
 
+import affinityapp.composeapp.generated.resources.Res
+import affinityapp.composeapp.generated.resources.fondo_de_pantalla
+import affinityapp.composeapp.generated.resources.texto
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -8,25 +11,22 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import org.appaffinity.project.BotonConImagenCustom
-import org.appaffinity.project.ColorBotones
-import org.appaffinity.project.Naranja
 
 @Composable
 fun IdiomaScreen(onAceptarClick: () -> Unit) {
     var idiomaSeleccionado by remember { mutableStateOf(Localization.currentLanguage) }
 
-    // Usamos Box para permitir que los elementos se superpongan (imagen de fondo + contenido)
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
         Image(
-            painter = painterResource("fondo_de_pantalla.png"),
+            painter = painterResource(
+                Res.drawable.fondo_de_pantalla),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -58,9 +58,8 @@ fun IdiomaScreen(onAceptarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Botón de Aceptar
             BotonConImagenCustom(
-                imagen = painterResource("texto.png"),
+                imagen = painterResource(Res.drawable.texto),
                 texto = Localization.getString("aceptar"),
                 color = ColorBotones,
                 onClick = {

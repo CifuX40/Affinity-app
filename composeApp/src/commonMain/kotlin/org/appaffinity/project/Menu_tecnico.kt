@@ -1,5 +1,15 @@
 package org.appaffinity.project
 
+import affinityapp.composeapp.generated.resources.Res
+import affinityapp.composeapp.generated.resources.calibrar_peso
+import affinityapp.composeapp.generated.resources.calibrar_tension
+import affinityapp.composeapp.generated.resources.contrasena
+import affinityapp.composeapp.generated.resources.fondo_de_pantalla
+import affinityapp.composeapp.generated.resources.modo_pruebas
+import affinityapp.composeapp.generated.resources.offset_altura
+import affinityapp.composeapp.generated.resources.offset_peso
+import affinityapp.composeapp.generated.resources.reiniciar
+import affinityapp.composeapp.generated.resources.usuario
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,12 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.affinity.project.Tarifa
-import org.affinity.project.guardarTarifaEnArchivo
 
 val Negro = Color(0xFF1A171B)
 val AzulCian = Color(0xFF009EE0)
@@ -51,7 +59,7 @@ fun SolicitarContrasena(onAccesoPermitido: () -> Unit, onBack: () -> Unit) {
         contentAlignment = Alignment.Center
     ) {
         Image(
-            painter = painterResource("fondo_de_pantalla.png"),
+            painter = painterResource(Res.drawable.fondo_de_pantalla),
             contentDescription = "Fondo de Pantalla",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -174,7 +182,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
             .background(Blanco)
     ) {
         Image(
-            painter = painterResource("fondo_de_pantalla.png"),
+            painter = painterResource(Res.drawable.fondo_de_pantalla),
             contentDescription = "Fondo de Pantalla",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -201,49 +209,49 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
             ) {
                 item {
                     BotonConImagen(
-                        imagen = painterResource("calibrar_peso.png"),
+                        imagen = painterResource(Res.drawable.calibrar_peso),
                         texto = "Calibrar peso",
                         onClick = { showCalibrarPeso = true }
                     )
                 }
                 item {
                     BotonConImagen(
-                        imagen = painterResource("calibrar_tension.png"),
+                        imagen = painterResource(Res.drawable.calibrar_tension),
                         texto = "Calibrar tensión",
                         onClick = { showErrorDialog = true }
                     )
                 }
                 item {
                     BotonConImagen(
-                        imagen = painterResource("offset_altura.png"),
+                        imagen = painterResource(Res.drawable.offset_altura),
                         texto = "Configurar altura",
                         onClick = {}
                     )
                 }
                 item {
                     BotonConImagen(
-                        imagen = painterResource("offset_peso.png"),
+                        imagen = painterResource(Res.drawable.offset_peso),
                         texto = "Configurar peso",
                         onClick = {}
                     )
                 }
                 item {
                     BotonConImagen(
-                        imagen = painterResource("modo_pruebas.png"),
+                        imagen = painterResource(Res.drawable.modo_pruebas),
                         texto = "Modo pruebas",
                         onClick = {}
                     )
                 }
                 item {
                     BotonConImagen(
-                        imagen = painterResource("contrasena.PNG"),
+                        imagen = painterResource(Res.drawable.contrasena),
                         texto = "contraseña",
                         onClick = {}
                     )
                 }
                 item {
                     BotonConImagen(
-                        imagen = painterResource("reiniciar.PNG"),
+                        imagen = painterResource(Res.drawable.reiniciar),
                         texto = "Reiniciar dispositivo",
                         onClick = {
                             reiniciarDispositivo()
@@ -253,7 +261,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                 }
                 item {
                     BotonConImagen(
-                        imagen = painterResource("usuario.png"),
+                        imagen = painterResource(Res.drawable.usuario),
                         texto = "Usuario",
                         onClick = onUsuarioClick
                     )

@@ -1,5 +1,7 @@
 package org.appaffinity.project
 
+import affinityapp.composeapp.generated.resources.Res
+import affinityapp.composeapp.generated.resources.fondo_de_pantalla
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -10,10 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun CalibrarPeso(onBack: () -> Unit) {
@@ -23,7 +25,7 @@ fun CalibrarPeso(onBack: () -> Unit) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
-            painter = painterResource("fondo_de_pantalla.png"),
+            painter = painterResource(Res.drawable.fondo_de_pantalla),
             contentDescription = "Fondo de Pantalla",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop

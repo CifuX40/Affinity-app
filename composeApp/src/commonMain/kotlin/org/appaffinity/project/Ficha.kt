@@ -1,5 +1,7 @@
-package org.affinity.project
+package org.appaffinity.project
 
+import affinityapp.composeapp.generated.resources.Res
+import affinityapp.composeapp.generated.resources.fondo_de_pantalla
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,7 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -23,18 +25,38 @@ fun FichaScreen(onClose: () -> Unit) {
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },
-            title = { Text(text = Localization.getString("seleccion_confirmada"), color = Color(0xFF009EE0)) },
-            text = { Text(text = Localization.getString("has_seleccionado", selectedOption), color = Color(0xFF009EE0)) },
+            title = {
+                Text(
+                    text = Localization.getString("seleccion_confirmada"),
+                    color = Color(0xFF009EE0)
+                )
+            },
+            text = {
+                Text(
+                    text = Localization.getString("has_seleccionado", selectedOption),
+                    color = Color(0xFF009EE0)
+                )
+            },
             confirmButton = {
-                Button(onClick = {
-                    showDialog = false
-                    onClose()
-                }, colors = androidx.compose.material.ButtonDefaults.buttonColors(backgroundColor = Color(0xFF009EE0))) {
+                Button(
+                    onClick = {
+                        showDialog = false
+                        onClose()
+                    },
+                    colors = androidx.compose.material.ButtonDefaults.buttonColors(
+                        backgroundColor = Color(0xFF009EE0)
+                    )
+                ) {
                     Text(Localization.getString("aceptar"), color = Color.White)
                 }
             },
             dismissButton = {
-                Button(onClick = onClose, colors = androidx.compose.material.ButtonDefaults.buttonColors(backgroundColor = Color(0xFF009EE0))) {
+                Button(
+                    onClick = onClose,
+                    colors = androidx.compose.material.ButtonDefaults.buttonColors(
+                        backgroundColor = Color(0xFF009EE0)
+                    )
+                ) {
                     Text(Localization.getString("regresar"), color = Color.White)
                 }
             }
@@ -46,7 +68,9 @@ fun FichaScreen(onClose: () -> Unit) {
             .fillMaxSize()
     ) {
         Image(
-            painter = painterResource("fondo_de_pantalla.png"),
+            painter = painterResource(
+                Res.drawable.fondo_de_pantalla
+            ),
             contentDescription = null,
             modifier = Modifier.fillMaxSize()
         )
@@ -59,7 +83,11 @@ fun FichaScreen(onClose: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(Localization.getString("selecciona_opcion"), fontSize = 24.sp, color = Color(0xFF1A171B))
+            Text(
+                Localization.getString("selecciona_opcion"),
+                fontSize = 24.sp,
+                color = Color(0xFF1A171B)
+            )
 
             Spacer(modifier = Modifier.height(32.dp))
 
@@ -69,7 +97,11 @@ fun FichaScreen(onClose: () -> Unit) {
                     showDialog = true
                 },
                 modifier = Modifier.padding(8.dp),
-                colors = androidx.compose.material.ButtonDefaults.buttonColors(backgroundColor = Color(0xFF009EE0))
+                colors = androidx.compose.material.ButtonDefaults.buttonColors(
+                    backgroundColor = Color(
+                        0xFF009EE0
+                    )
+                )
             ) {
                 Text(Localization.getString("fichas_farmaceuticas"), color = Color.White)
             }
@@ -80,7 +112,11 @@ fun FichaScreen(onClose: () -> Unit) {
                     showDialog = true
                 },
                 modifier = Modifier.padding(8.dp),
-                colors = androidx.compose.material.ButtonDefaults.buttonColors(backgroundColor = Color(0xFF009EE0))
+                colors = androidx.compose.material.ButtonDefaults.buttonColors(
+                    backgroundColor = Color(
+                        0xFF009EE0
+                    )
+                )
             ) {
                 Text(Localization.getString("euros"), color = Color.White)
             }
@@ -90,7 +126,11 @@ fun FichaScreen(onClose: () -> Unit) {
             Button(
                 onClick = { onClose() },
                 modifier = Modifier.padding(8.dp),
-                colors = androidx.compose.material.ButtonDefaults.buttonColors(backgroundColor = Color(0xFF009EE0))
+                colors = androidx.compose.material.ButtonDefaults.buttonColors(
+                    backgroundColor = Color(
+                        0xFF009EE0
+                    )
+                )
             ) {
                 Text(Localization.getString("regresar"), color = Color.White)
             }

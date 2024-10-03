@@ -1,4 +1,4 @@
-package org.affinity.project
+package org.appaffinity.project
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue

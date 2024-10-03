@@ -1,4 +1,4 @@
-package org.affinity.project
+package org.appaffinity.project
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*

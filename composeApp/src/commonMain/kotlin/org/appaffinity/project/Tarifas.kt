@@ -1,5 +1,7 @@
-package org.affinity.project
+package org.appaffinity.project
 
+import affinityapp.composeapp.generated.resources.Res
+import affinityapp.composeapp.generated.resources.fondo_de_pantalla
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -8,7 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,7 +36,7 @@ fun TarifaScreen(onClose: () -> Unit) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
-            painter = painterResource("fondo_de_pantalla.png"),
+            painter = painterResource(Res.drawable.fondo_de_pantalla),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop

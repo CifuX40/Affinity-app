@@ -79,6 +79,9 @@ android {
         debugImplementation(compose.uiTooling)
     }
 }
+dependencies {
+    implementation("androidx.navigation:navigation-compose:2.8.1")
+}
 
 compose.desktop {
     application {

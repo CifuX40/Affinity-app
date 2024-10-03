@@ -1,5 +1,12 @@
 package org.appaffinity.project
 
+import affinityapp.composeapp.generated.resources.Res
+import affinityapp.composeapp.generated.resources.fecha_hora
+import affinityapp.composeapp.generated.resources.ficha
+import affinityapp.composeapp.generated.resources.fondo_de_pantalla
+import affinityapp.composeapp.generated.resources.lenguaje
+import affinityapp.composeapp.generated.resources.recaudacion
+import affinityapp.composeapp.generated.resources.tarifas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -8,13 +15,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import org.affinity.project.Localization
+import org.jetbrains.compose.resources.painterResource
 
 val ColorBotones = Color(0xFF009EE0)
 
@@ -32,7 +38,7 @@ fun MenuUsuario(
         modifier = Modifier.fillMaxSize()
     ) {
         Image(
-            painter = painterResource("fondo_de_pantalla.png"),
+            painter = painterResource(Res.drawable.fondo_de_pantalla),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -77,19 +83,19 @@ fun MenuUsuario(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     BotonConImagenCustom(
-                        imagen = painterResource("lenguaje.png"),
+                        imagen = painterResource(Res.drawable.lenguaje),
                         texto = Localization.getString("idioma"),
                         color = ColorBotones,
                         onClick = { onNavigateToIdioma() }
                     )
                     BotonConImagenCustom(
-                        imagen = painterResource("recaudacion.png"),
+                        imagen = painterResource(Res.drawable.recaudacion),
                         texto = Localization.getString("recaudacion"),
                         color = ColorBotones,
                         onClick = { /* Implementar la acción */ }
                     )
                     BotonConImagenCustom(
-                        imagen = painterResource("tarifas.png"),
+                        imagen = painterResource(Res.drawable.tarifas),
                         texto = Localization.getString("tarifas"),
                         color = ColorBotones,
                         onClick = { onNavigateToTarifas() }
@@ -103,13 +109,13 @@ fun MenuUsuario(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     BotonConImagenCustom(
-                        imagen = painterResource("fecha_hora.png"),
+                        imagen = painterResource(Res.drawable.fecha_hora),
                         texto = Localization.getString("fecha_hora"),
                         color = ColorBotones,
                         onClick = { onNavigateToFechaHora() }
                     )
                     BotonConImagenCustom(
-                        imagen = painterResource("ficha.png"),
+                        imagen = painterResource(Res.drawable.ficha),
                         texto = Localization.getString("ficha"),
                         color = ColorBotones,
                         onClick = { onNavigateToFicha() }
