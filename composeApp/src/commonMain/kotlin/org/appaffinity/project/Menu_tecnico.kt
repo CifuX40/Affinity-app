@@ -310,6 +310,5 @@ fun ErrorDialog(onDismiss: () -> Unit) {
 fun reiniciarDispositivo() {
     val filePath = "C:\\Users\\Hp\\AndroidStudioProjects\\AppEgaraPlus\\composeApp\\src\\commonMain\\kotlin\\org\\affinity\\project\\Tarifas.json"
     val tarifaCero = Tarifa("0 céntimos", "0 céntimos", "0 céntimos")
-    guardarTarifaEnArchivo(filePath, tarifaCero)
     println("Dispositivo reiniciado y tarifas establecidas en cero.")
 }

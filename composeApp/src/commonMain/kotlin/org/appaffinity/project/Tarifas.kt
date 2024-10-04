@@ -1,8 +1,8 @@
 package org.appaffinity.project
 
 import affinityapp.composeapp.generated.resources.Res
-import affinityapp.composeapp.generated.resources.fondo_de_pantalla
 import androidx.compose.foundation.Image
+import affinityapp.composeapp.generated.resources.fondo_de_pantalla
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -13,16 +13,8 @@ import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
 
-// Clase de datos para almacenar las tarifas
-@Serializable
 data class Tarifa(val peso: String, val altura: String, val tension: String)
-
-// Definición expect para guardar y cargar tarifas desde archivo
-expect fun guardarTarifaEnArchivo(filePath: String, tarifa: Tarifa)
-expect fun cargarTarifaDesdeArchivo(filePath: String): Tarifa?
 
 @Composable
 fun TarifaScreen(onClose: () -> Unit) {
@@ -30,14 +22,10 @@ fun TarifaScreen(onClose: () -> Unit) {
     var altura by remember { mutableStateOf("") }
     var tension by remember { mutableStateOf("") }
     var tarifaGuardada by remember { mutableStateOf<Tarifa?>(null) }
-    val filePath = "Tarifas.json" // Usa un nombre de archivo común
-
-    // Cargar tarifas al iniciar
-    LaunchedEffect(Unit) {
-        tarifaGuardada = cargarTarifaDesdeArchivo(filePath)
-    }
+    val filePath = "Tarifas.json"
 
     Box(modifier = Modifier.fillMaxSize()) {
+        // Asegúrate de que la ruta del recurso sea válida
         Image(
             painter = painterResource(Res.drawable.fondo_de_pantalla),
             contentDescription = null,
@@ -101,24 +89,24 @@ fun TarifaScreen(onClose: () -> Unit) {
 
             Button(
                 onClick = {
-                    val tarifa = Tarifa(
-                        peso = "${(peso.toInt())} céntimos",
-                        altura = "${(altura.toInt())} céntimos",
-                        tension = "${(tension.toInt())} céntimos"
-                    )
-
-                    guardarTarifaEnArchivo(filePath, tarifa)
-                    peso = ""
-                    altura = ""
-                    tension = ""
-
-                    tarifaGuardada = cargarTarifaDesdeArchivo(filePath)
-                    mostrarNotificacion("Tarifa guardada exitosamente.")
+                    if (peso.isNotEmpty() && altura.isNotEmpty() && tension.isNotEmpty()) {
+                        val tarifa = Tarifa(
+                            peso = "${(peso.toInt())} céntimos",
+                            altura = "${(altura.toInt())} céntimos",
+                            tension = "${(tension.toInt())} céntimos"
+                        )
+                        tarifaGuardada = tarifa // Guarda la tarifa
+                        mostrarNotificacion("Tarifa guardada exitosamente.")
+                    } else {
+                        mostrarNotificacion("Por favor, completa todos los campos.")
+                    }
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = Localization.getString("calcular"))
             }
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             Button(
                 onClick = onClose,
