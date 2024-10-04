@@ -66,6 +66,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.kotlinx.datetime)
+            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
