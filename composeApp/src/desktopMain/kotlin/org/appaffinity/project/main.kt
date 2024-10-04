@@ -1,37 +1,55 @@
 package org.appaffinity.project
 
-import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.IntSize
+import androidx.compose.runtime.*
 import androidx.compose.ui.window.Window
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import androidx.compose.ui.window.application
 
-@Composable
-fun main() {
-    Window(title = "Aplicación Affinity", size = IntSize(800, 600)) {
-        MaterialTheme {
-            AppContent()
-        }
+fun main() = application {
+    Window(onCloseRequest = ::exitApplication, title = "Menú Usuario") {
+        MenuUsuario()
     }
 }
 
 @Composable
-fun AppContent() {
-    val navController = rememberNavController()
+fun MenuUsuario() {
+    var currentScreen by remember { mutableStateOf("menu_usuario") }
 
-
-
-    NavHost(navController, startDestination = "menu_usuario") {
-        composable("menu_usuario") {
-            MenuUsuario(
-                onNavigateToTecnico = { navController.navigate("menu_tecnico") },
-                onNavigateToIdioma = { navController.navigate("idioma_screen") },
-                onNavigateToFechaHora = { navController.navigate("ventana_fecha_hora") },
-                onNavigateToTarifas = { navController.navigate("tarifa_screen") },
-                onNavigateToFicha = { navController.navigate("ficha_screen") }
-            )
-        }
+    when (currentScreen) {
+        "menu_usuario" -> MenuUsuario(
+            onNavigateToTecnico = {
+                println("Navegando a pantalla técnica")
+                currentScreen = "menu_tecnico"
+            },
+            onNavigateToIdioma = {
+                println("Navegando a pantalla de idioma")
+                currentScreen = "idioma_screen"
+            },
+            onNavigateToFechaHora = {
+                println("Navegando a pantalla de fecha y hora")
+                currentScreen = "ventana_fecha_hora"
+            },
+            onNavigateToTarifas = {
+                println("Navegando a pantalla de tarifas")
+                currentScreen = "tarifa_screen"
+            },
+            onNavigateToFicha = {
+                println("Navegando a pantalla de ficha")
+                currentScreen = "ficha_screen"
+            }
+        )
+        "menu_tecnico" -> MenuTecnico(
+            onBack = TODO(),
+            onNavigateToUsuario = TODO()
+        ) 
+        "idioma_screen" -> IdiomaScreen(
+            onAceptarClick = TODO()
+        )
+        "ventana_fecha_hora" -> FechaHora() 
+        "tarifa_screen" -> TarifaScreen(
+            onClose = TODO()
+        ) 
+        "ficha_screen" -> FichaScreen(
+            onClose = TODO()
+        ) 
     }
 }

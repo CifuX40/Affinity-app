@@ -1,152 +1,72 @@
 package org.appaffinity.project
 
-import affinityapp.composeapp.generated.resources.Res
-import affinityapp.composeapp.generated.resources.fondo_de_pantalla
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Switch
-import androidx.compose.material.SwitchDefaults
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import org.jetbrains.compose.resources.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
+import kotlinx.datetime.*
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 @Composable
-fun VentanaFechaHora(onClose: () -> Unit) {
-    // Obtener la hora actual de la zona horaria local del ordenador
-    val zoneLocal = ZoneId.systemDefault()
-    val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
-    var fechaHoraActual by remember { mutableStateOf(LocalDateTime.now(zoneLocal)) }
+fun FechaHora() {
+    var isAuto by remember { mutableStateOf(true) }  // Estado para cambiar entre automático y manual
+    var manualDateTime by remember { mutableStateOf(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())) }
 
-    // Estado para manejar la opción automática o manual
-    var isAutomatic by remember { mutableStateOf(true) }
+    // Obtener la fecha y hora actual del sistema en modo automático
+    val systemDateTime by remember {
+        mutableStateOf(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()))
+    }
 
-    // Estados para manejar los inputs de fecha y hora
-    var fechaInput by remember { mutableStateOf(fechaHoraActual.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))) }
-    var horaInput by remember { mutableStateOf(fechaHoraActual.format(DateTimeFormatter.ofPattern("HH:mm"))) }
+    // Formatear la fecha y hora para mostrarla en un formato legible usando kotlinx.datetime
+    val formatter: (LocalDateTime) -> String = { dateTime ->
+        "${dateTime.date} ${dateTime.time}"
+    }
 
-    // Fondo de pantalla
-    Box(
-        modifier = Modifier.fillMaxSize()
+    Column(
+        modifier = Modifier.fillMaxSize().padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        Image(
-            painter = painterResource(Res.drawable.fondo_de_pantalla),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
+        Text(text = "Configuración de Fecha y Hora", style = MaterialTheme.typography.h5)
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = Localization.getString("fecha_hora"),
-                fontSize = 30.sp,
-                color = Naranja,
-                fontWeight = FontWeight.Bold
-            )
+        Spacer(modifier = Modifier.height(16.dp))
 
-            Spacer(modifier = Modifier.height(16.dp))
+        // Mostrar la fecha y hora actual (automática o manual)
+        Text(text = if (isAuto) "Automático: ${formatter(systemDateTime)}"
+        else "Manual: ${formatter(manualDateTime)}")
 
-            // Selector de modo automático o manual
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = Localization.getString("automático"), color = Blanco, fontSize = 16.sp)
-                Switch(
-                    checked = isAutomatic,
-                    onCheckedChange = { isAutomatic = it },
-                    colors = SwitchDefaults.colors(
-                        checkedThumbColor = Naranja,
-                        uncheckedThumbColor = Blanco,
-                        checkedTrackColor = AzulCian,
-                        uncheckedTrackColor = Negro
-                    )
-                )
-                Text(text = Localization.getString("manual"), color = Blanco, fontSize = 16.sp)
-            }
+        Spacer(modifier = Modifier.height(16.dp))
 
-            Spacer(modifier = Modifier.height(16.dp))
+        // Switch para activar o desactivar el modo automático
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(text = "Modo Automático")
+            Switch(checked = isAuto, onCheckedChange = { isAuto = it })
+        }
 
-            // Campo de texto para cambiar la fecha
-            TextField(
-                value = fechaInput,
-                onValueChange = { input -> fechaInput = input },
-                modifier = Modifier
-                    .padding(8.dp)
-                    .background(Blanco)
-                    .fillMaxWidth(),
-                enabled = !isAutomatic,
-                label = { Text(text = Localization.getString("fecha_input_label")) },
-                singleLine = true
-            )
+        Spacer(modifier = Modifier.height(16.dp))
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Campo de texto para cambiar la hora
-            TextField(
-                value = horaInput,
-                onValueChange = { input -> horaInput = input },
-                modifier = Modifier
-                    .padding(8.dp)
-                    .background(Blanco)
-                    .fillMaxWidth(),
-                enabled = !isAutomatic,
-                label = { Text(text = Localization.getString("hora_input_label")) },
-                singleLine = true
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Botón para guardar cambios
-            Button(
-                onClick = {
-                    if (!isAutomatic) {
-                        try {
-                            fechaHoraActual = LocalDateTime.parse("$fechaInput $horaInput", formatter)
-                            println("Nueva fecha y hora seleccionadas: $fechaHoraActual")
-                        } catch (e: Exception) {
-                            println("Error al cambiar la fecha y hora: ${e.message}")
+        // Campos de texto para cambiar la fecha y hora manualmente si está desactivado el modo automático
+        if (!isAuto) {
+            Row {
+                Text(text = "Fecha y Hora:")
+                BasicTextField(
+                    value = formatter(manualDateTime),
+                    onValueChange = { input ->
+                        // Intentar analizar el nuevo valor ingresado por el usuario
+                        runCatching {
+                            val parts = input.split(" ")
+                            val datePart = LocalDate.parse(parts[0])
+                            val timePart = LocalTime.parse(parts[1])
+                            LocalDateTime(datePart, timePart)
+                        }.onSuccess { newDateTime ->
+                            manualDateTime = newDateTime
                         }
-                    } else {
-                        fechaHoraActual = LocalDateTime.now(zoneLocal)
-                        println("Modo automático activado, usando hora local: $fechaHoraActual")
                     }
-                    onClose()
-                },
-                colors = ButtonDefaults.buttonColors(backgroundColor = AzulCian)
-            ) {
-                Text(text = Localization.getString("guardar"), color = Blanco)
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Botón para cerrar la ventana sin guardar cambios
-            Button(
-                onClick = { onClose() },
-                colors = ButtonDefaults.buttonColors(backgroundColor = Negro)
-            ) {
-                Text(text = Localization.getString("cancelar"), color = Blanco)
+                )
             }
         }
     }

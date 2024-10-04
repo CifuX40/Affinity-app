@@ -38,9 +38,7 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable("ventana_fecha_hora") {
-                        VentanaFechaHora(
-                            onClose = { navController.navigateUp() }
-                        )
+                        FechaHora()
                     }
                     composable("tarifa_screen") {
                         TarifaScreen(

@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
 }
+
 kotlin {
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
@@ -64,7 +65,7 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0")
+            implementation(libs.kotlinx.datetime)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -112,13 +113,10 @@ android {
         debugImplementation(compose.uiTooling)
     }
 }
-dependencies {
-    implementation("androidx.navigation:navigation-compose:2.8.2")
-}
 
 compose.desktop {
     application {
-        mainClass = "compose.project.demo.MainKt"
+        mainClass = "org.appaffinity.project.mainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
@@ -126,4 +124,9 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+
+dependencies {
+    implementation(libs.androidx.navigation.compose)
+    implementation("androidx.core:core-i18n:1.0.0-alpha01")
 }
