@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 data class Tarifa(val peso: String, val altura: String, val tension: String)
 
 @Composable
-fun TarifaScreen(onClose: () -> Unit) {
+fun TarifaScreen(onAceptarClick: () -> Unit) {
     var peso by remember { mutableStateOf("") }
     var altura by remember { mutableStateOf("") }
     var tension by remember { mutableStateOf("") }
@@ -109,7 +109,7 @@ fun TarifaScreen(onClose: () -> Unit) {
             Spacer(modifier = Modifier.height(8.dp))
 
             Button(
-                onClick = onClose,
+                onClick = onAceptarClick,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = Localization.getString("regresar"))

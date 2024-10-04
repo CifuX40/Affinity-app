@@ -25,7 +25,43 @@ import org.jetbrains.compose.resources.painterResource
 val ColorBotones = Color(0xFF009EE0)
 
 @Composable
-fun MenuUsuario(
+fun MenuUsuario() {
+    var currentScreen by remember { mutableStateOf("menu_usuario") }
+
+    when (currentScreen) {
+        "menu_usuario" -> {
+            DisplayMenuUsuario(
+                onNavigateToTecnico = {
+                    println("Navegando a pantalla técnica")
+                    currentScreen = "menu_tecnico"
+                },
+                onNavigateToIdioma = {
+                    println("Navegando a pantalla de idioma")
+                    currentScreen = "idioma_screen"
+                },
+                onNavigateToFechaHora = {
+                    println("Navegando a pantalla de fecha y hora")
+                    currentScreen = "ventana_fecha_hora"
+                },
+                onNavigateToTarifas = {
+                    println("Navegando a pantalla de tarifas")
+                    currentScreen = "tarifa_screen"
+                },
+                onNavigateToFicha = {
+                    println("Navegando a pantalla de ficha")
+                    currentScreen = "ficha_screen"
+                }
+            )
+        }
+        "idioma_screen" -> IdiomaScreen(onAceptarClick = { currentScreen = "menu_usuario" })
+        "ventana_fecha_hora" -> FechaHora(onBack = { currentScreen = "menu_usuario" })
+        "tarifa_screen" -> TarifaScreen(onAceptarClick = { currentScreen = "menu_usuario" })
+        "ficha_screen" -> FichaScreen(onClose = { currentScreen = "menu_usuario" })
+    }
+}
+
+@Composable
+fun DisplayMenuUsuario(
     onNavigateToTecnico: () -> Unit,
     onNavigateToIdioma: () -> Unit,
     onNavigateToFechaHora: () -> Unit,
@@ -46,18 +82,26 @@ fun MenuUsuario(
 
         // Botones invisibles en las esquinas para navegación técnica
         Box(modifier = Modifier.size(50.dp).align(Alignment.TopEnd).clickable {
-            if (currentStep == 0) currentStep = 1
+            if (currentStep == 0) {
+                currentStep = 1
+            }
         })
         Box(modifier = Modifier.size(50.dp).align(Alignment.TopStart).clickable {
-            if (currentStep == 1) currentStep = 2
+            if (currentStep == 1) {
+                currentStep = 2
+            }
         })
         Box(modifier = Modifier.size(50.dp).align(Alignment.BottomStart).clickable {
-            if (currentStep == 2) currentStep = 3
+            if (currentStep == 2) {
+                currentStep = 3
+            }
         })
         Box(modifier = Modifier.size(50.dp).align(Alignment.BottomEnd).clickable {
             if (currentStep == 3) {
-                currentStep = 0
+                // Navegamos a la pantalla técnica
                 onNavigateToTecnico()
+                // Reiniciar el step después de navegar
+                currentStep = 0
             }
         })
 
@@ -125,6 +169,7 @@ fun MenuUsuario(
         }
     }
 }
+
 
 @Composable
 fun BotonConImagenCustom(imagen: Painter, texto: String, color: Color, onClick: () -> Unit) {
