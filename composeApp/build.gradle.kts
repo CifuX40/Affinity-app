@@ -74,7 +74,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.kotlinx.datetime)
-            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+            implementation(libs.kotlinx.serialization.json)
         }
 
         desktopMain.dependencies {
@@ -132,7 +132,7 @@ android {
 
 compose.desktop {
     application {
-        mainClass = "main.kt"
+        mainClass = "org.appaffinity.project.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
@@ -144,5 +144,5 @@ compose.desktop {
 
 dependencies {
     implementation(libs.androidx.navigation.compose)
-    implementation("androidx.core:core-i18n:1.0.0-alpha01")
+    implementation(libs.androidx.core.i18n)
 }
