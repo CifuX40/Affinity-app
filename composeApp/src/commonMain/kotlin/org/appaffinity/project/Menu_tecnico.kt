@@ -1,15 +1,7 @@
 package org.appaffinity.project
 
 import affinityapp.composeapp.generated.resources.Res
-import affinityapp.composeapp.generated.resources.calibrar_peso
-import affinityapp.composeapp.generated.resources.calibrar_tension
-import affinityapp.composeapp.generated.resources.contrasena
-import affinityapp.composeapp.generated.resources.fondo_de_pantalla
-import affinityapp.composeapp.generated.resources.modo_pruebas
-import affinityapp.composeapp.generated.resources.offset_altura
-import affinityapp.composeapp.generated.resources.offset_peso
-import affinityapp.composeapp.generated.resources.reiniciar
-import affinityapp.composeapp.generated.resources.usuario
+import affinityapp.composeapp.generated.resources.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,6 +24,7 @@ val AzulCian = Color(0xFF009EE0)
 val Blanco = Color(0xFFFFFFFF)
 val Naranja = Color(0xFFF5B130)
 
+// Composable que representa el menú técnico y gestiona el acceso a esta pantalla.
 @Composable
 fun MenuTecnico(onBack: () -> Unit, onNavigateToUsuario: () -> Unit) {
     var accesoPermitido by remember { mutableStateOf(false) }
@@ -46,6 +39,52 @@ fun MenuTecnico(onBack: () -> Unit, onNavigateToUsuario: () -> Unit) {
     }
 }
 
+// Composable que representa un teclado numérico para ingresar la contraseña.
+@Composable
+fun TecladoNumerico(onNumeroClick: (String) -> Unit, onBorrarClick: () -> Unit) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        val filas = listOf(
+            listOf("1", "2", "3"),
+            listOf("4", "5", "6"),
+            listOf("7", "8", "9"),
+            listOf("Borrar", "0")
+        )
+
+        for (fila in filas) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                for (item in fila) {
+                    if (item == "Borrar") {
+                        Button(
+                            onClick = onBorrarClick,
+                            colors = ButtonDefaults.buttonColors(backgroundColor = Negro),
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text(item, color = Blanco, fontSize = 18.sp)
+                        }
+                    } else {
+                        Button(
+                            onClick = { onNumeroClick(item) },
+                            colors = ButtonDefaults.buttonColors(backgroundColor = Negro),
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text(item, color = Blanco, fontSize = 18.sp)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Composable que solicita una contraseña al usuario para permitir el acceso al menú técnico.
 @Composable
 fun SolicitarContrasena(onAccesoPermitido: () -> Unit, onBack: () -> Unit) {
     var contrasena by remember { mutableStateOf("") }
@@ -121,50 +160,7 @@ fun SolicitarContrasena(onAccesoPermitido: () -> Unit, onBack: () -> Unit) {
     }
 }
 
-@Composable
-fun TecladoNumerico(onNumeroClick: (String) -> Unit, onBorrarClick: () -> Unit) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        val filas = listOf(
-            listOf("1", "2", "3"),
-            listOf("4", "5", "6"),
-            listOf("7", "8", "9"),
-            listOf("Borrar", "0")
-        )
-
-        for (fila in filas) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                for (item in fila) {
-                    if (item == "Borrar") {
-                        Button(
-                            onClick = onBorrarClick,
-                            colors = ButtonDefaults.buttonColors(backgroundColor = Negro),
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text(item, color = Blanco, fontSize = 18.sp)
-                        }
-                    } else {
-                        Button(
-                            onClick = { onNumeroClick(item) },
-                            colors = ButtonDefaults.buttonColors(backgroundColor = Negro),
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text(item, color = Blanco, fontSize = 18.sp)
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
+// Composable que representa la pantalla principal del menú técnico donde se pueden seleccionar diversas opciones.
 @Composable
 fun TecnicoScreen(onUsuarioClick: () -> Unit) {
     var showCalibrarPeso by remember { mutableStateOf(false) }
@@ -274,6 +270,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
     }
 }
 
+// Composable que representa un botón con una imagen y un texto.
 @Composable
 fun BotonConImagen(imagen: Painter, texto: String, onClick: () -> Unit) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -290,6 +287,7 @@ fun BotonConImagen(imagen: Painter, texto: String, onClick: () -> Unit) {
     }
 }
 
+// Error al acceder a Calibrar tensión
 @Composable
 fun ErrorDialog(onDismiss: () -> Unit) {
     AlertDialog(
@@ -306,6 +304,7 @@ fun ErrorDialog(onDismiss: () -> Unit) {
     )
 }
 
+// Reinicia el dispositivo y establece tarifas en cero.
 fun reiniciarDispositivo() {
     val filePath = "C:\\Users\\Hp\\AndroidStudioProjects\\AppEgaraPlus\\composeApp\\src\\commonMain\\kotlin\\org\\affinity\\project\\Tarifas.json"
     val tarifaCero = Tarifa("0 céntimos", "0 céntimos", "0 céntimos")

@@ -1,12 +1,7 @@
 package org.appaffinity.project
 
 import affinityapp.composeapp.generated.resources.Res
-import affinityapp.composeapp.generated.resources.fecha_hora
-import affinityapp.composeapp.generated.resources.ficha
-import affinityapp.composeapp.generated.resources.fondo_de_pantalla
-import affinityapp.composeapp.generated.resources.lenguaje
-import affinityapp.composeapp.generated.resources.recaudacion
-import affinityapp.composeapp.generated.resources.tarifas
+import affinityapp.composeapp.generated.resources.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -15,8 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -24,10 +18,12 @@ import org.jetbrains.compose.resources.painterResource
 
 val ColorBotones = Color(0xFF009EE0)
 
+// Composable principal que representa el menú de usuario y maneja la navegación entre diferentes pantallas.
 @Composable
 fun MenuUsuario() {
     var currentScreen by remember { mutableStateOf("menu_usuario") }
 
+    // Maneja la navegación a las diferentes pantallas según el estado actual.
     when (currentScreen) {
         "menu_usuario" -> {
             DisplayMenuUsuario(
@@ -60,6 +56,7 @@ fun MenuUsuario() {
     }
 }
 
+// Composable que muestra el menú de usuario con opciones para navegar a diferentes funciones.
 @Composable
 fun DisplayMenuUsuario(
     onNavigateToTecnico: () -> Unit,
@@ -124,6 +121,7 @@ fun DisplayMenuUsuario(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
+                    // Botones para navegar a diferentes pantallas
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.lenguaje),
                         texto = Localization.getString("idioma"),
@@ -168,7 +166,7 @@ fun DisplayMenuUsuario(
     }
 }
 
-
+// Composable que representa un botón personalizado con imagen y texto.
 @Composable
 fun BotonConImagenCustom(imagen: Painter, texto: String, color: Color, onClick: () -> Unit) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {

@@ -1,7 +1,7 @@
 package org.appaffinity.project
 
 import affinityapp.composeapp.generated.resources.Res
-import affinityapp.composeapp.generated.resources.fondo_de_pantalla
+import affinityapp.composeapp.generated.resources.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
@@ -10,14 +10,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.*
 import kotlinx.datetime.*
 import org.jetbrains.compose.resources.painterResource
 
+// Permite al usuario elegir entre un modo automático (usando la hora del sistema)
+// o un modo manual (ingresando la fecha y hora manualmente).
 @Composable
 fun FechaHora(onBack: () -> Unit) {
-    var isAuto by remember { mutableStateOf(true) }
-    var manualDateTime by remember { mutableStateOf(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())) }
+    var isAuto by remember { mutableStateOf(true) } // Estado para determinar si el modo automático está activado
+    var manualDateTime by remember { mutableStateOf(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())) } // Estado para la fecha y hora manual
 
     // Obtener la fecha y hora actual del sistema en modo automático
     val systemDateTime by remember {
@@ -50,7 +52,6 @@ fun FechaHora(onBack: () -> Unit) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Mostrar la fecha y hora actual (automática o manual)
             Text(text = if (isAuto) "Automático: ${formatter(systemDateTime)}"
             else "Manual: ${formatter(manualDateTime)}")
 
@@ -74,11 +75,11 @@ fun FechaHora(onBack: () -> Unit) {
                             // Intentar analizar el nuevo valor ingresado por el usuario
                             runCatching {
                                 val parts = input.split(" ")
-                                val datePart = LocalDate.parse(parts[0])
-                                val timePart = LocalTime.parse(parts[1])
-                                LocalDateTime(datePart, timePart)
+                                val datePart = LocalDate.parse(parts[0]) // Parsea la parte de la fecha
+                                val timePart = LocalTime.parse(parts[1]) // Parsea la parte de la hora
+                                LocalDateTime(datePart, timePart) // Crea un nuevo LocalDateTime
                             }.onSuccess { newDateTime ->
-                                manualDateTime = newDateTime
+                                manualDateTime = newDateTime // Actualiza la fecha y hora manual
                             }
                         }
                     )
@@ -87,8 +88,8 @@ fun FechaHora(onBack: () -> Unit) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Botón de guardar para regresar a MenuUsuario
             Button(onClick = {
+                // Imprime la configuración guardada en la consola
                 println("Configuración guardada: ${if (isAuto) formatter(systemDateTime) else formatter(manualDateTime)}")
                 onBack()
             }) {

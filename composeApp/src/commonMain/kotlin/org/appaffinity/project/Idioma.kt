@@ -17,8 +17,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 
+// Permite a los usuarios elegir un idioma y guardar su selección.
 @Composable
 fun IdiomaScreen(onAceptarClick: () -> Unit) {
+    // Estado que mantiene el idioma seleccionado, inicializado con el idioma actual.
     var idiomaSeleccionado by remember { mutableStateOf(Localization.currentLanguage) }
 
     Box(
@@ -26,7 +28,8 @@ fun IdiomaScreen(onAceptarClick: () -> Unit) {
     ) {
         Image(
             painter = painterResource(
-                Res.drawable.fondo_de_pantalla),
+                Res.drawable.fondo_de_pantalla
+            ),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -37,7 +40,7 @@ fun IdiomaScreen(onAceptarClick: () -> Unit) {
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxSize().padding(16.dp)
         ) {
-            Text(Localization.getString("selecciona_idioma"), fontSize = 30.sp, color = Naranja, fontWeight = FontWeight.Bold )
+            Text(Localization.getString("selecciona_idioma"), fontSize = 30.sp, color = Naranja, fontWeight = FontWeight.Bold)
 
             Spacer(modifier = Modifier.height(16.dp))
 

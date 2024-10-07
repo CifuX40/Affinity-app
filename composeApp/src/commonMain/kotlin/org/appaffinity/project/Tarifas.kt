@@ -2,7 +2,7 @@ package org.appaffinity.project
 
 import affinityapp.composeapp.generated.resources.Res
 import androidx.compose.foundation.Image
-import affinityapp.composeapp.generated.resources.fondo_de_pantalla
+import affinityapp.composeapp.generated.resources.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -11,18 +11,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.*
 
 data class Tarifa(val peso: String, val altura: String, val tension: String)
 
+// Composable que representa la pantalla de tarifas, permitiendo al usuario ingresar datos y guardar una tarifa.
 @Composable
 fun TarifaScreen(onAceptarClick: () -> Unit) {
+    // Estado que mantiene el peso, altura y tensión ingresados por el usuario.
     var peso by remember { mutableStateOf("") }
     var altura by remember { mutableStateOf("") }
     var tension by remember { mutableStateOf("") }
+    // Estado que mantiene la tarifa guardada.
     var tarifaGuardada by remember { mutableStateOf<Tarifa?>(null) }
-    val filePath = "Tarifas.json"
+    // Ruta del archivo donde se guardarán las tarifas.
+    val filePath = "Guardar_tarifas.json"
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -48,6 +51,7 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Muestra la tarifa guardada, si existe.
             tarifaGuardada?.let { tarifa ->
                 Text(text = "Peso: ${tarifa.peso}", fontSize = 20.sp)
                 Text(text = "Altura: ${tarifa.altura}", fontSize = 20.sp)
@@ -58,7 +62,7 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
 
             TextField(
                 value = peso,
-                onValueChange = { if (it.all { char -> char.isDigit() }) peso = it },
+                onValueChange = { if (it.all { char -> char.isDigit() }) peso = it }, // Acepta solo dígitos.
                 label = { Text(Localization.getString("precio_peso")) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
@@ -68,7 +72,7 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
 
             TextField(
                 value = altura,
-                onValueChange = { if (it.all { char -> char.isDigit() }) altura = it },
+                onValueChange = { if (it.all { char -> char.isDigit() }) altura = it }, // Acepta solo dígitos.
                 label = { Text(Localization.getString("precio_altura")) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
@@ -78,7 +82,7 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
 
             TextField(
                 value = tension,
-                onValueChange = { if (it.all { char -> char.isDigit() }) tension = it },
+                onValueChange = { if (it.all { char -> char.isDigit() }) tension = it }, // Acepta solo dígitos.
                 label = { Text(Localization.getString("precio_tension")) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
@@ -86,15 +90,17 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Botón para calcular y guardar la tarifa.
             Button(
                 onClick = {
                     if (peso.isNotEmpty() && altura.isNotEmpty() && tension.isNotEmpty()) {
+                        // Crea un objeto Tarifa con los valores ingresados.
                         val tarifa = Tarifa(
                             peso = "${(peso.toInt())} céntimos",
                             altura = "${(altura.toInt())} céntimos",
                             tension = "${(tension.toInt())} céntimos"
                         )
-                        tarifaGuardada = tarifa // Guarda la tarifa
+                        tarifaGuardada = tarifa // Guarda la tarifa en el estado.
                         mostrarNotificacion("Tarifa guardada exitosamente.")
                     } else {
                         mostrarNotificacion("Por favor, completa todos los campos.")
@@ -117,6 +123,7 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
     }
 }
 
+// Función que muestra una notificación en la consola
 fun mostrarNotificacion(mensaje: String) {
     println(mensaje)
 }

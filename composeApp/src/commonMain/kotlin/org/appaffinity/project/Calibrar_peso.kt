@@ -1,7 +1,7 @@
 package org.appaffinity.project
 
 import affinityapp.composeapp.generated.resources.Res
-import affinityapp.composeapp.generated.resources.fondo_de_pantalla
+import affinityapp.composeapp.generated.resources.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -12,11 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.*
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 
+// Composable que representa la pantalla para calibrar el peso, permitiendo al usuario ingresar un peso y comenzar la calibración.
 @Composable
 fun CalibrarPeso(onBack: () -> Unit) {
     var peso by remember { mutableStateOf("") }
@@ -41,6 +41,7 @@ fun CalibrarPeso(onBack: () -> Unit) {
         ) {
             Text(text = "Calibrar Peso", fontSize = 24.sp, color = Color(0xFF009EE0))
 
+            // Campo de texto para que el usuario ingrese el peso
             BasicTextField(
                 value = peso,
                 onValueChange = { peso = it },
@@ -60,7 +61,7 @@ fun CalibrarPeso(onBack: () -> Unit) {
                 Text("Calibrar", color = Color.Black)
             }
 
-            // Iniciar la corutina para esperar 5 segundos
+            // Iniciar una corutina para simular el tiempo de calibración de 5 segundos
             LaunchedEffect(calibrando) {
                 if (calibrando) {
                     delay(5000)
