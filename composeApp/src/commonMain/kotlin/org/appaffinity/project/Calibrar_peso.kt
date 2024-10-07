@@ -31,7 +31,6 @@ fun CalibrarPeso(onBack: () -> Unit) {
             contentScale = ContentScale.Crop
         )
 
-        // Centrar la columna verticalmente
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,

@@ -32,7 +32,6 @@ fun IdiomaScreen(onAceptarClick: () -> Unit) {
             contentScale = ContentScale.Crop
         )
 
-        // Contenido sobre la imagen de fondo
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
@@ -42,13 +41,12 @@ fun IdiomaScreen(onAceptarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Lista de idiomas
             listOf("Español", "Inglés", "Francés", "Portugués").forEach { idioma ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable { idiomaSeleccionado = idioma }
-                        .padding(vertical = 8.dp), // Añado un poco de espacio vertical
+                        .padding(vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {

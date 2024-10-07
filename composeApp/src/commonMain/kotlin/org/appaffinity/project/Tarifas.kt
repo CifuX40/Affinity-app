@@ -25,7 +25,6 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
     val filePath = "Tarifas.json"
 
     Box(modifier = Modifier.fillMaxSize()) {
-        // Asegúrate de que la ruta del recurso sea válida
         Image(
             painter = painterResource(Res.drawable.fondo_de_pantalla),
             contentDescription = null,
@@ -118,7 +117,6 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
     }
 }
 
-// Función para mostrar notificaciones
 fun mostrarNotificacion(mensaje: String) {
     println(mensaje)
 }

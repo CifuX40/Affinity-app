@@ -89,7 +89,6 @@ fun FechaHora(onBack: () -> Unit) {
 
             // Botón de guardar para regresar a MenuUsuario
             Button(onClick = {
-                // Aquí puedes agregar la lógica para guardar la fecha y hora
                 println("Configuración guardada: ${if (isAuto) formatter(systemDateTime) else formatter(manualDateTime)}")
                 onBack()
             }) {
