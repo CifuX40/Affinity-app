@@ -33,7 +33,7 @@ fun MenuUsuario() {
             DisplayMenuUsuario(
                 onNavigateToTecnico = {
                     println("Navegando a pantalla técnica")
-                    currentScreen = "menu_tecnico"
+                    currentScreen = "MenuTecnico"
                 },
                 onNavigateToIdioma = {
                     println("Navegando a pantalla de idioma")
