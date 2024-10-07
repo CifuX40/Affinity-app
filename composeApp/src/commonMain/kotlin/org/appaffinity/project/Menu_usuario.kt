@@ -98,9 +98,7 @@ fun DisplayMenuUsuario(
         })
         Box(modifier = Modifier.size(50.dp).align(Alignment.BottomEnd).clickable {
             if (currentStep == 3) {
-                // Navegamos a la pantalla técnica
                 onNavigateToTecnico()
-                // Reiniciar el step después de navegar
                 currentStep = 0
             }
         })
