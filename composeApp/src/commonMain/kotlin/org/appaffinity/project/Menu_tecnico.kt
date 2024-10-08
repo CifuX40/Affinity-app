@@ -264,67 +264,53 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                     BotonConImagen(
                         imagen = painterResource(Res.drawable.reiniciar),
                         texto = "Reiniciar dispositivo",
-                        onClick = {
-                            reiniciarDispositivo() // Reinicia el dispositivo
-                            onUsuarioClick() // Vuelve a la pantalla de usuario
-                        }
+                        onClick = {}
                     )
                 }
+                // Botón de regreso a la pantalla de usuario
                 item {
                     BotonConImagen(
                         imagen = painterResource(Res.drawable.usuario),
                         texto = "Usuario",
-                        onClick = onUsuarioClick // Vuelve a la pantalla de usuario
+                        onClick = onUsuarioClick // Regresa a la pantalla de usuario
                     )
                 }
             }
+        }
 
-            // Muestra el diálogo de error si está activado
-            if (showErrorDialog) {
-                ErrorDialog(onDismiss = { showErrorDialog = false }) // Oculta el diálogo al cerrar
-            }
+        // Diálogo de error para calibración de tensión
+        if (showErrorDialog) {
+            AlertDialog(
+                onDismissRequest = { showErrorDialog = false },
+                title = { Text("Error") },
+                text = { Text("No se puede calibrar la tensión en este momento.") },
+                confirmButton = {
+                    Button(onClick = { showErrorDialog = false }) {
+                        Text("Aceptar")
+                    }
+                }
+            )
         }
     }
 }
 
-// Composable que representa un botón con una imagen y un texto.
+// Composable para crear botones con imagen y texto
 @Composable
 fun BotonConImagen(imagen: Painter, texto: String, onClick: () -> Unit) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        // Caja con la imagen del botón
-        Box(
-            modifier = Modifier
-                .size(100.dp)
-                .clickable(onClick = onClick)
-                .background(Negro) // Fondo negro del botón
-        ) {
-            Image(painter = imagen, contentDescription = null, modifier = Modifier.fillMaxSize())
-        }
-        Spacer(modifier = Modifier.height(4.dp)) // Espaciador entre la imagen y el texto
-        Text(text = texto, color = AzulCian) // Texto debajo de la imagen
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .clickable { onClick() }
+            .padding(16.dp)
+            .background(Color.LightGray, shape = MaterialTheme.shapes.medium)
+            .padding(16.dp)
+    ) {
+        Image(
+            painter = imagen,
+            contentDescription = texto,
+            modifier = Modifier.size(64.dp),
+            contentScale = ContentScale.Fit
+        )
+        Text(text = texto, fontWeight = FontWeight.Bold, color = Color.Black)
     }
-}
-
-// Diálogo de error que se muestra cuando hay un problema
-@Composable
-fun ErrorDialog(onDismiss: () -> Unit) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text(text = "Error", color = Negro) }, // Título del diálogo
-        text = { Text(text = "Servicio en mantenimiento", color = Negro) }, // Mensaje de error
-        confirmButton = {
-            Button(onClick = onDismiss, colors = ButtonDefaults.buttonColors(backgroundColor = AzulCian)) {
-                Text("Aceptar", color = Blanco) // Botón de confirmación
-            }
-        },
-        backgroundColor = Blanco, // Fondo del diálogo
-        contentColor = Negro // Color del contenido
-    )
-}
-
-// Función que reinicia el dispositivo y establece tarifas en cero.
-fun reiniciarDispositivo() {
-    val filePath = "C:\\Users\\Hp\\AndroidStudioProjects\\AppEgaraPlus\\composeApp\\src\\commonMain\\kotlin\\org\\affinity\\project\\Tarifas.json"
-    val tarifaCero = Tarifa("0 céntimos", "0 céntimos", "0 céntimos") // Establece tarifas en cero
-    println("Dispositivo reiniciado y tarifas establecidas en cero.") // Mensaje de confirmación
 }

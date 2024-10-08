@@ -49,7 +49,7 @@ fun MenuUsuario() {
                 }
             )
         }
-        "MenuTecnico" -> MenuTecnico(onBack = { currentScreen = "MenuTecnico" }) // Navega a la pantalla técnica.
+        "MenuTecnico" -> MenuTecnico(onBack = { currentScreen = "menu_usuario" }) // Navega a la pantalla técnica.
         "idioma_screen" -> IdiomaScreen(onAceptarClick = { currentScreen = "menu_usuario" }) // Pantalla para seleccionar idioma.
         "ventana_fecha_hora" -> FechaHora(onBack = { currentScreen = "menu_usuario" }) // Pantalla para cambiar fecha y hora.
         "tarifa_screen" -> TarifaScreen(onAceptarClick = { currentScreen = "menu_usuario" }) // Pantalla para gestionar tarifas.
