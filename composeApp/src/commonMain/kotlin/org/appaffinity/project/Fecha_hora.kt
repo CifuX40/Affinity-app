@@ -14,72 +14,80 @@ import androidx.compose.ui.unit.*
 import kotlinx.datetime.*
 import org.jetbrains.compose.resources.painterResource
 
-// Permite al usuario elegir entre un modo automático (usando la hora del sistema)
-// o un modo manual (ingresando la fecha y hora manualmente).
+// Composable que permite al usuario configurar la fecha y la hora.
+// Ofrece la opción de elegir entre un modo automático, que utiliza la hora del sistema,
+// o un modo manual, donde el usuario puede ingresar la fecha y hora manualmente.
 @Composable
 fun FechaHora(onBack: () -> Unit) {
-    var isAuto by remember { mutableStateOf(true) } // Estado para determinar si el modo automático está activado
-    var manualDateTime by remember { mutableStateOf(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())) } // Estado para la fecha y hora manual
+    var isAuto by remember { mutableStateOf(true) } // Estado que controla si está activado el modo automático
+    var manualDateTime by remember { mutableStateOf(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())) } // Estado para la fecha y hora en modo manual
 
-    // Obtener la fecha y hora actual del sistema en modo automático
+    // Estado que almacena la fecha y hora del sistema en modo automático
     val systemDateTime by remember {
         mutableStateOf(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()))
     }
 
-    // Formatear la fecha y hora para mostrarla en un formato legible usando kotlinx.datetime
+    // Función que formatea la fecha y la hora en un formato legible
     val formatter: (LocalDateTime) -> String = { dateTime ->
-        "${dateTime.date} ${dateTime.time}"
+        "${dateTime.date} ${dateTime.time}" // Muestra la fecha y la hora en formato "YYYY-MM-DD HH:MM:SS"
     }
 
+    // Contenedor principal que ocupa toda la pantalla
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
+        // Imagen de fondo
         Image(
             painter = painterResource(Res.drawable.fondo_de_pantalla),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop // Escala la imagen para que ocupe toda la pantalla
         )
 
+        // Columna que organiza los elementos de forma vertical
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+                .padding(16.dp), // Añade padding de 16dp alrededor del contenido
+            horizontalAlignment = Alignment.CenterHorizontally, // Alinea el contenido horizontalmente en el centro
+            verticalArrangement = Arrangement.Center // Coloca el contenido verticalmente en el centro
         ) {
+            // Título de la pantalla
             Text(text = "Configuración de Fecha y Hora", style = MaterialTheme.typography.h5)
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp)) // Espaciador de 16dp entre el título y el contenido
 
+            // Muestra la fecha y hora en modo automático o manual según el estado de `isAuto`
             Text(text = if (isAuto) "Automático: ${formatter(systemDateTime)}"
             else "Manual: ${formatter(manualDateTime)}")
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Switch para activar o desactivar el modo automático
+            // Fila con el texto "Modo Automático" y un switch para activar o desactivar el modo automático
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(text = "Modo Automático")
-                Switch(checked = isAuto, onCheckedChange = { isAuto = it })
+                Switch(checked = isAuto, onCheckedChange = { isAuto = it }) // Cambia el estado de `isAuto` al pulsar el switch
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Campos de texto para cambiar la fecha y hora manualmente si está desactivado el modo automático
+            // Si el modo automático está desactivado, muestra campos de texto para ingresar la fecha y hora manualmente
             if (!isAuto) {
                 Row {
-                    Text(text = "Fecha y Hora:")
+                    Text(text = "Fecha y Hora:") // Etiqueta para los campos de texto
+
+                    // Campo de texto básico donde el usuario puede ingresar la fecha y hora
                     BasicTextField(
-                        value = formatter(manualDateTime),
+                        value = formatter(manualDateTime), // Muestra el valor actual de la fecha y hora manual
                         onValueChange = { input ->
-                            // Intentar analizar el nuevo valor ingresado por el usuario
+                            // Divide el input en partes para extraer la fecha y la hora
                             runCatching {
-                                val parts = input.split(" ")
+                                val parts = input.split(" ") // Separa la fecha y la hora por espacios
                                 val datePart = LocalDate.parse(parts[0]) // Parsea la parte de la fecha
                                 val timePart = LocalTime.parse(parts[1]) // Parsea la parte de la hora
-                                LocalDateTime(datePart, timePart) // Crea un nuevo LocalDateTime
+                                LocalDateTime(datePart, timePart) // Crea un nuevo objeto LocalDateTime con la fecha y hora ingresada
                             }.onSuccess { newDateTime ->
-                                manualDateTime = newDateTime // Actualiza la fecha y hora manual
+                                manualDateTime = newDateTime // Actualiza el valor de la fecha y hora manual si el formato es correcto
                             }
                         }
                     )
@@ -88,12 +96,13 @@ fun FechaHora(onBack: () -> Unit) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Botón para guardar la configuración y volver a la pantalla anterior
             Button(onClick = {
-                // Imprime la configuración guardada en la consola
+                // Imprime la configuración guardada en la consola, dependiendo de si es automática o manual
                 println("Configuración guardada: ${if (isAuto) formatter(systemDateTime) else formatter(manualDateTime)}")
-                onBack()
+                onBack() // Llama a la función `onBack` para volver a la pantalla anterior
             }) {
-                Text("Guardar")
+                Text("Guardar") // Texto del botón
             }
         }
     }

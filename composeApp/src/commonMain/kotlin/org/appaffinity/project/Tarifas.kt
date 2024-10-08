@@ -13,6 +13,7 @@ import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.*
 
+// Clase de datos que representa una tarifa, con peso, altura y tensión.
 data class Tarifa(val peso: String, val altura: String, val tension: String)
 
 // Composable que representa la pantalla de tarifas, permitiendo al usuario ingresar datos y guardar una tarifa.
@@ -27,7 +28,9 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
     // Ruta del archivo donde se guardarán las tarifas.
     val filePath = "Guardar_tarifas.json"
 
+    // Contenedor principal que ocupa toda la pantalla.
     Box(modifier = Modifier.fillMaxSize()) {
+        // Imagen de fondo que ocupa toda la pantalla.
         Image(
             painter = painterResource(Res.drawable.fondo_de_pantalla),
             contentDescription = null,
@@ -35,95 +38,105 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
             contentScale = ContentScale.Crop
         )
 
+        // Columna para organizar los elementos en vertical.
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+                .padding(16.dp), // Espaciado alrededor de la columna.
+            horizontalAlignment = Alignment.CenterHorizontally, // Alineación horizontal al centro.
+            verticalArrangement = Arrangement.Center // Alineación vertical al centro.
         ) {
+            // Título de la pantalla.
             Text(
                 text = Localization.getString("tarifas"),
-                fontSize = 30.sp,
-                color = MaterialTheme.colors.primary,
-                fontWeight = FontWeight.Bold
+                fontSize = 30.sp, // Tamaño de la fuente.
+                color = MaterialTheme.colors.primary, // Color del texto.
+                fontWeight = FontWeight.Bold // Peso de la fuente.
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp)) // Espaciador vertical.
 
             // Muestra la tarifa guardada, si existe.
             tarifaGuardada?.let { tarifa ->
+                // Muestra cada uno de los atributos de la tarifa guardada.
                 Text(text = "Peso: ${tarifa.peso}", fontSize = 20.sp)
                 Text(text = "Altura: ${tarifa.altura}", fontSize = 20.sp)
                 Text(text = "Tensión: ${tarifa.tension}", fontSize = 20.sp)
-            } ?: Text(text = "No hay tarifas disponibles", fontSize = 20.sp)
+            } ?: Text(text = "No hay tarifas disponibles", fontSize = 20.sp) // Mensaje si no hay tarifas.
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp)) // Espaciador vertical.
 
+            // Campo de texto para ingresar el peso.
             TextField(
                 value = peso,
                 onValueChange = { if (it.all { char -> char.isDigit() }) peso = it }, // Acepta solo dígitos.
-                label = { Text(Localization.getString("precio_peso")) },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
+                label = { Text(Localization.getString("precio_peso")) }, // Etiqueta del campo.
+                modifier = Modifier.fillMaxWidth(), // Ocupa todo el ancho disponible.
+                singleLine = true // Solo una línea.
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp)) // Espaciador vertical.
 
+            // Campo de texto para ingresar la altura.
             TextField(
                 value = altura,
                 onValueChange = { if (it.all { char -> char.isDigit() }) altura = it }, // Acepta solo dígitos.
-                label = { Text(Localization.getString("precio_altura")) },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
+                label = { Text(Localization.getString("precio_altura")) }, // Etiqueta del campo.
+                modifier = Modifier.fillMaxWidth(), // Ocupa todo el ancho disponible.
+                singleLine = true // Solo una línea.
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp)) // Espaciador vertical.
 
+            // Campo de texto para ingresar la tensión.
             TextField(
                 value = tension,
                 onValueChange = { if (it.all { char -> char.isDigit() }) tension = it }, // Acepta solo dígitos.
-                label = { Text(Localization.getString("precio_tension")) },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
+                label = { Text(Localization.getString("precio_tension")) }, // Etiqueta del campo.
+                modifier = Modifier.fillMaxWidth(), // Ocupa todo el ancho disponible.
+                singleLine = true // Solo una línea.
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp)) // Espaciador vertical.
 
             // Botón para calcular y guardar la tarifa.
             Button(
                 onClick = {
+                    // Verifica que todos los campos tengan valor antes de proceder.
                     if (peso.isNotEmpty() && altura.isNotEmpty() && tension.isNotEmpty()) {
                         // Crea un objeto Tarifa con los valores ingresados.
                         val tarifa = Tarifa(
-                            peso = "${(peso.toInt())} céntimos",
-                            altura = "${(altura.toInt())} céntimos",
-                            tension = "${(tension.toInt())} céntimos"
+                            peso = "${(peso.toInt())} céntimos", // Convertir a entero y formatear como cadena.
+                            altura = "${(altura.toInt())} céntimos", // Convertir a entero y formatear como cadena.
+                            tension = "${(tension.toInt())} céntimos" // Convertir a entero y formatear como cadena.
                         )
                         tarifaGuardada = tarifa // Guarda la tarifa en el estado.
-                        mostrarNotificacion("Tarifa guardada exitosamente.")
+                        mostrarNotificacion("Tarifa guardada exitosamente.") // Muestra notificación.
                     } else {
-                        mostrarNotificacion("Por favor, completa todos los campos.")
+                        mostrarNotificacion("Por favor, completa todos los campos.") // Notifica que faltan campos.
                     }
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth() // Ocupa todo el ancho disponible.
             ) {
+                // Texto del botón para calcular.
                 Text(text = Localization.getString("calcular"))
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp)) // Espaciador vertical.
 
+            // Botón para regresar.
             Button(
-                onClick = onAceptarClick,
-                modifier = Modifier.fillMaxWidth()
+                onClick = onAceptarClick, // Acción del botón que regresa a la pantalla anterior.
+                modifier = Modifier.fillMaxWidth() // Ocupa todo el ancho disponible.
             ) {
+                // Texto del botón para regresar.
                 Text(text = Localization.getString("regresar"))
             }
         }
     }
 }
 
-// Función que muestra una notificación en la consola
+// Función que muestra una notificación en la consola.
 fun mostrarNotificacion(mensaje: String) {
-    println(mensaje)
+    println(mensaje) // Imprime el mensaje en la consola.
 }
