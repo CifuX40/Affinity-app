@@ -16,8 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import org.jetbrains.compose.resources.painterResource
 
-val ColorBotones = Color(0xFF009EE0) // Define un color personalizado para los botones.
-
 // Composable principal que representa el menú de usuario y maneja la navegación entre diferentes pantallas.
 @Composable
 fun MenuUsuario() {

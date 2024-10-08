@@ -19,12 +19,6 @@ import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.*
 
-// Definición de colores personalizados utilizados en la interfaz
-val Negro = Color(0xFF1A171B)
-val AzulCian = Color(0xFF009EE0)
-val Blanco = Color(0xFFFFFFFF)
-val Naranja = Color(0xFFF5B130)
-
 // Composable que gestiona el acceso al menú técnico.
 // Si la contraseña es correcta, se muestra la pantalla técnica, de lo contrario, se solicita la contraseña.
 @Composable
