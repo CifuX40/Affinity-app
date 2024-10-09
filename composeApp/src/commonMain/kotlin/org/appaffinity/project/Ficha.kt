@@ -11,11 +11,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.*
-
-// Asegúrate de que esta importación esté aquí
-import org.appaffinity.project.Boton_Naranja // Importación de la función del botón
 
 // Pantalla que permite al usuario seleccionar entre varias opciones y muestra un diálogo de confirmación cuando se selecciona una opción.
 @Composable
@@ -57,19 +55,20 @@ fun FichaScreen(onClose: () -> Unit) {
     }
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize() // Box completamente transparente, no se agrega fondo
     ) {
         Image(
             painter = painterResource(Res.drawable.fondo_de_pantalla),
             contentDescription = null,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
         )
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                .background(Color.White.copy(alpha = 0.8f), shape = RoundedCornerShape(10.dp)),
+                .background(Color.Transparent, shape = RoundedCornerShape(10.dp)), // Fondo transparente
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
