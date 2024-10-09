@@ -15,8 +15,6 @@ import kotlinx.datetime.*
 import org.jetbrains.compose.resources.painterResource
 
 // Composable que permite al usuario configurar la fecha y la hora.
-// Ofrece la opción de elegir entre un modo automático, que utiliza la hora del sistema,
-// o un modo manual, donde el usuario puede ingresar la fecha y hora manualmente.
 @Composable
 fun FechaHora(onBack: () -> Unit) {
     var isAuto by remember { mutableStateOf(true) } // Estado que controla si está activado el modo automático
@@ -96,14 +94,15 @@ fun FechaHora(onBack: () -> Unit) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Botón para guardar la configuración y volver a la pantalla anterior
-            Button(onClick = {
-                // Imprime la configuración guardada en la consola, dependiendo de si es automática o manual
-                println("Configuración guardada: ${if (isAuto) formatter(systemDateTime) else formatter(manualDateTime)}")
-                onBack() // Llama a la función `onBack` para volver a la pantalla anterior
-            }) {
-                Text("Guardar") // Texto del botón
-            }
+            // Reemplaza el botón original por Boton_Naranja
+            Boton_Naranja(
+                onClick = {
+                    // Imprime la configuración guardada en la consola, dependiendo de si es automática o manual
+                    println("Configuración guardada: ${if (isAuto) formatter(systemDateTime) else formatter(manualDateTime)}")
+                    onBack() // Llama a la función `onBack` para volver a la pantalla anterior
+                },
+                text = "Guardar" // Texto del botón
+            )
         }
     }
 }

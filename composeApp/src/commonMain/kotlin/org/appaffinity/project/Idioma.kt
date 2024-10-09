@@ -1,8 +1,6 @@
 package org.appaffinity.project
 
-import affinityapp.composeapp.generated.resources.Res
-import affinityapp.composeapp.generated.resources.fondo_de_pantalla
-import affinityapp.composeapp.generated.resources.texto
+import affinityapp.composeapp.generated.resources.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,8 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import org.jetbrains.compose.resources.painterResource
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 
@@ -29,9 +26,7 @@ fun IdiomaScreen(onAceptarClick: () -> Unit) {
     ) {
         // Imagen de fondo que cubre toda la pantalla.
         Image(
-            painter = painterResource(
-                Res.drawable.fondo_de_pantalla // Carga la imagen de fondo.
-            ),
+            painter = painterResource(Res.drawable.fondo_de_pantalla), // Carga la imagen de fondo.
             contentDescription = null, // No necesita descripción accesible.
             modifier = Modifier.fillMaxSize(), // Hace que la imagen cubra todo el tamaño disponible.
             contentScale = ContentScale.Crop // Ajusta la imagen para que llene el área sin perder proporción.
@@ -72,15 +67,13 @@ fun IdiomaScreen(onAceptarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(32.dp)) // Añade un espacio vertical de 32dp entre las opciones y el botón de aceptar.
 
-            // Botón personalizado que permite aceptar la selección de idioma.
-            BotonConImagenCustom(
-                imagen = painterResource(Res.drawable.texto), // Imagen que acompaña al botón.
-                texto = Localization.getString("aceptar"), // Texto del botón "Aceptar" desde Localization.
-                color = ColorBotones, // Color personalizado para el botón.
+            // Reemplaza el botón original por Boton_Naranja
+            Boton_Naranja(
                 onClick = {
                     Localization.setLanguage(idiomaSeleccionado) // Establece el idioma seleccionado en la configuración.
                     onAceptarClick() // Llama a la función `onAceptarClick` que vuelve a la pantalla anterior.
-                }
+                },
+                text = Localization.getString("aceptar") // Texto del botón "Aceptar" desde Localization.
             )
         }
     }

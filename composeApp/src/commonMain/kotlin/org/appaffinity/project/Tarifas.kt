@@ -1,8 +1,7 @@
 package org.appaffinity.project
 
-import affinityapp.composeapp.generated.resources.Res
-import androidx.compose.foundation.Image
 import affinityapp.composeapp.generated.resources.*
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -99,8 +98,8 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(16.dp)) // Espaciador vertical.
 
-            // Botón para calcular y guardar la tarifa.
-            Button(
+            // Reemplaza el botón estándar por Boton_Naranja para calcular y guardar la tarifa.
+            Boton_Naranja(
                 onClick = {
                     // Verifica que todos los campos tengan valor antes de proceder.
                     if (peso.isNotEmpty() && altura.isNotEmpty() && tension.isNotEmpty()) {
@@ -116,22 +115,17 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
                         mostrarNotificacion("Por favor, completa todos los campos.") // Notifica que faltan campos.
                     }
                 },
-                modifier = Modifier.fillMaxWidth() // Ocupa todo el ancho disponible.
-            ) {
-                // Texto del botón para calcular.
-                Text(text = Localization.getString("calcular"))
-            }
+                text = Localization.getString("calcular") // Texto del botón.
+            )
 
             Spacer(modifier = Modifier.height(8.dp)) // Espaciador vertical.
 
-            // Botón para regresar.
-            Button(
+            // Reemplaza el botón estándar por Boton_Naranja para regresar.
+            Boton_Naranja(
                 onClick = onAceptarClick, // Acción del botón que regresa a la pantalla anterior.
+                text = Localization.getString("regresar"), // Texto del botón.
                 modifier = Modifier.fillMaxWidth() // Ocupa todo el ancho disponible.
-            ) {
-                // Texto del botón para regresar.
-                Text(text = Localization.getString("regresar"))
-            }
+            )
         }
     }
 }
