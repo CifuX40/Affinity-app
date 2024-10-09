@@ -15,14 +15,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import org.jetbrains.compose.resources.painterResource
 
-
-// Definición de colores
-val Negro = Color(0xFF1A171B)
-val AzulCian = Color(0xFF009EE0)
-val Blanco = Color(0xFFFFFFFF)
-val Naranja = Color(0xFFF5B130)
-val ColorBotones = Color(0xFF009EE0)
-
 // Composable principal que representa el menú de usuario y maneja la navegación entre diferentes pantallas.
 @Composable
 fun MenuUsuario() {

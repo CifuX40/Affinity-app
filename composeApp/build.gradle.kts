@@ -144,4 +144,6 @@ compose.desktop {
 dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.core.i18n)
+    implementation("androidx.compose.ui:ui-desktop:1.7.0")
+    implementation("androidx.compose.ui:ui-android:1.7.3")
 }
