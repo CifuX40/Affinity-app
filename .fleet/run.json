@@ -1,0 +1,11 @@
+{
+    "configurations": [
+
+        {
+            "name": "composeApp:run",
+            "type": "gradle",
+            "workingDir": "C:\\Users\\Hp\\AndroidStudioProjects\\AffinityApp\\KotlinProject",
+            "tasks": ["composeApp:run"]
+        }
+    ]
+}
