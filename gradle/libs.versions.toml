@@ -11,9 +11,12 @@ androidx-espresso-core = "3.6.1"
 androidx-lifecycle = "2.8.0"
 androidx-material = "1.12.0"
 androidx-test-junit = "1.2.1"
+compiler = "3.2.0-alpha11"
 compose-plugin = "1.6.11"
 core = "1.45.0"
 coreI18n = "1.0.0-alpha01"
+firebaseCrashlyticsBuildtools = "3.0.2"
+firebaseDatabaseKtx = "21.0.0"
 junit = "4.13.2"
 kotlin = "2.0.20"
 kotlinx-coroutines = "1.8.1"
@@ -24,11 +27,14 @@ uiAndroid = "1.7.3"
 uiDesktop = "1.7.0"
 
 [libraries]
+androidx-compiler = { module = "androidx.databinding:compiler", version.ref = "compiler" }
 androidx-core-i18n = { module = "androidx.core:core-i18n", version.ref = "coreI18n" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 androidx-ui-android = { module = "androidx.compose.ui:ui-android", version.ref = "uiAndroid" }
 androidx-ui-desktop = { module = "androidx.compose.ui:ui-desktop", version.ref = "uiDesktop" }
 core = { module = "com.google.ar:core", version.ref = "core" }
+firebase-crashlytics-buildtools = { module = "com.google.firebase:firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
+firebase-database-ktx = { module = "com.google.firebase:firebase-database-ktx", version.ref = "firebaseDatabaseKtx" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

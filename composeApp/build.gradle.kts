@@ -68,7 +68,7 @@ kotlin {
                 implementation(libs.androidx.lifecycle.viewmodel)
                 implementation(libs.androidx.lifecycle.runtime.compose)
                 implementation(libs.kotlinx.datetime)
-                implementation(libs.kotlinx.serialization.json) // Dependencia para JSON
+                implementation(libs.kotlinx.serialization.json)
             }
         }
 
@@ -153,6 +153,7 @@ dependencies {
     implementation(libs.androidx.ui.desktop)
     implementation(libs.androidx.ui.android)
     implementation(libs.core)
-    implementation("com.google.firebase:firebase-crashlytics-buildtools:3.0.2")
-    implementation("com.google.firebase:firebase-database-ktx:21.0.0")
+    implementation(libs.firebase.crashlytics.buildtools)
+    implementation(libs.firebase.database.ktx)
+    implementation(libs.androidx.compiler)
 }
