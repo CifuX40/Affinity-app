@@ -153,4 +153,6 @@ dependencies {
     implementation(libs.androidx.ui.desktop)
     implementation(libs.androidx.ui.android)
     implementation(libs.core)
+    implementation("com.google.firebase:firebase-crashlytics-buildtools:3.0.2")
+    implementation("com.google.firebase:firebase-database-ktx:21.0.0")
 }
