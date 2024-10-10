@@ -1,6 +1,5 @@
 package org.appaffinity.project
 
-import affinityapp.composeapp.generated.resources.Res
 import affinityapp.composeapp.generated.resources.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,7 +18,6 @@ import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.*
 
-// Composable que gestiona el acceso al menú técnico.
 // Si la contraseña es correcta, se muestra la pantalla técnica, de lo contrario, se solicita la contraseña.
 @Composable
 fun MenuTecnico(onBack: () -> Unit) {
