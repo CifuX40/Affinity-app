@@ -12,8 +12,8 @@ import androidx.compose.ui.unit.dp
 val Negro = Color(0xFF1A171B)
 val AzulCian = Color(0xFF009EE0)
 val Blanco = Color(0xFFFFFFFF)
-val Naranja = Color(0xFFF5B130) // Color naranja definido
-val ColorBotones = Color(0xFF009EE0) // Puedes decidir si usar este color o Naranja
+val Naranja = Color(0xFFF5B130)
+val ColorBotones = Color(0xFF009EE0)
 
 @Composable
 fun Boton_Naranja(
@@ -24,7 +24,7 @@ fun Boton_Naranja(
     androidx.compose.material.Button(
         onClick = onClick,
         modifier = modifier.padding(8.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor = Naranja) // Usa el color naranja
+        colors = ButtonDefaults.buttonColors(backgroundColor = Naranja) // Fondo color naranja
     ) {
         Text(text, color = Color.White) // Color del texto del botón
     }

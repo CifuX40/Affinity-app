@@ -94,14 +94,13 @@ fun FechaHora(onBack: () -> Unit) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Reemplaza el botón original por Boton_Naranja
             Boton_Naranja(
                 onClick = {
                     // Imprime la configuración guardada en la consola, dependiendo de si es automática o manual
                     println("Configuración guardada: ${if (isAuto) formatter(systemDateTime) else formatter(manualDateTime)}")
                     onBack() // Llama a la función `onBack` para volver a la pantalla anterior
                 },
-                text = "Guardar" // Texto del botón
+                text = "Guardar"
             )
         }
     }

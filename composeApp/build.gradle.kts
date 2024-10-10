@@ -146,4 +146,5 @@ dependencies {
     implementation(libs.androidx.core.i18n)
     implementation("androidx.compose.ui:ui-desktop:1.7.0")
     implementation("androidx.compose.ui:ui-android:1.7.3")
+    implementation("com.google.ar:core:1.45.0")
 }
