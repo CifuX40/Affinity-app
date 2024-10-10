@@ -3,7 +3,6 @@ package org.appaffinity.project
 import affinityapp.composeapp.generated.resources.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -12,11 +11,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.*
+import org.jetbrains.compose.resources.painterResource
 
 // Si la contraseña es correcta, se muestra la pantalla técnica, de lo contrario, se solicita la contraseña.
 @Composable
@@ -32,50 +30,6 @@ fun MenuTecnico(onBack: () -> Unit) {
             onAccesoPermitido = { accesoPermitido = true }, // Permite el acceso si la contraseña es correcta
             onBack = onBack // Permite volver a la pantalla anterior
         )
-    }
-}
-
-// Composable que representa un teclado numérico para ingresar la contraseña
-@Composable
-fun TecladoNumerico(onNumeroClick: (String) -> Unit, onBorrarClick: () -> Unit) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        val filas = listOf(
-            listOf("1", "2", "3"), // Primera fila de números
-            listOf("4", "5", "6"), // Segunda fila
-            listOf("7", "8", "9"), // Tercera fila
-            listOf("Borrar", "0") // Cuarta fila con botón de borrar y el número 0
-        )
-
-        // Para cada fila, crea un conjunto de botones
-        for (fila in filas) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                for (item in fila) {
-                    if (item == "Borrar") {
-                        // Botón de borrar
-                        Boton_Naranja(
-                            onClick = onBorrarClick,
-                            text = item,
-                            modifier = Modifier.weight(1f)
-                        )
-                    } else {
-                        // Botones numéricos
-                        Boton_Naranja(
-                            onClick = { onNumeroClick(item) },
-                            text = item,
-                            modifier = Modifier.weight(1f)
-                        )
-                    }
-                }
-            }
-        }
     }
 }
 
@@ -161,6 +115,50 @@ fun SolicitarContrasena(onAccesoPermitido: () -> Unit, onBack: () -> Unit) {
     }
 }
 
+// Composable que representa un teclado numérico para ingresar la contraseña
+@Composable
+fun TecladoNumerico(onNumeroClick: (String) -> Unit, onBorrarClick: () -> Unit) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        val filas = listOf(
+            listOf("1", "2", "3"), // Primera fila de números
+            listOf("4", "5", "6"), // Segunda fila
+            listOf("7", "8", "9"), // Tercera fila
+            listOf("Borrar", "0") // Cuarta fila con botón de borrar y el número 0
+        )
+
+        // Para cada fila, crea un conjunto de botones
+        for (fila in filas) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                for (item in fila) {
+                    if (item == "Borrar") {
+                        // Botón de borrar
+                        Boton_Naranja(
+                            onClick = onBorrarClick,
+                            text = item,
+                            modifier = Modifier.weight(1f)
+                        )
+                    } else {
+                        // Botones numéricos
+                        Boton_Naranja(
+                            onClick = { onNumeroClick(item) },
+                            text = item,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
 // Composable que representa la pantalla del menú técnico
 @Composable
 fun TecnicoScreen(onUsuarioClick: () -> Unit) {
@@ -211,66 +209,74 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
             ) {
                 // Botones de menú técnico
                 item {
-                    BotonConImagen(
+                    BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.calibrar_peso),
                         texto = "Calibrar peso",
+                        color = ColorBotones,
                         onClick = { showCalibrarPeso = true }
                     )
                 }
                 item {
-                    BotonConImagen(
+                    BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.calibrar_tension),
                         texto = "Calibrar tensión",
+                        color = ColorBotones,
                         onClick = { showErrorDialog = true } // Muestra diálogo de error
                     )
                 }
                 item {
-                    BotonConImagen(
+                    BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.offset_altura),
                         texto = "Configurar altura",
+                        color = ColorBotones,
                         onClick = {}
                     )
                 }
                 item {
-                    BotonConImagen(
+                    BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.offset_peso),
                         texto = "Configurar peso",
+                        color = ColorBotones,
                         onClick = {}
                     )
                 }
                 item {
-                    BotonConImagen(
+                    BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.modo_pruebas),
                         texto = "Modo pruebas",
+                        color = ColorBotones,
                         onClick = {}
                     )
                 }
                 item {
-                    BotonConImagen(
+                    BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.contrasena),
                         texto = "Contraseña",
+                        color = ColorBotones,
                         onClick = {}
                     )
                 }
                 item {
-                    BotonConImagen(
+                    BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.reiniciar),
                         texto = "Reiniciar dispositivo",
+                        color = ColorBotones,
                         onClick = {}
                     )
                 }
                 // Botón de regreso a la pantalla de usuario
                 item {
-                    BotonConImagen(
+                    BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.usuario),
                         texto = "Usuario",
-                        onClick = onUsuarioClick // Regresa a la pantalla de usuario
+                        color = ColorBotones,
+                        onClick = onUsuarioClick
                     )
                 }
             }
         }
 
-        // Diálogo de error para calibración de tensión
+        // Diálogo que muestra un mensaje de error
         if (showErrorDialog) {
             AlertDialog(
                 onDismissRequest = { showErrorDialog = false },
@@ -283,26 +289,5 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                 }
             )
         }
-    }
-}
-
-// Composable para crear botones con imagen y texto
-@Composable
-fun BotonConImagen(imagen: Painter, texto: String, onClick: () -> Unit) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .clickable { onClick() }
-            .padding(16.dp)
-            .background(Color.LightGray, shape = MaterialTheme.shapes.medium)
-            .padding(16.dp)
-    ) {
-        Image(
-            painter = imagen,
-            contentDescription = texto,
-            modifier = Modifier.size(64.dp),
-            contentScale = ContentScale.Fit
-        )
-        Text(text = texto, fontWeight = FontWeight.Bold, color = Color.Black)
     }
 }
