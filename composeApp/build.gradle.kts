@@ -57,33 +57,38 @@ kotlin {
     }
 
     sourceSets {
-        val desktopMain by getting
-
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
+        val commonMain by getting {
+            dependencies {
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material)
+                implementation(compose.ui)
+                implementation(compose.components.resources)
+                implementation(libs.androidx.lifecycle.viewmodel)
+                implementation(libs.androidx.lifecycle.runtime.compose)
+                implementation(libs.kotlinx.datetime)
+                implementation(libs.kotlinx.serialization.json)
+            }
         }
 
-        commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(libs.kotlinx.datetime)
-            implementation(libs.kotlinx.serialization.json)
+        val androidMain by getting {
+            dependencies {
+                implementation(compose.preview)
+                implementation(libs.androidx.activity.compose)
+            }
         }
 
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(libs.kotlinx.coroutines.swing)
+        val desktopMain by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
+                implementation(libs.kotlinx.coroutines.swing)
+            }
         }
 
-        wasmJsMain.dependencies {
-            implementation(npm("@js-joda/timezone", "2.3.0"))
+        val wasmJsMain by getting {
+            dependencies {
+                implementation(npm("@js-joda/timezone", "2.3.0"))
+            }
         }
     }
 }
@@ -144,7 +149,7 @@ compose.desktop {
 dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.core.i18n)
-    implementation("androidx.compose.ui:ui-desktop:1.7.0")
-    implementation("androidx.compose.ui:ui-android:1.7.3")
-    implementation("com.google.ar:core:1.45.0")
+    implementation(libs.androidx.ui.desktop)
+    implementation(libs.androidx.ui.android)
+    implementation(libs.core)
 }

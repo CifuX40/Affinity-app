@@ -12,7 +12,7 @@ fun main() = application {
 
     Window(
         onCloseRequest = ::exitApplication,
-        undecorated = true, // Ocultamos la barra de título
+        undecorated = false, title = ("EGGARA PLUS"), // True para ocultar la x, false para mostrarlo
         state = windowState // Aplicamos el estado maximizado
     ) {
         val scope = rememberCoroutineScope()
