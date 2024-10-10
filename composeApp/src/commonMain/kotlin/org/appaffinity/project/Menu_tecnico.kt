@@ -60,22 +60,18 @@ fun TecladoNumerico(onNumeroClick: (String) -> Unit, onBorrarClick: () -> Unit) 
                 for (item in fila) {
                     if (item == "Borrar") {
                         // Botón de borrar
-                        Button(
+                        Boton_Naranja(
                             onClick = onBorrarClick,
-                            colors = ButtonDefaults.buttonColors(backgroundColor = Negro),
+                            text = item,
                             modifier = Modifier.weight(1f)
-                        ) {
-                            Text(item, color = Blanco, fontSize = 18.sp)
-                        }
+                        )
                     } else {
                         // Botones numéricos
-                        Button(
+                        Boton_Naranja(
                             onClick = { onNumeroClick(item) },
-                            colors = ButtonDefaults.buttonColors(backgroundColor = Negro),
+                            text = item,
                             modifier = Modifier.weight(1f)
-                        ) {
-                            Text(item, color = Blanco, fontSize = 18.sp)
-                        }
+                        )
                     }
                 }
             }
@@ -150,9 +146,7 @@ fun SolicitarContrasena(onAccesoPermitido: () -> Unit, onBack: () -> Unit) {
             Spacer(modifier = Modifier.height(16.dp))
 
             // Botón para volver a la pantalla de usuario
-            Button(onClick = onBack, colors = ButtonDefaults.buttonColors(backgroundColor = Naranja)) {
-                Text("Volver a Usuario", color = Blanco)
-            }
+            Boton_Naranja(onClick = onBack, text = "Volver a Usuario")
 
             // Muestra un mensaje de error si la contraseña es incorrecta
             if (mostrarError) {
