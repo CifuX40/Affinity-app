@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
-    kotlin("plugin.serialization") version libs.versions.kotlin
+    kotlin("plugin.serialization") version libs.versions.kotlin.get()
 }
 
 kotlin {
@@ -30,7 +30,6 @@ kotlin {
     }
 
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilations.all {
             kotlinOptions {
                 jvmTarget = "11"
@@ -150,10 +149,5 @@ compose.desktop {
 dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.core.i18n)
-    implementation(libs.androidx.ui.desktop)
-    implementation(libs.androidx.ui.android)
     implementation(libs.core)
-    implementation(libs.firebase.crashlytics.buildtools)
-    implementation(libs.firebase.database.ktx)
-    implementation(libs.androidx.compiler)
 }
