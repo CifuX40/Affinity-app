@@ -1,5 +1,4 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
@@ -75,6 +74,9 @@ kotlin {
             dependencies {
                 implementation(compose.preview)
                 implementation(libs.androidx.activity.compose)
+                implementation(libs.androidx.core.ktx) // Agregado para core
+                implementation(libs.androidx.navigation.compose) // Navegación
+                implementation(libs.androidx.core.i18n) // i18n
             }
         }
 
@@ -133,6 +135,11 @@ android {
         debugImplementation(compose.uiTooling)
     }
 }
+dependencies {
+    implementation(project(":composeApp"))
+    implementation(project(":composeApp"))
+    implementation(project(":composeApp"))
+}
 
 compose.desktop {
     application {
@@ -144,10 +151,4 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
-}
-
-dependencies {
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.core.i18n)
-    implementation(libs.core)
 }
