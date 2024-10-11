@@ -49,7 +49,7 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
             Text(
                 text = Localization.getString("tarifas"),
                 fontSize = 30.sp, // Tamaño de la fuente.
-                color = MaterialTheme.colors.primary, // Color del texto.
+                color = Negro, // Color del texto.
                 fontWeight = FontWeight.Bold // Peso de la fuente.
             )
 
@@ -61,7 +61,7 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
                 Text(text = "Peso: ${tarifa.peso}", fontSize = 20.sp)
                 Text(text = "Altura: ${tarifa.altura}", fontSize = 20.sp)
                 Text(text = "Tensión: ${tarifa.tension}", fontSize = 20.sp)
-            } ?: Text(text = "No hay tarifas disponibles", fontSize = 20.sp) // Mensaje si no hay tarifas.
+            } ?: Text(text = "No hay tarifas disponibles", color = AzulCian, fontSize = 20.sp) // Mensaje si no hay tarifas.
 
             Spacer(modifier = Modifier.height(16.dp)) // Espaciador vertical.
 

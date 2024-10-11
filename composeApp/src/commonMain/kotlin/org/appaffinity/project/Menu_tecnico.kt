@@ -197,7 +197,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
             Text(
                 text = "Menu Técnico",
                 style = MaterialTheme.typography.h4,
-                color = Naranja
+                color = Negro
             )
 
             // Grid que organiza los botones en una cuadrícula de 3 columnas
@@ -212,7 +212,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.calibrar_peso),
                         texto = "Calibrar peso",
-                        color = ColorBotones,
+                        color = AzulCian,
                         onClick = { showCalibrarPeso = true }
                     )
                 }
@@ -220,7 +220,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.calibrar_tension),
                         texto = "Calibrar tensión",
-                        color = ColorBotones,
+                        color = AzulCian,
                         onClick = { showErrorDialog = true } // Muestra diálogo de error
                     )
                 }
@@ -228,7 +228,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.offset_altura),
                         texto = "Configurar altura",
-                        color = ColorBotones,
+                        color = AzulCian,
                         onClick = {}
                     )
                 }
@@ -236,7 +236,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.offset_peso),
                         texto = "Configurar peso",
-                        color = ColorBotones,
+                        color = AzulCian,
                         onClick = {}
                     )
                 }
@@ -244,7 +244,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.modo_pruebas),
                         texto = "Modo pruebas",
-                        color = ColorBotones,
+                        color = AzulCian,
                         onClick = {}
                     )
                 }
@@ -252,7 +252,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.contrasena),
                         texto = "Contraseña",
-                        color = ColorBotones,
+                        color = AzulCian,
                         onClick = {}
                     )
                 }
@@ -260,7 +260,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.reiniciar),
                         texto = "Reiniciar dispositivo",
-                        color = ColorBotones,
+                        color = AzulCian,
                         onClick = {}
                     )
                 }
@@ -269,7 +269,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.usuario),
                         texto = "Usuario",
-                        color = ColorBotones,
+                        color = AzulCian,
                         onClick = onUsuarioClick
                     )
                 }

@@ -107,7 +107,7 @@ fun DisplayMenuUsuario(
                 text = Localization.getString("menu_usuario"),
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
-                color = Naranja
+                color = Negro
             )
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -120,19 +120,19 @@ fun DisplayMenuUsuario(
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.lenguaje),
                         texto = Localization.getString("idioma"),
-                        color = ColorBotones,
+                        color = AzulCian,
                         onClick = onNavigateToIdioma
                     )
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.recaudacion),
                         texto = Localization.getString("recaudacion"),
-                        color = ColorBotones,
+                        color = AzulCian,
                         onClick = { /* Implementar la acción */ }
                     )
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.tarifas),
                         texto = Localization.getString("tarifas"),
-                        color = ColorBotones,
+                        color = AzulCian,
                         onClick = onNavigateToTarifas
                     )
                 }
@@ -146,13 +146,13 @@ fun DisplayMenuUsuario(
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.fecha_hora),
                         texto = Localization.getString("fecha_hora"),
-                        color = ColorBotones,
+                        color = AzulCian,
                         onClick = onNavigateToFechaHora
                     )
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.ficha),
                         texto = Localization.getString("ficha"),
-                        color = ColorBotones,
+                        color = AzulCian,
                         onClick = onNavigateToFicha
                     )
                 }

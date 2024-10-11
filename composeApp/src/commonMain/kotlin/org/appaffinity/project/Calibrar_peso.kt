@@ -61,7 +61,7 @@ fun CalibrarPeso(onBack: () -> Unit) {
                     calibrando = true // Cambia el estado a "calibrando" cuando se pulsa el botón
                     mensaje = "Calibrando..." // Muestra el mensaje de calibración en proceso
                 },
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFF5B130)) // Botón de color naranja
+                colors = ButtonDefaults.buttonColors(backgroundColor = Naranja) // Botón de color naranja
             ) {
                 Text("Calibrar", color = Color.Black) // Texto negro en el botón
             }
@@ -87,7 +87,7 @@ fun CalibrarPeso(onBack: () -> Unit) {
             // Botón para volver a la pantalla anterior
             Button(
                 onClick = onBack, // Acción de volver cuando se presiona el botón
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF1A171B)) // Botón de fondo negro
+                colors = ButtonDefaults.buttonColors(backgroundColor = Naranja) // Botón de fondo negro
             ) {
                 Text("Volver", color = Color.White) // Texto blanco en el botón
             }

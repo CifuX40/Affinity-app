@@ -56,14 +56,17 @@ fun FechaHora(onBack: () -> Unit) {
             Spacer(modifier = Modifier.height(16.dp)) // Espaciador de 16dp entre el título y el contenido
 
             // Muestra la fecha y hora en modo automático o manual según el estado de `isAuto`
-            Text(text = if (isAuto) "Automático: ${formatter(systemDateTime)}"
-            else "Manual: ${formatter(manualDateTime)}")
+            Text(
+                text = if (isAuto) "Automático: ${formatter(systemDateTime)}"
+                else "Manual: ${formatter(manualDateTime)}",
+                color = AzulCian // Establecer el color del texto a AzulCian
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
             // Fila con el texto "Modo Automático" y un switch para activar o desactivar el modo automático
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "Modo Automático")
+                Text(text = "Modo Automático", color = AzulCian)
                 Switch(checked = isAuto, onCheckedChange = { isAuto = it }) // Cambia el estado de `isAuto` al pulsar el switch
             }
 
