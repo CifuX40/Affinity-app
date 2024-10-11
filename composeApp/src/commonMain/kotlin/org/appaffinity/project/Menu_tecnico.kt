@@ -13,10 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.*
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.painterResource
 
-// Si la contraseña es correcta, se muestra la pantalla técnica, de lo contrario, se solicita la contraseña.
 @Composable
 fun MenuTecnico(onBack: () -> Unit) {
     var accesoPermitido by remember { mutableStateOf(false) } // Variable que controla el acceso
@@ -164,6 +164,7 @@ fun TecladoNumerico(onNumeroClick: (String) -> Unit, onBorrarClick: () -> Unit) 
 fun TecnicoScreen(onUsuarioClick: () -> Unit) {
     var showCalibrarPeso by remember { mutableStateOf(false) } // Estado para mostrar la pantalla de calibración de peso
     var showErrorDialog by remember { mutableStateOf(false) } // Estado para mostrar el diálogo de error
+    var showReiniciarDialog by remember { mutableStateOf(false) } // Estado para mostrar el diálogo de reinicio
 
     // Si se está mostrando la pantalla de calibrar peso, reemplaza el contenido
     if (showCalibrarPeso) {
@@ -261,7 +262,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                         imagen = painterResource(Res.drawable.reiniciar),
                         texto = "Reiniciar dispositivo",
                         color = AzulCian,
-                        onClick = {}
+                        onClick = { showReiniciarDialog = true } // Muestra el diálogo de reinicio
                     )
                 }
                 // Botón de regreso a la pantalla de usuario
@@ -287,6 +288,18 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                         Text("Aceptar")
                     }
                 }
+            )
+        }
+
+        // Diálogo de reinicio
+        if (showReiniciarDialog) {
+            Reiniciar(
+                onReiniciar = {
+                    // Lógica para reiniciar el dispositivo
+                    // Aquí podrías agregar la lógica que desees para realizar el reinicio
+                    showReiniciarDialog = false // Cerrar diálogo
+                },
+                onCancel = { showReiniciarDialog = false } // Cerrar diálogo
             )
         }
     }
