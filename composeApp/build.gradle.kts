@@ -74,9 +74,9 @@ kotlin {
             dependencies {
                 implementation(compose.preview)
                 implementation(libs.androidx.activity.compose)
-                implementation(libs.androidx.core.ktx) // Agregado para core
-                implementation(libs.androidx.navigation.compose) // Navegación
-                implementation(libs.androidx.core.i18n) // i18n
+                implementation(libs.androidx.core.ktx)
+                implementation(libs.androidx.navigation.compose)
+                implementation(libs.androidx.core.i18n)
             }
         }
 
@@ -139,6 +139,7 @@ dependencies {
     implementation(project(":composeApp"))
     implementation(project(":composeApp"))
     implementation(project(":composeApp"))
+    implementation("com.google.firebase:firebase-crashlytics-buildtools:3.0.2")
 }
 
 compose.desktop {
