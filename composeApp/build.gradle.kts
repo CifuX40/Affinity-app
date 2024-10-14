@@ -139,7 +139,7 @@ dependencies {
     implementation(project(":composeApp"))
     implementation(project(":composeApp"))
     implementation(project(":composeApp"))
-    implementation("com.google.firebase:firebase-crashlytics-buildtools:3.0.2")
+    implementation(libs.firebase.crashlytics.buildtools)
 }
 
 compose.desktop {
