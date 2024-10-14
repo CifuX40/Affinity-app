@@ -1,24 +1,17 @@
 package org.appaffinity.project
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
+import affinityapp.composeapp.generated.resources.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.material3.Button
+import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
-import kotlinx.serialization.*
-import kotlinx.serialization.json.*
-import org.appaffinity.project.ui.theme.ComposeAppTheme
+import androidx.compose.ui.*
 import androidx.compose.ui.unit.*
+import kotlinx.serialization.json.*
 
 @Composable
-fun EstatusEquipoScreen(navController: NavController) {
+fun EstatusEquipoScreen(onValid: () -> Unit, onError: (String) -> Unit) {
     var isValid by remember { mutableStateOf(true) }
     var errorMessage by remember { mutableStateOf("") }
-    val scope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         // Simula la obtención del JSON de SBC (este puede venir de una red o base de datos)
@@ -44,7 +37,7 @@ fun EstatusEquipoScreen(navController: NavController) {
     }
 
     if (isValid) {
-        // Si el JSON es válido, muestra la opción de ir a Menu_usuario
+        // Si el JSON es válido, llama la función onValid
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -54,7 +47,7 @@ fun EstatusEquipoScreen(navController: NavController) {
         ) {
             Text(text = "JSON válido, continuando...")
             Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = { navController.navigate("menu_usuario") }) {
+            Button(onClick = { onValid() }) {
                 Text(text = "Ir a Menu Usuario")
             }
         }
@@ -69,7 +62,7 @@ fun EstatusEquipoScreen(navController: NavController) {
         ) {
             Text(text = "Error: $errorMessage", color = MaterialTheme.colorScheme.error)
             Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = { /* Puede reintentar o cerrar la aplicación */ }) {
+            Button(onClick = { onError(errorMessage) }) {
                 Text(text = "Reintentar")
             }
         }
@@ -79,12 +72,4 @@ fun EstatusEquipoScreen(navController: NavController) {
 fun validateJson(jsonObject: JsonObject): Boolean {
     // Aquí deberías agregar la lógica de validación basada en el contenido esperado del JSON
     return jsonObject["status"]?.jsonPrimitive?.content == "ok"
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewEstatusEquipoScreen() {
-    ComposeAppTheme {
-        EstatusEquipoScreen(navController = rememberNavController())
-    }
 }
