@@ -1,6 +1,5 @@
 package org.appaffinity.project
 
-import affinityapp.composeapp.generated.resources.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -60,7 +59,7 @@ fun EstatusEquipoScreen(onValid: () -> Unit, onError: (String) -> Unit) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Error: $errorMessage", color = MaterialTheme.colorScheme.error)
+            Text(text = "Error: $errorMessage", color = MaterialTheme.colors.error)
             Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = { onError(errorMessage) }) {
                 Text(text = "Reintentar")
