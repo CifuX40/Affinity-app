@@ -12,7 +12,7 @@ fun main() = application {
 
     Window(
         onCloseRequest = ::exitApplication,
-        undecorated = false, title = ("EGGARA PLUS"), // True para ocultar la x, false para mostrarlo
+        undecorated = false, title = ("EGGARA PLUS"), // False para mostrar la X
         state = windowState // Aplicamos el estado maximizado
     ) {
         val scope = rememberCoroutineScope()
@@ -26,6 +26,16 @@ fun main() = application {
                 }
             }
         }
-        MenuUsuario()
+
+        // Pasamos las funciones a EstatusEquipoScreen
+        EstatusEquipoScreen(
+            onValid = {
+                println("Navegar a Menu Usuario")
+                // Aquí podrías navegar a otra pantalla o realizar otra acción
+            },
+            onError = { errorMessage ->
+                println("Error: $errorMessage")
+            }
+        )
     }
 }

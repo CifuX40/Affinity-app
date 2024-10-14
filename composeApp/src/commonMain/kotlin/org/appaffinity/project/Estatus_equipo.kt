@@ -44,7 +44,7 @@ fun EstatusEquipoScreen(onValid: () -> Unit, onError: (String) -> Unit) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "JSON válido, continuando...")
+            Text(text = "Cargando sistema, espere...")
             Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = { onValid() }) {
                 Text(text = "Ir a Menu Usuario")
