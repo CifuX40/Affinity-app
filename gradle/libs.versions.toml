@@ -11,6 +11,7 @@ androidx-espresso-core = "3.6.1"
 androidx-lifecycle = "2.8.0"
 androidx-material = "1.12.0"
 androidx-test-junit = "1.2.1"
+cameraEffects = "1.5.0-alpha02"
 compiler = "3.2.0-alpha11"
 compose-plugin = "1.6.11"
 core = "1.46.0"
@@ -31,6 +32,7 @@ uiAndroid = "1.7.3"
 uiDesktop = "1.7.0"
 
 [libraries]
+androidx-camera-effects = { module = "androidx.camera:camera-effects", version.ref = "cameraEffects" }
 androidx-compiler = { module = "androidx.databinding:compiler", version.ref = "compiler" }
 androidx-core-i18n = { module = "androidx.core:core-i18n", version.ref = "coreI18n" }
 androidx-material3-android = { module = "androidx.compose.material3:material3-android", version.ref = "material3Android" }

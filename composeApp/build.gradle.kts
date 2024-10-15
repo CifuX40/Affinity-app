@@ -143,7 +143,7 @@ dependencies {
     implementation(libs.androidx.material3.jvmstubs)
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.ui.tooling.preview.desktop)
-    implementation("androidx.camera:camera-effects:1.5.0-alpha02")
+    implementation(libs.androidx.camera.effects)
 }
 
 compose.desktop {
