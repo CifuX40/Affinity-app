@@ -26,8 +26,6 @@ fun main() = application {
                 }
             }
         }
-
-        // Iniciar la pantalla directamente en MenuUsuario
         MenuUsuario()
     }
 }
