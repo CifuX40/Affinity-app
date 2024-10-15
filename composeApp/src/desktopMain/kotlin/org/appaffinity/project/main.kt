@@ -12,30 +12,22 @@ fun main() = application {
 
     Window(
         onCloseRequest = ::exitApplication,
-        undecorated = false, title = ("EGGARA PLUS"), // False para mostrar la X
-        state = windowState // Aplicamos el estado maximizado
+        undecorated = false, title = ("EGGARA PLUS"),
+        state = windowState
     ) {
         val scope = rememberCoroutineScope()
 
         LaunchedEffect(Unit) {
             scope.launch(Dispatchers.Main) {
-                // Acceder a la ventana de AWT para asegurarse de que está maximizada
+                // Maximizar ventana con AWT
                 val awtWindow = java.awt.Frame.getFrames().find { it.isActive }
                 awtWindow?.apply {
-                    extendedState = Frame.MAXIMIZED_BOTH // Maximizar la ventana en AWT
+                    extendedState = Frame.MAXIMIZED_BOTH
                 }
             }
         }
 
-        // Pasamos las funciones a EstatusEquipoScreen
-        EstatusEquipoScreen(
-            onValid = {
-                println("Navegar a Menu Usuario")
-                // Aquí podrías navegar a otra pantalla o realizar otra acción
-            },
-            onError = { errorMessage ->
-                println("Error: $errorMessage")
-            }
-        )
+        // Iniciar la pantalla directamente en MenuUsuario
+        MenuUsuario()
     }
 }
