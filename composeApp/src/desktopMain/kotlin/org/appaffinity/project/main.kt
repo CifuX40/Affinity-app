@@ -20,7 +20,7 @@ fun main() = application {
         LaunchedEffect(Unit) {
             scope.launch(Dispatchers.Main) {
                 // Maximizar ventana con AWT
-                val awtWindow = java.awt.Frame.getFrames().find { it.isActive }
+                val awtWindow = Frame.getFrames().find { it.isActive }
                 awtWindow?.apply {
                     extendedState = Frame.MAXIMIZED_BOTH
                 }
