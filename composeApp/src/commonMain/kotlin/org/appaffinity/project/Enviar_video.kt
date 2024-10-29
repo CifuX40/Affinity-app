@@ -20,10 +20,12 @@ import java.awt.Desktop
 
 @Composable
 fun Enviar_video(onBack: () -> Unit) {
+    // Variables de estado para manejar el nombre del archivo, URI seleccionado y mensajes de envío
     var fileName by remember { mutableStateOf<String?>(null) }
     var selectedVideoUri by remember { mutableStateOf<String?>(null) }
     var sendingMessage by remember { mutableStateOf<String?>(null) }
 
+    // Caja que ocupa todo el tamaño disponible
     Box(modifier = Modifier.fillMaxSize()) {
         // Imagen de fondo, usando painterResource
         Image(
@@ -33,6 +35,7 @@ fun Enviar_video(onBack: () -> Unit) {
             contentScale = ContentScale.Crop
         )
 
+        // Columna que organiza los elementos verticalmente
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -40,6 +43,7 @@ fun Enviar_video(onBack: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+            // Recupera archivos de video de los directorios especificados
             val videoFiles = remember {
                 val primaryDirectoryPath = "C:\\Users\\Public\\Videos"
                 val secondaryDirectoryPath = "/Almacenamiento interno/Download/VideoDownloads"
@@ -48,45 +52,52 @@ fun Enviar_video(onBack: () -> Unit) {
                 val primaryVideos = getVideoFiles(File(primaryDirectoryPath))
 
                 if (primaryVideos.isNotEmpty()) {
-                    primaryVideos
+                    primaryVideos // Si se encuentran videos, devuelve la lista
                 } else {
                     // Si el primer directorio está vacío, intenta con el segundo
                     getVideoFiles(File(secondaryDirectoryPath))
                 }
             }
 
+            // Muestra el número de videos encontrados
             if (videoFiles.isNotEmpty()) {
                 Text(text = "Videos encontrados: ${videoFiles.size}")
                 Spacer(modifier = Modifier.height(16.dp))
 
+                // Botón para seleccionar y reproducir el primer video encontrado
                 Button(onClick = {
-                    val selectedVideoPath = selectVideoFile(videoFiles.firstOrNull()?.parentFile ?: File(""))
+                    val selectedVideoPath =
+                        selectVideoFile(videoFiles.firstOrNull()?.parentFile ?: File(""))
                     if (selectedVideoPath != null) {
                         fileName = File(selectedVideoPath).name
                         selectedVideoUri = selectedVideoPath
-                        playVideo(selectedVideoPath)
+                        playVideo(selectedVideoPath) // Reproduce el video seleccionado
                     }
                 }) {
                     Text(text = "Seleccionar y reproducir vídeo")
                 }
             } else {
+                // Muestra una alerta si no se encontraron videos
                 showAlert("No se encontraron videos en los directorios especificados.")
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Muestra el nombre del archivo seleccionado o un mensaje por defecto
             Text(text = fileName ?: "No se ha seleccionado ningún archivo")
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Botón para enviar el video
             Button(onClick = {
                 if (selectedVideoUri != null) {
                     sendingMessage = "Enviando video: $fileName..."
                     CoroutineScope(Dispatchers.Main).launch {
-                        delay(2000)
+                        delay(2000) // Simula un retraso en el envío
                         sendingMessage = "Video enviado exitosamente!"
                     }
                 } else {
+                    // Muestra una alerta si no se ha seleccionado un video
                     showAlert("No se ha seleccionado ningún video para enviar.")
                 }
             }) {
@@ -95,12 +106,14 @@ fun Enviar_video(onBack: () -> Unit) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Muestra el mensaje de envío si existe
             sendingMessage?.let {
                 Text(text = it)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Botón para volver a la pantalla anterior
             Button(onClick = onBack) {
                 Text("Volver")
             }
@@ -108,40 +121,43 @@ fun Enviar_video(onBack: () -> Unit) {
     }
 }
 
-// Función para obtener archivos de video
+// Función para obtener archivos de video en un directorio dado
 fun getVideoFiles(directory: File): List<File> {
     return if (directory.exists() && directory.isDirectory) {
+        // Filtra archivos por extensión de video
         directory.listFiles { file ->
             file.extension in listOf("mp4", "mkv", "avi", "mov")
-        }?.toList() ?: emptyList()
+        }?.toList() ?: emptyList() // Devuelve la lista de archivos o vacía si no hay
     } else {
-        emptyList()
+        emptyList() // Devuelve lista vacía si el directorio no existe
     }
 }
 
-// Función para reproducir video (distingue entre Android y escritorio)
+// Función para reproducir video, distingue entre Android y escritorio
 fun playVideo(videoPath: String) {
     if (isAndroid()) {
-        // Implementación para Android
-        // Necesitas implementar tu código Android específico aquí
+        // Implementación para Android (debe ser completada)
     } else {
         // Implementación para escritorio
         playVideoOnDesktop(videoPath)
     }
 }
 
-// Mostrar alertas (implementación para escritorio)
+// Mostrar alertas en el escritorio
 fun showAlert(message: String) {
     JOptionPane.showMessageDialog(null, message)
 }
 
-// Función para seleccionar archivo (implementación para escritorio)
+// Función para seleccionar un archivo de video en el escritorio
 fun selectVideoFile(directory: File): String? {
     var videoFile: String? = null
-    val dialog = java.awt.FileDialog(java.awt.Frame(), "Seleccionar Video", java.awt.FileDialog.LOAD)
+    // Crear un diálogo de archivo para seleccionar video
+    val dialog =
+        java.awt.FileDialog(java.awt.Frame(), "Seleccionar Video", java.awt.FileDialog.LOAD)
     dialog.directory = directory.absolutePath
     dialog.isVisible = true
     if (dialog.file != null) {
+        // Devuelve la ruta del archivo seleccionado
         videoFile = File(dialog.directory, dialog.file).absolutePath
     }
     return videoFile
@@ -150,21 +166,22 @@ fun selectVideoFile(directory: File): String? {
 // Detectar si la plataforma es Android
 fun isAndroid(): Boolean {
     return try {
-        Class.forName("android.content.Context")
+        Class.forName("android.content.Context") // Intenta cargar una clase de Android
         true
     } catch (e: ClassNotFoundException) {
-        false
+        false // Si no se encuentra la clase, no es Android
     }
 }
 
-// Implementación para escritorio
+// Implementación para escritorio que reproduce el video
 fun playVideoOnDesktop(videoPath: String) {
     try {
         val videoFile = File(videoPath)
         if (Desktop.isDesktopSupported()) {
-            Desktop.getDesktop().open(videoFile)
+            Desktop.getDesktop().open(videoFile) // Abre el video en el reproductor predeterminado
         }
     } catch (e: Exception) {
+        // Muestra un error si falla al intentar reproducir el video
         JOptionPane.showMessageDialog(null, "Error al intentar reproducir: ${e.message}")
     }
 }
