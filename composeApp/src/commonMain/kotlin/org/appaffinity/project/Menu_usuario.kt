@@ -18,7 +18,6 @@ import org.jetbrains.compose.resources.painterResource
 // Composable principal que representa el menú de usuario y maneja la navegación entre diferentes pantallas.
 @Composable
 fun MenuUsuario() {
-
     // Estado mutable que rastrea la pantalla actual.
     var currentScreen by remember { mutableStateOf("menu_usuario") }
 
@@ -45,6 +44,10 @@ fun MenuUsuario() {
                 onNavigateToFicha = {
                     println("Navegando a pantalla de ficha")
                     currentScreen = "ficha_screen"
+                },
+                onNavigateToEnviarVideo = {
+                    println("Navegando a pantalla de enviar video")
+                    currentScreen = "enviar_video" // Navegación a Enviar Video
                 }
             )
         }
@@ -53,6 +56,7 @@ fun MenuUsuario() {
         "ventana_fecha_hora" -> FechaHora(onBack = { currentScreen = "menu_usuario" })
         "tarifa_screen" -> TarifaScreen(onAceptarClick = { currentScreen = "menu_usuario" })
         "ficha_screen" -> FichaScreen(onClose = { currentScreen = "menu_usuario" })
+        "enviar_video" -> Enviar_video(onBack = { currentScreen = "menu_usuario" }) // Navegación a Enviar Video
     }
 }
 
@@ -63,7 +67,8 @@ fun DisplayMenuUsuario(
     onNavigateToIdioma: () -> Unit,
     onNavigateToFechaHora: () -> Unit,
     onNavigateToTarifas: () -> Unit,
-    onNavigateToFicha: () -> Unit
+    onNavigateToFicha: () -> Unit,
+    onNavigateToEnviarVideo: () -> Unit // Nuevo parámetro
 ) {
     var currentStep by remember { mutableStateOf(0) } // Estado para gestionar los pasos de navegación secreta a la pantalla técnica.
 
@@ -154,6 +159,12 @@ fun DisplayMenuUsuario(
                         texto = Localization.getString("ficha"),
                         color = AzulCian,
                         onClick = onNavigateToFicha
+                    )
+                    BotonConImagenCustom(
+                        imagen = painterResource(Res.drawable.enviar_video),
+                        texto = Localization.getString("enviar_video"), // El texto para el botón
+                        color = AzulCian,
+                        onClick = onNavigateToEnviarVideo // Manejar la navegación al enviar video
                     )
                 }
             }
