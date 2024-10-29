@@ -1,3 +1,4 @@
+import org.gradle.kotlin.dsl.libs
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
