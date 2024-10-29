@@ -19,14 +19,12 @@ import java.io.*
 import javax.swing.*
 
 @Composable
-fun Enviar_video(onBack: () -> Unit) { // Agregar el parámetro onBack
+fun Enviar_video(onBack: () -> Unit) {
     var fileName by remember { mutableStateOf<String?>(null) }
     var selectedVideoUri by remember { mutableStateOf<String?>(null) }
     var sendingMessage by remember { mutableStateOf<String?>(null) }
 
-    // Usar un Box para superponer la imagen de fondo y el contenido
     Box(modifier = Modifier.fillMaxSize()) {
-        // Imagen de fondo
         Image(
             painter = painterResource(Res.drawable.fondo_de_pantalla),
             contentDescription = null,
@@ -34,7 +32,6 @@ fun Enviar_video(onBack: () -> Unit) { // Agregar el parámetro onBack
             contentScale = ContentScale.Crop
         )
 
-        // Contenido principal
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -42,25 +39,37 @@ fun Enviar_video(onBack: () -> Unit) { // Agregar el parámetro onBack
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            val directoryPath = "C:\\Users\\Public\\Videos"
-            val directory = File(directoryPath)
+            // Directorios a buscar
+            val primaryDirectoryPath = "C:\\Users\\Public\\Videos"
+            val secondaryDirectoryPath = "/Almacenamiento interno/Download/VideoDownloads"
 
+            // Verificar si existe el primer directorio y contiene archivos de video
             val videoFiles = remember {
-                if (directory.exists() && directory.isDirectory) {
-                    directory.listFiles { file ->
-                        file.extension in listOf("mp4", "mkv", "avi", "mov")
-                    }?.toList() ?: emptyList()
+                val primaryDirectory = File(primaryDirectoryPath)
+                val primaryVideos = getVideoFiles(primaryDirectory)
+
+                if (primaryVideos.isNotEmpty()) {
+                    primaryVideos // Si hay videos en el primer directorio, se retornan
                 } else {
-                    emptyList()
+                    // Si el primer directorio falla, buscar en el segundo directorio
+                    val secondaryDirectory = File(secondaryDirectoryPath)
+                    val secondaryVideos = getVideoFiles(secondaryDirectory)
+
+                    if (secondaryVideos.isNotEmpty()) {
+                        secondaryVideos // Si hay videos en el segundo directorio, se retornan
+                    } else {
+                        emptyList() // Si no hay videos en ambos directorios, se retorna lista vacía
+                    }
                 }
             }
 
+            // Mostrar resultados
             if (videoFiles.isNotEmpty()) {
                 Text(text = "Videos encontrados: ${videoFiles.size}")
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Button(onClick = {
-                    val selectedVideoPath = selectVideoFile(directory)
+                    val selectedVideoPath = selectVideoFile(videoFiles.firstOrNull()?.parentFile ?: File(primaryDirectoryPath))
                     if (selectedVideoPath != null) {
                         fileName = File(selectedVideoPath).name
                         selectedVideoUri = selectedVideoPath
@@ -70,7 +79,13 @@ fun Enviar_video(onBack: () -> Unit) { // Agregar el parámetro onBack
                     Text(text = "Seleccionar y reproducir vídeo")
                 }
             } else {
-                Text(text = "No se encontraron videos.")
+                // Mostrar mensaje de error si no se encontraron videos en ningún directorio
+                JOptionPane.showMessageDialog(
+                    null,
+                    "No se encontraron videos en los directorios: $primaryDirectoryPath o $secondaryDirectoryPath.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+                )
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -106,7 +121,6 @@ fun Enviar_video(onBack: () -> Unit) { // Agregar el parámetro onBack
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Botón para regresar a la pantalla anterior
             Button(onClick = onBack) {
                 Text("Volver")
             }
@@ -114,6 +128,18 @@ fun Enviar_video(onBack: () -> Unit) { // Agregar el parámetro onBack
     }
 }
 
+// Función para obtener archivos de video
+fun getVideoFiles(directory: File): List<File> {
+    return if (directory.exists() && directory.isDirectory) {
+        directory.listFiles { file ->
+            file.extension in listOf("mp4", "mkv", "avi", "mov")
+        }?.toList() ?: emptyList()
+    } else {
+        emptyList()
+    }
+}
+
+// Función para seleccionar archivo de video
 fun selectVideoFile(directory: File): String? {
     var videoFile: String? = null
     val dialog = FileDialog(Frame(), "Seleccionar Video", FileDialog.LOAD)
@@ -125,6 +151,7 @@ fun selectVideoFile(directory: File): String? {
     return videoFile
 }
 
+// Función para reproducir video
 fun playVideo(videoPath: String) {
     try {
         val videoFile = File(videoPath)
