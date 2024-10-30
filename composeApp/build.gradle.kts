@@ -2,9 +2,9 @@ import org.gradle.kotlin.dsl.libs
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.kotlinMultiplatform) version "2.0.21"
+    alias(libs.plugins.androidApplication) version "8.7.1"
+    alias(libs.plugins.jetbrainsCompose) version "1.7.0"
     alias(libs.plugins.compose.compiler)
     kotlin("plugin.serialization") version libs.versions.kotlin.get()
 }
@@ -13,7 +13,7 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "11"
+                jvmTarget = "17"
             }
         }
     }
@@ -21,7 +21,7 @@ kotlin {
     jvm("desktop") {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "11"
+                jvmTarget = "17"
             }
         }
     }
@@ -88,8 +88,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildFeatures {
