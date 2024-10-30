@@ -119,7 +119,7 @@ fun fetchVideoFiles(): List<File> {
 // Función que devuelve la ruta del directorio primario según la plataforma
 fun getPrimaryDirectoryPath(): String {
     return if (isAndroid()) {
-        "/Almacenamiento interno/Download/VideoDownloads" // Cambia la ruta para Android
+        "content://com.abdroid.providers.donwloads.documents/document/downloads" // Cambia la ruta para Android
     } else {
         "C:\\Users\\Public\\Videos" // Ruta para escritorio
     }
