@@ -51,12 +51,15 @@ fun MenuUsuario() {
                 }
             )
         }
+
         "MenuTecnico" -> MenuTecnico(onBack = { currentScreen = "menu_usuario" })
         "idioma_screen" -> IdiomaScreen(onAceptarClick = { currentScreen = "menu_usuario" })
         "ventana_fecha_hora" -> FechaHora(onBack = { currentScreen = "menu_usuario" })
         "tarifa_screen" -> TarifaScreen(onAceptarClick = { currentScreen = "menu_usuario" })
         "ficha_screen" -> FichaScreen(onClose = { currentScreen = "menu_usuario" })
-        "enviar_video" -> Enviar_video(onBack = { currentScreen = "menu_usuario" }) // Navegación a Enviar Video
+        "enviar_video" -> Enviar_video(onBack = {
+            currentScreen = "menu_usuario"
+        }) // Navegación a Enviar Video
     }
 }
 

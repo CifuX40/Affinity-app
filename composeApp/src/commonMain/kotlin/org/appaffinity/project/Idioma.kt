@@ -55,13 +55,19 @@ fun IdiomaScreen(onAceptarClick: () -> Unit) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth() // El `Row` ocupa todo el ancho disponible.
-                        .clickable { idiomaSeleccionado = idioma } // Cambia el idioma seleccionado al hacer clic.
+                        .clickable {
+                            idiomaSeleccionado = idioma
+                        } // Cambia el idioma seleccionado al hacer clic.
                         .padding(vertical = 8.dp), // Padding vertical de 8dp alrededor de cada idioma.
                     verticalAlignment = Alignment.CenterVertically, // Alinea el texto verticalmente en el centro.
                     horizontalArrangement = Arrangement.Center // Centra el contenido horizontalmente.
                 ) {
                     // Texto que muestra el nombre del idioma.
-                    Text(text = idioma, fontSize = 18.sp, color = Color.Blue) // Texto en azul y tamaño de fuente 18sp.
+                    Text(
+                        text = idioma,
+                        fontSize = 18.sp,
+                        color = Color.Blue
+                    ) // Texto en azul y tamaño de fuente 18sp.
                 }
             }
 

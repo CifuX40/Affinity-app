@@ -61,7 +61,12 @@ fun Enviar_video(onBack: () -> Unit) {
 
             // Muestra el número de videos encontrados
             if (videoFiles.isNotEmpty()) {
-                Text(text = "Videos encontrados: ${videoFiles.size}")
+                Text(
+                    text = Localization.getString(
+                        "videos_encontrados",
+                        videoFiles.size.toString()
+                    )
+                ) // Traducción para "Videos encontrados"
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // Botón para seleccionar y reproducir el primer video encontrado
@@ -74,34 +79,37 @@ fun Enviar_video(onBack: () -> Unit) {
                         playVideo(selectedVideoPath) // Reproduce el video seleccionado
                     }
                 }) {
-                    Text(text = "Seleccionar y reproducir vídeo")
+                    Text(text = Localization.getString("seleccionar_y_reproducir_video")) // Traducción para "Seleccionar y reproducir vídeo"
                 }
             } else {
                 // Muestra una alerta si no se encontraron videos
-                showAlert("No se encontraron videos en los directorios especificados.")
+                showAlert(Localization.getString("no_videos_encontrados")) // Traducción para "No se encontraron videos"
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
             // Muestra el nombre del archivo seleccionado o un mensaje por defecto
-            Text(text = fileName ?: "No se ha seleccionado ningún archivo")
+            Text(
+                text = fileName ?: Localization.getString("no_archivo_seleccionado")
+            ) // Traducción para "No se ha seleccionado ningún archivo"
 
             Spacer(modifier = Modifier.height(16.dp))
 
             // Botón para enviar el video
             Button(onClick = {
                 if (selectedVideoUri != null) {
-                    sendingMessage = "Enviando video: $fileName..."
+                    sendingMessage = Localization.getString("enviando_video", fileName ?: "")
                     CoroutineScope(Dispatchers.Main).launch {
                         delay(2000) // Simula un retraso en el envío
-                        sendingMessage = "Video enviado exitosamente!"
+                        sendingMessage =
+                            Localization.getString("video_enviado_exito") // Traducción para "Video enviado exitosamente"
                     }
                 } else {
                     // Muestra una alerta si no se ha seleccionado un video
-                    showAlert("No se ha seleccionado ningún video para enviar.")
+                    showAlert(Localization.getString("no_video_para_enviar")) // Traducción para "No se ha seleccionado ningún video para enviar"
                 }
             }) {
-                Text("Enviar vídeo")
+                Text(Localization.getString("enviar_video")) // Traducción para "Enviar vídeo"
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -115,7 +123,7 @@ fun Enviar_video(onBack: () -> Unit) {
 
             // Botón para volver a la pantalla anterior
             Button(onClick = onBack) {
-                Text("Volver")
+                Text(Localization.getString("volver")) // Traducción para "Volver"
             }
         }
     }
@@ -175,6 +183,7 @@ fun isAndroid(): Boolean {
 
 // Implementación para escritorio que reproduce el video
 fun playVideoOnDesktop(videoPath: String) {
+
     try {
         val videoFile = File(videoPath)
         if (Desktop.isDesktopSupported()) {
