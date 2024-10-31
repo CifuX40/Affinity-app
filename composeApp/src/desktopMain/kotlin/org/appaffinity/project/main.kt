@@ -26,6 +26,6 @@ fun main() = application {
                 }
             }
         }
-        MenuUsuario()
+        EstadoMaquina()
     }
 }

@@ -1,14 +1,12 @@
 package org.appaffinity.project
 
-import affinityapp.composeapp.generated.resources.Res
 import affinityapp.composeapp.generated.resources.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.*
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.*
 import kotlinx.datetime.*
@@ -18,7 +16,11 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun FechaHora(onBack: () -> Unit) {
     var isAuto by remember { mutableStateOf(true) } // Estado que controla si está activado el modo automático
-    var manualDateTime by remember { mutableStateOf(Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())) } // Estado para la fecha y hora en modo manual
+    var manualDateTime by remember {
+        mutableStateOf(
+            Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+        )
+    } // Estado para la fecha y hora en modo manual
 
     // Estado que almacena la fecha y hora del sistema en modo automático
     val systemDateTime by remember {
@@ -39,7 +41,7 @@ fun FechaHora(onBack: () -> Unit) {
             painter = painterResource(Res.drawable.fondo_de_pantalla),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop // Escala la imagen para que ocupe toda la pantalla
+            contentScale = ContentScale.Crop
         )
 
         // Columna que organiza los elementos de forma vertical
@@ -67,7 +69,11 @@ fun FechaHora(onBack: () -> Unit) {
             // Fila con el texto "Modo Automático" y un switch para activar o desactivar el modo automático
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(text = "Modo Automático", color = AzulCian)
-                Switch(checked = isAuto, onCheckedChange = { isAuto = it }) // Cambia el estado de `isAuto` al pulsar el switch
+                Switch(
+                    checked = isAuto,
+                    onCheckedChange = {
+                        isAuto = it
+                    }) // Cambia el estado de `isAuto` al pulsar el switch
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -83,12 +89,19 @@ fun FechaHora(onBack: () -> Unit) {
                         onValueChange = { input ->
                             // Divide el input en partes para extraer la fecha y la hora
                             runCatching {
-                                val parts = input.split(" ") // Separa la fecha y la hora por espacios
-                                val datePart = LocalDate.parse(parts[0]) // Parsea la parte de la fecha
-                                val timePart = LocalTime.parse(parts[1]) // Parsea la parte de la hora
-                                LocalDateTime(datePart, timePart) // Crea un nuevo objeto LocalDateTime con la fecha y hora ingresada
+                                val parts =
+                                    input.split(" ") // Separa la fecha y la hora por espacios
+                                val datePart =
+                                    LocalDate.parse(parts[0]) // Parsea la parte de la fecha
+                                val timePart =
+                                    LocalTime.parse(parts[1]) // Parsea la parte de la hora
+                                LocalDateTime(
+                                    datePart,
+                                    timePart
+                                ) // Crea un nuevo objeto LocalDateTime con la fecha y hora ingresada
                             }.onSuccess { newDateTime ->
-                                manualDateTime = newDateTime // Actualiza el valor de la fecha y hora manual si el formato es correcto
+                                manualDateTime =
+                                    newDateTime // Actualiza el valor de la fecha y hora manual si el formato es correcto
                             }
                         }
                     )
@@ -100,7 +113,13 @@ fun FechaHora(onBack: () -> Unit) {
             Boton_Naranja(
                 onClick = {
                     // Imprime la configuración guardada en la consola, dependiendo de si es automática o manual
-                    println("Configuración guardada: ${if (isAuto) formatter(systemDateTime) else formatter(manualDateTime)}")
+                    println(
+                        "Configuración guardada: ${
+                            if (isAuto) formatter(systemDateTime) else formatter(
+                                manualDateTime
+                            )
+                        }"
+                    )
                     onBack() // Llama a la función `onBack` para volver a la pantalla anterior
                 },
                 text = "Guardar"
