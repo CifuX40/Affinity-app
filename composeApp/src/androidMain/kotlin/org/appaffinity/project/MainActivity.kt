@@ -20,6 +20,7 @@ class MainActivity : ComponentActivity() {
                     // Cambia a la pantalla de MenuUsuario cuando se hace clic en el botón
                     currentScreen = "menu_usuario"
                 })
+
                 "menu_usuario" -> MenuUsuario()
                 else -> {
                     // Manejar un estado desconocido, si es necesario
