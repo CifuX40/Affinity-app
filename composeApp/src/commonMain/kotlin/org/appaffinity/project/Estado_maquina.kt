@@ -1,62 +1,21 @@
 package org.appaffinity.project
 
 import affinityapp.composeapp.generated.resources.*
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.layout.*
 import androidx.compose.ui.unit.*
-import kotlinx.coroutines.*
-import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.graphics.*
-
-
-sealed class Estado {
-    object CargandoPantallas : Estado()
-    object PreparandoTinta : Estado()
-    object LeyendoArchivos : Estado()
-    object ConectandoPeso : Estado()
-    object Completado : Estado()
-}
+import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun EstadoMaquina() {
-    var estadoActual by remember { mutableStateOf<Estado>(Estado.CargandoPantallas) }
-    val historialEstados = remember { mutableStateListOf("Iniciando proceso...") }
-
-    LaunchedEffect(estadoActual) {
-        when (estadoActual) {
-            is Estado.CargandoPantallas -> {
-                delay(4000)
-                historialEstados.add("Cargando pantallas...")
-                estadoActual = Estado.PreparandoTinta
-            }
-
-            is Estado.PreparandoTinta -> {
-                delay(4000)
-                historialEstados.add("Preparando tinta...")
-                estadoActual = Estado.LeyendoArchivos
-            }
-
-            is Estado.LeyendoArchivos -> {
-                delay(4000)
-                historialEstados.add("Leyendo archivos...")
-                estadoActual = Estado.ConectandoPeso
-            }
-
-            is Estado.ConectandoPeso -> {
-                delay(4000)
-                historialEstados.add("Conectando peso...")
-                estadoActual = Estado.Completado
-            }
-
-            is Estado.Completado -> {
-                historialEstados.add("Proceso completado.")
-            }
-        }
-    }
+    // Estado para controlar los mensajes a mostrar
+    val mensajes = remember { mutableStateListOf("Cargando pantallas...") }
 
     // Contenedor principal que coloca la imagen de fondo y el texto superpuestos
     Box(
@@ -76,15 +35,42 @@ fun EstadoMaquina() {
                 .fillMaxSize()
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center // Centrar verticalmente
         ) {
-            for (linea in historialEstados) {
-                Text(
-                    text = linea,
-                    color = Color.White, // Color del texto en blanco
-                    modifier = Modifier.padding(4.dp)
-                )
+            // Mostrar todos los textos como etiquetas
+            for ((index, mensaje) in mensajes.withIndex()) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween // Espaciado entre el texto y "Ok"
+                ) {
+                    Text(
+                        text = mensaje,
+                        fontSize = 30.sp,
+                        color = Color.Black // Cambiar a negro directamente
+                    )
+                    // Mostrar "Ok" solo si no es el último mensaje
+                    if (index < mensajes.size - 1) {
+                        Text(
+                            text = "Ok",
+                            fontSize = 30.sp,
+                            color = Color.Black // Cambiar a negro directamente
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(8.dp)) // Espacio entre las etiquetas
             }
+        }
+
+        LaunchedEffect(Unit) {
+            // Espera y agrega los mensajes uno por uno
+            delay(4000) // Espera 4 segundos antes de añadir el siguiente mensaje
+            mensajes.add(Localization.getString("Preparando tinta..."))
+            delay(4000)
+            mensajes.add(Localization.getString("Leyendo archivos..."))
+            delay(4000)
+            mensajes.add(Localization.getString("Conectando peso..."))
+            delay(4000)
+            mensajes.add(Localization.getString("Proceso completado.")) // No tendrá "Ok"
         }
     }
 }
