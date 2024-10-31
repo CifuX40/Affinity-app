@@ -1,18 +1,22 @@
 package org.appaffinity.project
 
+import androidx.compose.material.Text
 import androidx.compose.ui.window.*
 import androidx.compose.runtime.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.awt.Frame
+import kotlinx.coroutines.*
+import java.awt.*
+import androidx.compose.ui.graphics.*
 
 fun main() = application {
+    var currentScreen by remember { mutableStateOf("estado_maquina") }
+
     // Usamos WindowState para maximizar la ventana desde el inicio
     val windowState = rememberWindowState(placement = WindowPlacement.Maximized)
 
     Window(
         onCloseRequest = ::exitApplication,
-        undecorated = false, title = ("EGGARA PLUS"),
+        undecorated = false,
+        title = ("EGGARA PLUS"),
         state = windowState
     ) {
         val scope = rememberCoroutineScope()
@@ -27,10 +31,17 @@ fun main() = application {
             }
         }
 
-        // Asegúrate de pasar el onButtonClick aquí
-        EstadoMaquina(onButtonClick = {
-            // Acción a realizar al hacer clic en el botón
-            println("Continuar botón clickeado desde el escritorio")
-        })
+        // Navegación basada en la pantalla actual
+        when (currentScreen) {
+            "estado_maquina" -> EstadoMaquina(onButtonClick = {
+                // Cambia a la pantalla de MenuUsuario cuando se hace clic en el botón
+                currentScreen = "menu_usuario"
+            })
+            "menu_usuario" -> MenuUsuario()
+            else -> {
+                // Manejar un estado desconocido, si es necesario
+                Text(text = "Estado desconocido", color = Color.Red)
+            }
+        }
     }
 }
