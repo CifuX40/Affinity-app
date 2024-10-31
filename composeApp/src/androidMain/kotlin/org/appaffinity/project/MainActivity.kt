@@ -8,10 +8,14 @@ import androidx.compose.ui.tooling.preview.Preview
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Aquí, asegúrate de pasar el savedInstanceState al super
         super.onCreate(savedInstanceState)
 
         setContent {
-            EstadoMaquina()
+            EstadoMaquina(onButtonClick = {
+                // Acción a realizar al hacer clic en el botón
+                println("Continuar botón clickeado")
+            })
         }
     }
 }
@@ -19,5 +23,8 @@ class MainActivity : ComponentActivity() {
 @Preview
 @Composable
 fun AppAndroidPreview() {
-    EstadoMaquina()
+    EstadoMaquina(onButtonClick = {
+        // Acciones que desees ejecutar en el preview
+        println("Continuar botón clickeado en el preview")
+    })
 }

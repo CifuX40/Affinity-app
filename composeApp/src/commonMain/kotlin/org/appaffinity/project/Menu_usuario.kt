@@ -15,13 +15,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import org.jetbrains.compose.resources.painterResource
 
-// Composable principal que representa el menú de usuario y maneja la navegación entre diferentes pantallas.
 @Composable
 fun MenuUsuario() {
-    // Estado mutable que rastrea la pantalla actual.
     var currentScreen by remember { mutableStateOf("menu_usuario") }
 
-    // Cambia la pantalla en función del valor de `currentScreen`.
     when (currentScreen) {
         "menu_usuario" -> {
             DisplayMenuUsuario(
@@ -47,7 +44,7 @@ fun MenuUsuario() {
                 },
                 onNavigateToEnviarVideo = {
                     println("Navegando a pantalla de enviar video")
-                    currentScreen = "enviar_video" // Navegación a Enviar Video
+                    currentScreen = "enviar_video"
                 }
             )
         }
@@ -57,13 +54,14 @@ fun MenuUsuario() {
         "ventana_fecha_hora" -> FechaHora(onBack = { currentScreen = "menu_usuario" })
         "tarifa_screen" -> TarifaScreen(onAceptarClick = { currentScreen = "menu_usuario" })
         "ficha_screen" -> FichaScreen(onClose = { currentScreen = "menu_usuario" })
-        "enviar_video" -> Enviar_video(onBack = {
-            currentScreen = "menu_usuario"
-        }) // Navegación a Enviar Video
+        "enviar_video" -> Enviar_video(onBack = { currentScreen = "menu_usuario" })
+
+        else -> {
+            Text(text = "Estado desconocido", color = Color.Red)
+        }
     }
 }
 
-// Composable que muestra el menú de usuario con opciones para navegar a diferentes funciones.
 @Composable
 fun DisplayMenuUsuario(
     onNavigateToTecnico: () -> Unit,
@@ -73,12 +71,11 @@ fun DisplayMenuUsuario(
     onNavigateToFicha: () -> Unit,
     onNavigateToEnviarVideo: () -> Unit // Nuevo parámetro
 ) {
-    var currentStep by remember { mutableStateOf(0) } // Estado para gestionar los pasos de navegación secreta a la pantalla técnica.
+    var currentStep by remember { mutableStateOf(0) }
 
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        // Imagen de fondo
         Image(
             painter = painterResource(Res.drawable.fondo_de_pantalla),
             contentDescription = null,
@@ -86,7 +83,6 @@ fun DisplayMenuUsuario(
             contentScale = ContentScale.Crop
         )
 
-        // Botones invisibles en las esquinas
         Box(modifier = Modifier.size(50.dp).align(Alignment.TopEnd).clickable {
             if (currentStep == 0) currentStep = 1
         })
@@ -103,11 +99,8 @@ fun DisplayMenuUsuario(
             }
         })
 
-        // Botones del menú
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
+            modifier = Modifier.fillMaxSize().padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -115,7 +108,7 @@ fun DisplayMenuUsuario(
                 text = Localization.getString("menu_usuario"),
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
-                color = Negro
+                color = Color.Black
             )
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -128,19 +121,19 @@ fun DisplayMenuUsuario(
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.lenguaje),
                         texto = Localization.getString("idioma"),
-                        color = AzulCian,
+                        color = Color.Blue,
                         onClick = onNavigateToIdioma
                     )
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.recaudacion),
                         texto = Localization.getString("recaudacion"),
-                        color = AzulCian,
+                        color = Color.Blue,
                         onClick = { /* Implementar la acción */ }
                     )
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.tarifas),
                         texto = Localization.getString("tarifas"),
-                        color = AzulCian,
+                        color = Color.Blue,
                         onClick = onNavigateToTarifas
                     )
                 }
@@ -154,20 +147,20 @@ fun DisplayMenuUsuario(
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.fecha_hora),
                         texto = Localization.getString("fecha_hora"),
-                        color = AzulCian,
+                        color = Color.Blue,
                         onClick = onNavigateToFechaHora
                     )
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.ficha),
                         texto = Localization.getString("ficha"),
-                        color = AzulCian,
+                        color = Color.Blue,
                         onClick = onNavigateToFicha
                     )
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.enviar_video),
-                        texto = Localization.getString("enviar_video"), // El texto para el botón
-                        color = AzulCian,
-                        onClick = onNavigateToEnviarVideo // Manejar la navegación al enviar video
+                        texto = Localization.getString("enviar_video"),
+                        color = Color.Blue,
+                        onClick = onNavigateToEnviarVideo
                     )
                 }
             }
@@ -175,22 +168,17 @@ fun DisplayMenuUsuario(
     }
 }
 
-// Composable que representa un botón personalizado con imagen y texto.
 @Composable
 fun BotonConImagenCustom(imagen: Painter, texto: String, color: Color, onClick: () -> Unit) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
-            modifier = Modifier
-                .size(100.dp)
-                .clickable(onClick = onClick)
+            modifier = Modifier.size(100.dp).clickable(onClick = onClick)
         ) {
             Image(painter = imagen, contentDescription = null, modifier = Modifier.fillMaxSize())
         }
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = texto,
-            color = color,
-            fontSize = 14.sp
+            text = texto, color = color, fontSize = 14.sp
         )
     }
 }

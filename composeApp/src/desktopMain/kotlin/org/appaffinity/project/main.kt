@@ -26,6 +26,11 @@ fun main() = application {
                 }
             }
         }
-        EstadoMaquina()
+
+        // Asegúrate de pasar el onButtonClick aquí
+        EstadoMaquina(onButtonClick = {
+            // Acción a realizar al hacer clic en el botón
+            println("Continuar botón clickeado desde el escritorio")
+        })
     }
 }

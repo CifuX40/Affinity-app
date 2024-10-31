@@ -13,7 +13,7 @@ import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun EstadoMaquina() {
+fun EstadoMaquina(onButtonClick: () -> Unit) {
     // Estado para controlar los mensajes a mostrar
     val mensajes = remember { mutableStateListOf("Cargando pantallas...") }
 
@@ -58,6 +58,17 @@ fun EstadoMaquina() {
                     }
                 }
                 Spacer(modifier = Modifier.height(8.dp)) // Espacio entre las etiquetas
+            }
+
+            // Mostrar el botón solo si el último mensaje es "Proceso completado."
+            if (mensajes.last() == Localization.getString("Proceso completado.")) {
+                Spacer(modifier = Modifier.height(16.dp)) // Espacio antes del botón
+                Button(
+                    onClick = onButtonClick,
+                    modifier = Modifier.align(Alignment.CenterHorizontally) // Centrar el botón
+                ) {
+                    Text("Continuar") // Texto del botón
+                }
             }
         }
 
