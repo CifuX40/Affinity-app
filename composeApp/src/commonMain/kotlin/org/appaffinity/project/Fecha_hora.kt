@@ -29,7 +29,8 @@ fun FechaHora(onBack: () -> Unit) {
 
     // Función que formatea la fecha y la hora en un formato legible
     val formatter: (LocalDateTime) -> String = { dateTime ->
-        "${dateTime.date} ${dateTime.time}" // Muestra la fecha y la hora en formato "YYYY-MM-DD HH:MM:SS"
+        val timeString = String.format("%02d:%02d:%02d", dateTime.hour, dateTime.minute, dateTime.second) // Formato HH:MM:SS
+        "${dateTime.date} $timeString" // Muestra la fecha y la hora en formato "YYYY-MM-DD HH:MM:SS"
     }
 
     // Contenedor principal que ocupa toda la pantalla
@@ -89,19 +90,12 @@ fun FechaHora(onBack: () -> Unit) {
                         onValueChange = { input ->
                             // Divide el input en partes para extraer la fecha y la hora
                             runCatching {
-                                val parts =
-                                    input.split(" ") // Separa la fecha y la hora por espacios
-                                val datePart =
-                                    LocalDate.parse(parts[0]) // Parsea la parte de la fecha
-                                val timePart =
-                                    LocalTime.parse(parts[1]) // Parsea la parte de la hora
-                                LocalDateTime(
-                                    datePart,
-                                    timePart
-                                ) // Crea un nuevo objeto LocalDateTime con la fecha y hora ingresada
+                                val parts = input.split(" ") // Separa la fecha y la hora por espacios
+                                val datePart = LocalDate.parse(parts[0]) // Parsea la parte de la fecha
+                                val timePart = LocalTime.parse(parts[1]) // Parsea la parte de la hora
+                                LocalDateTime(datePart, timePart) // Crea un nuevo objeto LocalDateTime con la fecha y hora ingresada
                             }.onSuccess { newDateTime ->
-                                manualDateTime =
-                                    newDateTime // Actualiza el valor de la fecha y hora manual si el formato es correcto
+                                manualDateTime = newDateTime // Actualiza el valor de la fecha y hora manual si el formato es correcto
                             }
                         }
                     )
@@ -113,13 +107,9 @@ fun FechaHora(onBack: () -> Unit) {
             Boton_Naranja(
                 onClick = {
                     // Imprime la configuración guardada en la consola, dependiendo de si es automática o manual
-                    println(
-                        "Configuración guardada: ${
-                            if (isAuto) formatter(systemDateTime) else formatter(
-                                manualDateTime
-                            )
-                        }"
-                    )
+                    println("Configuración guardada: ${
+                        if (isAuto) formatter(systemDateTime) else formatter(manualDateTime)
+                    }")
                     onBack() // Llama a la función `onBack` para volver a la pantalla anterior
                 },
                 text = "Guardar"
