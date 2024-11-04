@@ -5,18 +5,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.*
+import androidx.compose.ui.layout.*
+import androidx.compose.ui.text.style.*
 import androidx.compose.ui.unit.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.painterResource
-import java.io.File
-import javax.swing.JOptionPane
+import kotlinx.coroutines.*
+import org.jetbrains.compose.resources.*
+import java.io.*
+import javax.swing.*
 
 @Composable
 fun Enviar_video(onBack: () -> Unit) {
@@ -119,7 +115,7 @@ fun fetchVideoFiles(): List<File> {
 // Función que devuelve la ruta del directorio primario según la plataforma
 fun getPrimaryDirectoryPath(): String {
     return if (isAndroid()) {
-        "content://com.abdroid.providers.donwloads.documents/document/downloads" // Cambia la ruta para Android
+        "/Almacenamiento interno/Download/VideosDownloads" // Cambia la ruta para Android
     } else {
         "C:\\Users\\Public\\Videos" // Ruta para escritorio
     }
