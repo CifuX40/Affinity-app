@@ -72,33 +72,63 @@ fun FechaHora(onBack: () -> Unit) {
                 Text(text = "Modo Automático", color = AzulCian)
                 Switch(
                     checked = isAuto,
-                    onCheckedChange = {
-                        isAuto = it
-                    }) // Cambia el estado de `isAuto` al pulsar el switch
+                    onCheckedChange = { isAuto = it }) // Cambia el estado de `isAuto` al pulsar el switch
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
             // Si el modo automático está desactivado, muestra campos de texto para ingresar la fecha y hora manualmente
             if (!isAuto) {
-                Row {
-                    Text(text = "Fecha y Hora:") // Etiqueta para los campos de texto
+                Column {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(text = "Fecha (YYYY-MM-DD):") // Etiqueta para la fecha
+                        BasicTextField(
+                            value = manualDateTime.date.toString(), // Muestra la fecha actual en formato YYYY-MM-DD
+                            onValueChange = { input ->
+                                runCatching {
+                                    LocalDate.parse(input) // Parsea la parte de la fecha
+                                }.onSuccess { newDate ->
+                                    manualDateTime = LocalDateTime(newDate, manualDateTime.time) // Actualiza la fecha
+                                }.onFailure {
+                                    // Aquí puedes manejar el error (ejemplo: mostrar un mensaje de error)
+                                }
+                            },
+                            modifier = Modifier.weight(1f) // Ocupa el espacio restante
+                        )
+                    }
 
-                    // Campo de texto básico donde el usuario puede ingresar la fecha y hora
-                    BasicTextField(
-                        value = formatter(manualDateTime), // Muestra el valor actual de la fecha y hora manual
-                        onValueChange = { input ->
-                            // Divide el input en partes para extraer la fecha y la hora
-                            runCatching {
-                                val parts = input.split(" ") // Separa la fecha y la hora por espacios
-                                val datePart = LocalDate.parse(parts[0]) // Parsea la parte de la fecha
-                                val timePart = LocalTime.parse(parts[1]) // Parsea la parte de la hora
-                                LocalDateTime(datePart, timePart) // Crea un nuevo objeto LocalDateTime con la fecha y hora ingresada
-                            }.onSuccess { newDateTime ->
-                                manualDateTime = newDateTime // Actualiza el valor de la fecha y hora manual si el formato es correcto
-                            }
-                        }
-                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(text = "Hora (HH:MM:SS):") // Etiqueta para la hora
+                        BasicTextField(
+                            value = String.format("%02d:%02d:%02d", manualDateTime.hour, manualDateTime.minute, manualDateTime.second), // Muestra la hora actual
+                            onValueChange = { input ->
+                                runCatching {
+                                    val timeParts = input.split(":") // Separa la hora por ':'
+                                    if (timeParts.size == 3) {
+                                        val hours = timeParts[0].toInt()
+                                        val minutes = timeParts[1].toInt()
+                                        val seconds = timeParts[2].toInt()
+                                        LocalTime(hours, minutes, seconds) // Crea un nuevo objeto LocalTime
+                                    } else {
+                                        throw IllegalArgumentException("Formato incorrecto")
+                                    }
+                                }.onSuccess { newTime ->
+                                    manualDateTime = LocalDateTime(manualDateTime.date, newTime) // Actualiza la hora
+                                }.onFailure {
+                                    // Aquí puedes manejar el error (ejemplo: mostrar un mensaje de error)
+                                }
+                            },
+                            modifier = Modifier.weight(1f) // Ocupa el espacio restante
+                        )
+                    }
                 }
             }
 
@@ -107,9 +137,7 @@ fun FechaHora(onBack: () -> Unit) {
             Boton_Naranja(
                 onClick = {
                     // Imprime la configuración guardada en la consola, dependiendo de si es automática o manual
-                    println("Configuración guardada: ${
-                        if (isAuto) formatter(systemDateTime) else formatter(manualDateTime)
-                    }")
+                    println("Configuración guardada: ${if (isAuto) formatter(systemDateTime) else formatter(manualDateTime)}")
                     onBack() // Llama a la función `onBack` para volver a la pantalla anterior
                 },
                 text = "Guardar"
