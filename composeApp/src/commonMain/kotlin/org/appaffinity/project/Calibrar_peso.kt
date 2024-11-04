@@ -43,12 +43,18 @@ fun CalibrarPeso(onBack: () -> Unit) {
                 .background(Color.Transparent) // Fondo transparente para el contenido
         ) {
             // Título de la pantalla
-            Text(text = "Calibrar Peso", fontSize = 24.sp, color = Color(0xFF009EE0)) // Título en azul cian
+            Text(
+                text = "Calibrar Peso",
+                fontSize = 24.sp,
+                color = Color(0xFF009EE0)
+            ) // Título en azul cian
 
             // Campo de texto para que el usuario ingrese el valor del peso
             BasicTextField(
                 value = peso, // El valor del campo es la variable `peso`
-                onValueChange = { peso = it }, // Actualiza `peso` cuando el usuario ingresa un valor
+                onValueChange = {
+                    peso = it
+                }, // Actualiza `peso` cuando el usuario ingresa un valor
                 modifier = Modifier
                     .background(Color.LightGray) // Fondo gris claro para el campo de texto
                     .padding(8.dp) // Espaciado interno del campo de texto
@@ -70,16 +76,23 @@ fun CalibrarPeso(onBack: () -> Unit) {
             LaunchedEffect(calibrando) {
                 if (calibrando) {
                     delay(5000) // Simula un retraso de 5 segundos
-                    mensaje = "Calibración completada" // Mensaje que indica que la calibración ha finalizado
+                    mensaje =
+                        "Calibración completada" // Mensaje que indica que la calibración ha finalizado
                     calibrando = false // Cambia el estado de calibración a "falso"
                 }
             }
 
             // Mostrar el estado de la calibración según el valor de `calibrando` y `mensaje`
             if (calibrando) {
-                Text(text = mensaje, color = Color(0xFF009EE0)) // Muestra el mensaje "Calibrando..." en azul cian
+                Text(
+                    text = mensaje,
+                    color = Color(0xFF009EE0)
+                ) // Muestra el mensaje "Calibrando..." en azul cian
             } else if (mensaje.isNotEmpty()) {
-                Text(text = mensaje, color = Color.Green) // Muestra el mensaje de "Calibración completada" en verde
+                Text(
+                    text = mensaje,
+                    color = Color.Green
+                ) // Muestra el mensaje de "Calibración completada" en verde
             }
 
             Spacer(modifier = Modifier.height(16.dp)) // Espaciador de 16dp entre los elementos
