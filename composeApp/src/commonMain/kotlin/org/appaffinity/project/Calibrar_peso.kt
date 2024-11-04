@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.*
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 
-// Composable que representa la pantalla para calibrar el peso, permitiendo al usuario ingresar un peso y comenzar la calibración.
 @Composable
 fun CalibrarPeso(onBack: () -> Unit) {
     var peso by remember { mutableStateOf("") } // Variable que almacena el valor del peso ingresado por el usuario
@@ -25,60 +24,67 @@ fun CalibrarPeso(onBack: () -> Unit) {
 
     // Diseño de la pantalla completa con imagen de fondo
     Box(modifier = Modifier.fillMaxSize()) {
-        // Imagen de fondo que cubre toda la pantalla
         Image(
             painter = painterResource(Res.drawable.fondo_de_pantalla),
             contentDescription = "Fondo de Pantalla",
             modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop // Escala la imagen para que cubra todo el espacio
+            contentScale = ContentScale.Crop
         )
 
-        // Contenido principal centrado en la pantalla
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally, // Alinea el contenido en el centro horizontalmente
-            verticalArrangement = Arrangement.Center, // Coloca los elementos centrados verticalmente
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp) // Añade padding de 16dp alrededor del contenido
-                .background(Color.Transparent) // Fondo transparente para el contenido
+                .padding(16.dp)
+                .background(Color.Transparent)
         ) {
             // Título de la pantalla
             Text(
                 text = "Calibrar Peso",
                 fontSize = 24.sp,
                 color = Color(0xFF009EE0)
-            ) // Título en azul cian
+            )
+
+            // Mensaje que solicita el ingreso del peso
+            Text(
+                text = "Depositar peso reconocido", // Mensaje agregado
+                fontSize = 16.sp,
+                color = Color(0xFF009EE0),
+                modifier = Modifier.padding(vertical = 8.dp) // Espaciado vertical
+            )
 
             // Campo de texto para que el usuario ingrese el valor del peso
             BasicTextField(
-                value = peso, // El valor del campo es la variable `peso`
+                value = peso,
                 onValueChange = {
-                    peso = it
-                }, // Actualiza `peso` cuando el usuario ingresa un valor
+                    // Solo permitir caracteres numéricos
+                    if (it.all { char -> char.isDigit() }) {
+                        peso = it
+                    }
+                },
                 modifier = Modifier
-                    .background(Color.LightGray) // Fondo gris claro para el campo de texto
-                    .padding(8.dp) // Espaciado interno del campo de texto
-                    .fillMaxWidth() // El campo de texto ocupa todo el ancho disponible
+                    .background(Color.LightGray)
+                    .padding(8.dp)
+                    .fillMaxWidth()
             )
 
             // Botón para iniciar el proceso de calibración
             Button(
                 onClick = {
-                    calibrando = true // Cambia el estado a "calibrando" cuando se pulsa el botón
-                    mensaje = "Calibrando..." // Muestra el mensaje de calibración en proceso
+                    calibrando = true
+                    mensaje = "Calibrando..."
                 },
-                colors = ButtonDefaults.buttonColors(backgroundColor = Naranja) // Botón de color naranja
+                colors = ButtonDefaults.buttonColors(backgroundColor = Naranja)
             ) {
-                Text("Calibrar", color = Color.Black) // Texto negro en el botón
+                Text("Calibrar", color = Color.Black)
             }
 
-            // Uso de corutinas para simular una calibración de 5 segundos
             LaunchedEffect(calibrando) {
                 if (calibrando) {
-                    delay(5000) // Simula un retraso de 5 segundos
-                    mensaje =
-                        "Calibración completada" // Mensaje que indica que la calibración ha finalizado
-                    calibrando = false // Cambia el estado de calibración a "falso"
+                    delay(5000)
+                    mensaje = "Calibración completada"
+                    calibrando = false
                 }
             }
 
@@ -87,22 +93,22 @@ fun CalibrarPeso(onBack: () -> Unit) {
                 Text(
                     text = mensaje,
                     color = Color(0xFF009EE0)
-                ) // Muestra el mensaje "Calibrando..." en azul cian
+                )
             } else if (mensaje.isNotEmpty()) {
                 Text(
                     text = mensaje,
                     color = Color.Green
-                ) // Muestra el mensaje de "Calibración completada" en verde
+                )
             }
 
-            Spacer(modifier = Modifier.height(16.dp)) // Espaciador de 16dp entre los elementos
+            Spacer(modifier = Modifier.height(16.dp))
 
             // Botón para volver a la pantalla anterior
             Button(
-                onClick = onBack, // Acción de volver cuando se presiona el botón
-                colors = ButtonDefaults.buttonColors(backgroundColor = Naranja) // Botón de fondo negro
+                onClick = onBack,
+                colors = ButtonDefaults.buttonColors(backgroundColor = Naranja)
             ) {
-                Text("Volver", color = Color.White) // Texto blanco en el botón
+                Text("Volver", color = Color.White)
             }
         }
     }
