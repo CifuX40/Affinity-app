@@ -62,7 +62,7 @@ kotlin {
 
 android {
     namespace = "compose.project.demo"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk = 35 // Actualizado a compileSdk 35
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
