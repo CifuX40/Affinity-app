@@ -48,6 +48,8 @@ kotlin {
                 implementation(libs.androidx.core.ktx)
                 implementation(libs.androidx.navigation.compose)
                 implementation(libs.androidx.core.i18n)
+                implementation("androidx.core:core-ktx:1.15.0") // Agregado para acceso a Context y compatibilidad de Android
+                implementation("androidx.activity:activity-compose:1.9.3") // Para ActivityResult API en Compose
             }
         }
 
