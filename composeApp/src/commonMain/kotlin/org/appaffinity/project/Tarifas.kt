@@ -61,14 +61,20 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
                 Text(text = "Peso: ${tarifa.peso}", fontSize = 20.sp)
                 Text(text = "Altura: ${tarifa.altura}", fontSize = 20.sp)
                 Text(text = "Tensión: ${tarifa.tension}", fontSize = 20.sp)
-            } ?: Text(text = "No hay tarifas disponibles", color = AzulCian, fontSize = 20.sp) // Mensaje si no hay tarifas.
+            } ?: Text(
+                text = "No hay tarifas disponibles",
+                color = AzulCian,
+                fontSize = 20.sp
+            ) // Mensaje si no hay tarifas.
 
             Spacer(modifier = Modifier.height(16.dp)) // Espaciador vertical.
 
             // Campo de texto para ingresar el peso.
             TextField(
                 value = peso,
-                onValueChange = { if (it.all { char -> char.isDigit() }) peso = it }, // Acepta solo dígitos.
+                onValueChange = {
+                    if (it.all { char -> char.isDigit() }) peso = it
+                }, // Acepta solo dígitos.
                 label = { Text(Localization.getString("precio_peso")) }, // Etiqueta del campo.
                 modifier = Modifier.fillMaxWidth(), // Ocupa todo el ancho disponible.
                 singleLine = true // Solo una línea.
@@ -79,7 +85,9 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
             // Campo de texto para ingresar la altura.
             TextField(
                 value = altura,
-                onValueChange = { if (it.all { char -> char.isDigit() }) altura = it }, // Acepta solo dígitos.
+                onValueChange = {
+                    if (it.all { char -> char.isDigit() }) altura = it
+                }, // Acepta solo dígitos.
                 label = { Text(Localization.getString("precio_altura")) }, // Etiqueta del campo.
                 modifier = Modifier.fillMaxWidth(), // Ocupa todo el ancho disponible.
                 singleLine = true // Solo una línea.
@@ -90,7 +98,9 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
             // Campo de texto para ingresar la tensión.
             TextField(
                 value = tension,
-                onValueChange = { if (it.all { char -> char.isDigit() }) tension = it }, // Acepta solo dígitos.
+                onValueChange = {
+                    if (it.all { char -> char.isDigit() }) tension = it
+                }, // Acepta solo dígitos.
                 label = { Text(Localization.getString("precio_tension")) }, // Etiqueta del campo.
                 modifier = Modifier.fillMaxWidth(), // Ocupa todo el ancho disponible.
                 singleLine = true // Solo una línea.
