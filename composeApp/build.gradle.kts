@@ -96,11 +96,6 @@ android {
         compose = true
     }
 
-    dependencies {
-        debugImplementation(compose.uiTooling)
-    }
-}
-
 compose.desktop {
     application {
         mainClass = "org.appaffinity.project.MainKt"
@@ -110,5 +105,4 @@ compose.desktop {
             packageName = "compose.project.demo"
             packageVersion = "1.0.0"
         }
-    }
-}
+    }}}

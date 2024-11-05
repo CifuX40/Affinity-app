@@ -8,11 +8,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.unit.*
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -43,18 +44,34 @@ fun MenuUsuario() {
                     currentScreen = "ficha_screen"
                 },
                 onNavigateToEnviarVideo = {
-                    println("Navegando a pantalla de enviar video")
-                    currentScreen = "enviar_video"
+                    println("Navegando a pantalla de seleccionar plataforma")
+                    currentScreen = "plataforma_selector"
                 }
             )
         }
+
+        "plataforma_selector" -> PlataformaSelector(
+            onPlatformSelected = { platform ->
+                when (platform) {
+                    "Windows" -> {
+                        currentScreen = "enviar_video_windows"
+                    }
+                    "Android" -> {
+                        currentScreen = "enviar_video_android"
+                    }
+                }
+            }
+        )
+
+        "enviar_video_windows" -> EnviarVideoWindows(onBack = { currentScreen = "menu_usuario" })
+
+        "enviar_video_android" -> EnviarVideoAndroid(onBack = { currentScreen = "menu_usuario" })
 
         "MenuTecnico" -> MenuTecnico(onBack = { currentScreen = "menu_usuario" })
         "idioma_screen" -> IdiomaScreen(onAceptarClick = { currentScreen = "menu_usuario" })
         "ventana_fecha_hora" -> FechaHora(onBack = { currentScreen = "menu_usuario" })
         "tarifa_screen" -> TarifaScreen(onAceptarClick = { currentScreen = "menu_usuario" })
         "ficha_screen" -> FichaScreen(onClose = { currentScreen = "menu_usuario" })
-        "enviar_video" -> Enviar_video(onBack = { currentScreen = "menu_usuario" })
 
         else -> {
             Text(text = "Estado desconocido", color = Color.Red)
@@ -69,13 +86,11 @@ fun DisplayMenuUsuario(
     onNavigateToFechaHora: () -> Unit,
     onNavigateToTarifas: () -> Unit,
     onNavigateToFicha: () -> Unit,
-    onNavigateToEnviarVideo: () -> Unit // Nuevo parámetro
+    onNavigateToEnviarVideo: () -> Unit
 ) {
     var currentStep by remember { mutableStateOf(0) }
 
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(Res.drawable.fondo_de_pantalla),
             contentDescription = null,
