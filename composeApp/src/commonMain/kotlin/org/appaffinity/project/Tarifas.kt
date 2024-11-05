@@ -75,7 +75,7 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
     LaunchedEffect(Unit) {
         tarifaGuardada = cargarTarifa()
         tarifaGuardada?.let {
-            peso = it.peso.replace(" céntimos", "") // Limpiar el texto antes de cargar
+            peso = it.peso.replace(" céntimos", "")
             altura = it.altura.replace(" céntimos", "")
             tension = it.tension.replace(" céntimos", "")
         }
