@@ -41,8 +41,8 @@ fun SolicitarContrasena(onAccesoPermitido: () -> Unit, onBack: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Blanco), // Fondo blanco
-        contentAlignment = Alignment.Center // Centra el contenido
+            .background(Blanco),
+        contentAlignment = Alignment.Center
     ) {
         // Imagen de fondo
         Image(
@@ -81,7 +81,7 @@ fun SolicitarContrasena(onAccesoPermitido: () -> Unit, onBack: () -> Unit) {
             TecladoNumerico(
                 onNumeroClick = { numero ->
                     contrasena += numero // Agrega el número a la contraseña
-                    // Verifica si la contraseña es correcta (en este caso, "9876")
+                    // Verifica si la contraseña es correcta
                     if (contrasena.length == 4) {
                         if (contrasena == "9876") {
                             mostrarError = false // No hay error
@@ -221,7 +221,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                         imagen = painterResource(Res.drawable.calibrar_tension),
                         texto = "Calibrar tensión",
                         color = AzulCian,
-                        onClick = { showErrorDialog = true } // Muestra diálogo de error
+                        onClick = { showErrorDialog = true }
                     )
                 }
                 item {
@@ -261,7 +261,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                         imagen = painterResource(Res.drawable.reiniciar),
                         texto = "Reiniciar dispositivo",
                         color = AzulCian,
-                        onClick = { showReiniciarDialog = true } // Muestra el diálogo de reinicio
+                        onClick = { showReiniciarDialog = true }
                     )
                 }
                 // Botón de regreso a la pantalla de usuario
@@ -296,9 +296,9 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                 onReiniciar = {
                     // Lógica para reiniciar el dispositivo
                     // Aquí podrías agregar la lógica que desees para realizar el reinicio
-                    showReiniciarDialog = false // Cerrar diálogo
+                    showReiniciarDialog = false
                 },
-                onCancel = { showReiniciarDialog = false } // Cerrar diálogo
+                onCancel = { showReiniciarDialog = false }
             )
         }
     }
