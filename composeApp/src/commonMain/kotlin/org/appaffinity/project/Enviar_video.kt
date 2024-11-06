@@ -13,6 +13,7 @@ import kotlinx.coroutines.*
 import org.jetbrains.compose.resources.*
 import java.awt.*
 import java.io.*
+import androidx.compose.ui.graphics.Color
 import javax.swing.*
 
 @Composable
@@ -101,6 +102,16 @@ fun EnviarVideo(onBack: () -> Unit) {
             Button(onClick = onBack) {
                 Text(Localization.getString("volver"))
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Agregar el texto indicando que es una función exclusiva para Windows
+            Text(
+                text = "Función única para Windows, es posible que de error en otros dispositivos",
+                style = MaterialTheme.typography.body2,
+                color = Color.Red,
+                textAlign = TextAlign.Center
+            )
         }
     }
 }

@@ -42,7 +42,11 @@ fun MenuUsuario() {
                 },
                 onNavigateToEnviarVideo = {
                     println("Navegando a pantalla de envío de video")
-                    currentScreen = "enviar_video_screen" // Cambiamos a la pantalla de EnviarVideo
+                    currentScreen = "enviar_video_screen"
+                },
+                onNavigateToRecaudacion = {
+                    println("Navegando a la pantalla de recaudación")
+                    currentScreen = "recaudacion_screen"
                 }
             )
         }
@@ -52,9 +56,10 @@ fun MenuUsuario() {
         "ventana_fecha_hora" -> FechaHora(onBack = { currentScreen = "menu_usuario" })
         "tarifa_screen" -> TarifaScreen(onAceptarClick = { currentScreen = "menu_usuario" })
         "ficha_screen" -> FichaScreen(onClose = { currentScreen = "menu_usuario" })
-        "enviar_video_screen" -> EnviarVideo(onBack = {
+        "enviar_video_screen" -> EnviarVideo(onBack = { currentScreen = "menu_usuario" })
+        "recaudacion_screen" -> Recaudacion(onBack = {
             currentScreen = "menu_usuario"
-        }) // Agregamos el caso para EnviarVideo
+        }) // Pantalla recaudación
 
         else -> {
             Text(text = "Estado desconocido", color = Color.Red)
@@ -69,13 +74,14 @@ fun DisplayMenuUsuario(
     onNavigateToFechaHora: () -> Unit,
     onNavigateToTarifas: () -> Unit,
     onNavigateToFicha: () -> Unit,
-    onNavigateToEnviarVideo: () -> Unit // Agregamos este parámetro
+    onNavigateToEnviarVideo: () -> Unit,
+    onNavigateToRecaudacion: () -> Unit // Se agrega este parámetro para el botón "Recaudación"
 ) {
     var currentStep by remember { mutableStateOf(0) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
-            painter = painterResource(Res.drawable.fondo_de_pantalla), // Revisa que `Res.drawable` esté correctamente importado
+            painter = painterResource(Res.drawable.fondo_de_pantalla),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -126,7 +132,7 @@ fun DisplayMenuUsuario(
                         imagen = painterResource(Res.drawable.recaudacion),
                         texto = Localization.getString("recaudacion"),
                         color = Color.Blue,
-                        onClick = { /* Implementar la acción */ }
+                        onClick = onNavigateToRecaudacion // Aquí asignamos la acción de recaudación
                     )
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.tarifas),
