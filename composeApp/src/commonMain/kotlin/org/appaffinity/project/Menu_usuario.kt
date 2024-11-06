@@ -1,19 +1,16 @@
 package org.appaffinity.project
 
 import affinityapp.composeapp.generated.resources.*
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.*
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -44,34 +41,20 @@ fun MenuUsuario() {
                     currentScreen = "ficha_screen"
                 },
                 onNavigateToEnviarVideo = {
-                    println("Navegando a pantalla de seleccionar plataforma")
-                    currentScreen = "plataforma_selector"
+                    println("Navegando a pantalla de envío de video")
+                    currentScreen = "enviar_video_screen" // Cambiamos a la pantalla de EnviarVideo
                 }
             )
         }
-
-        "plataforma_selector" -> PlataformaSelector(
-            onPlatformSelected = { platform ->
-                when (platform) {
-                    "Windows" -> {
-                        currentScreen = "enviar_video_windows"
-                    }
-                    "Android" -> {
-                        currentScreen = "enviar_video_android"
-                    }
-                }
-            }
-        )
-
-        "enviar_video_windows" -> EnviarVideoWindows(onBack = { currentScreen = "menu_usuario" })
-
-        "enviar_video_android" -> EnviarVideoAndroid(onBack = { currentScreen = "menu_usuario" })
 
         "MenuTecnico" -> MenuTecnico(onBack = { currentScreen = "menu_usuario" })
         "idioma_screen" -> IdiomaScreen(onAceptarClick = { currentScreen = "menu_usuario" })
         "ventana_fecha_hora" -> FechaHora(onBack = { currentScreen = "menu_usuario" })
         "tarifa_screen" -> TarifaScreen(onAceptarClick = { currentScreen = "menu_usuario" })
         "ficha_screen" -> FichaScreen(onClose = { currentScreen = "menu_usuario" })
+        "enviar_video_screen" -> EnviarVideo(onBack = {
+            currentScreen = "menu_usuario"
+        }) // Agregamos el caso para EnviarVideo
 
         else -> {
             Text(text = "Estado desconocido", color = Color.Red)
@@ -86,13 +69,13 @@ fun DisplayMenuUsuario(
     onNavigateToFechaHora: () -> Unit,
     onNavigateToTarifas: () -> Unit,
     onNavigateToFicha: () -> Unit,
-    onNavigateToEnviarVideo: () -> Unit
+    onNavigateToEnviarVideo: () -> Unit // Agregamos este parámetro
 ) {
     var currentStep by remember { mutableStateOf(0) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
-            painter = painterResource(Res.drawable.fondo_de_pantalla),
+            painter = painterResource(Res.drawable.fondo_de_pantalla), // Revisa que `Res.drawable` esté correctamente importado
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
