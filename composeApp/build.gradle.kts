@@ -96,13 +96,15 @@ android {
         compose = true
     }
 
-compose.desktop {
-    application {
-        mainClass = "org.appaffinity.project.MainKt"
+    compose.desktop {
+        application {
+            mainClass = "org.appaffinity.project.MainKt"
 
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "compose.project.demo"
-            packageVersion = "1.0.0"
+            nativeDistributions {
+                targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+                packageName = "compose.project.demo"
+                packageVersion = "1.0.0"
+            }
         }
-    }}}
+    }
+}
