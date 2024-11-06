@@ -3,6 +3,7 @@ package org.appaffinity.project
 import affinityapp.composeapp.generated.resources.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
@@ -57,9 +58,7 @@ fun MenuUsuario() {
         "tarifa_screen" -> TarifaScreen(onAceptarClick = { currentScreen = "menu_usuario" })
         "ficha_screen" -> FichaScreen(onClose = { currentScreen = "menu_usuario" })
         "enviar_video_screen" -> EnviarVideo(onBack = { currentScreen = "menu_usuario" })
-        "recaudacion_screen" -> Recaudacion(onBack = {
-            currentScreen = "menu_usuario"
-        }) // Pantalla recaudación
+        "recaudacion_screen" -> Recaudacion(onBack = { currentScreen = "menu_usuario" })
 
         else -> {
             Text(text = "Estado desconocido", color = Color.Red)
@@ -75,7 +74,7 @@ fun DisplayMenuUsuario(
     onNavigateToTarifas: () -> Unit,
     onNavigateToFicha: () -> Unit,
     onNavigateToEnviarVideo: () -> Unit,
-    onNavigateToRecaudacion: () -> Unit // Se agrega este parámetro para el botón "Recaudación"
+    onNavigateToRecaudacion: () -> Unit
 ) {
     var currentStep by remember { mutableStateOf(0) }
 
@@ -110,7 +109,7 @@ fun DisplayMenuUsuario(
         ) {
             Text(
                 text = Localization.getString("menu_usuario"),
-                fontSize = 30.sp,
+                fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             )
@@ -132,7 +131,7 @@ fun DisplayMenuUsuario(
                         imagen = painterResource(Res.drawable.recaudacion),
                         texto = Localization.getString("recaudacion"),
                         color = Color.Blue,
-                        onClick = onNavigateToRecaudacion // Aquí asignamos la acción de recaudación
+                        onClick = onNavigateToRecaudacion
                     )
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.tarifas),
