@@ -23,6 +23,7 @@ fun Boton_Naranja(
         onClick = onClick,
         modifier = modifier.padding(8.dp),
         colors = ButtonDefaults.buttonColors(backgroundColor = Naranja) // Fondo color naranja
+
     ) {
         Text(text, color = Color.White) // Color del texto del botón
     }

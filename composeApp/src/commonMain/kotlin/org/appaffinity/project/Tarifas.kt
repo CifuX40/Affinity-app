@@ -169,8 +169,7 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
 
             Boton_Naranja(
                 onClick = onAceptarClick,
-                text = Localization.getString("regresar"),
-                modifier = Modifier.fillMaxWidth()
+                text = Localization.getString("regresar")
             )
         }
     }
