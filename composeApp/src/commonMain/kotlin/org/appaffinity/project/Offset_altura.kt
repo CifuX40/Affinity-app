@@ -19,7 +19,7 @@ fun OffsetAltura(onBack: () -> Unit) {
     var altura by remember { mutableStateOf("") }
     var calibrandoAltura by remember { mutableStateOf(false) }
     var mensajeAltura by remember { mutableStateOf("") }
-    var unidadAltura by remember { mutableStateOf("KG") } // Estado para la unidad seleccionada
+    var unidadAltura by remember { mutableStateOf("CM") } // Estado para la unidad seleccionada
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -38,13 +38,13 @@ fun OffsetAltura(onBack: () -> Unit) {
                 .background(Color.Transparent)
         ) {
             Text(
-                text = "Calibrar Peso",
+                text = "Calibrar Altura",
                 fontSize = 24.sp,
                 color = Color(0xFF009EE0)
             )
 
             Text(
-                text = "Depositar peso reconocido",
+                text = "Depositar offset altura",
                 fontSize = 16.sp,
                 color = Color(0xFF009EE0),
                 modifier = Modifier.padding(vertical = 8.dp)
@@ -123,7 +123,7 @@ fun OffsetAltura(onBack: () -> Unit) {
 @Composable
 fun CustomDropdownMenu(selectedUnit: String, onUnitSelected: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
-    val unidades = listOf("KG", "Libras")
+    val unidades = listOf("CM", "Pulgadas")
 
     Box {
         TextButton(onClick = { expanded = true }) {

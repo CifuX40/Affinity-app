@@ -164,10 +164,17 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
     var showCalibrarPeso by remember { mutableStateOf(false) } // Estado para mostrar la pantalla de calibración de peso
     var showErrorDialog by remember { mutableStateOf(false) } // Estado para mostrar el diálogo de error
     var showReiniciarDialog by remember { mutableStateOf(false) } // Estado para mostrar el diálogo de reinicio
+    var showOffsetAltura by remember { mutableStateOf(false) } // Estado para mostrar la pantalla de offset de altura
 
     // Si se está mostrando la pantalla de calibrar peso, reemplaza el contenido
     if (showCalibrarPeso) {
         CalibrarPeso(onBack = { showCalibrarPeso = false }) // Regresa desde calibración
+        return
+    }
+
+    // Si se está mostrando la pantalla de Offset Altura
+    if (showOffsetAltura) {
+        OffsetAltura(onBack = { showOffsetAltura = false }) // Regresa desde offset altura
         return
     }
 
@@ -229,7 +236,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                         imagen = painterResource(Res.drawable.offset_altura),
                         texto = "Offset altura",
                         color = AzulCian,
-                        onClick = {showOffsetAltura = true}
+                        onClick = { showOffsetAltura = true }
                     )
                 }
                 item {
@@ -295,7 +302,6 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
             Reiniciar(
                 onReiniciar = {
                     // Lógica para reiniciar el dispositivo
-                    // Aquí podrías agregar la lógica que desees para realizar el reinicio
                     showReiniciarDialog = false
                 },
                 onCancel = { showReiniciarDialog = false }
