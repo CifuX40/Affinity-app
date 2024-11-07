@@ -229,7 +229,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                         imagen = painterResource(Res.drawable.offset_altura),
                         texto = "Offset altura",
                         color = AzulCian,
-                        onClick = {}
+                        onClick = {showOffsetAltura = true}
                     )
                 }
                 item {
