@@ -18,11 +18,11 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun CalibrarPeso(onBack: () -> Unit) {
-    var peso by remember { mutableStateOf("") } // Variable que almacena el valor del peso ingresado por el usuario
-    var calibrando by remember { mutableStateOf(false) } // Indica si el proceso de calibración está en curso
-    var mensaje by remember { mutableStateOf("") } // Mensaje que muestra el estado de la calibración
+    var peso by remember { mutableStateOf("") }
+    var calibrando by remember { mutableStateOf(false) }
+    var mensaje by remember { mutableStateOf("") }
+    var unidad by remember { mutableStateOf("KG") } // Estado para la unidad seleccionada
 
-    // Diseño de la pantalla completa con imagen de fondo
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(Res.drawable.fondo_de_pantalla),
@@ -39,26 +39,34 @@ fun CalibrarPeso(onBack: () -> Unit) {
                 .padding(16.dp)
                 .background(Color.Transparent)
         ) {
-            // Título de la pantalla
             Text(
                 text = "Calibrar Peso",
                 fontSize = 24.sp,
                 color = Color(0xFF009EE0)
             )
 
-            // Mensaje que solicita el ingreso del peso
             Text(
-                text = "Depositar peso reconocido", // Mensaje agregado
+                text = "Depositar peso reconocido",
                 fontSize = 16.sp,
                 color = Color(0xFF009EE0),
-                modifier = Modifier.padding(vertical = 8.dp) // Espaciado vertical
+                modifier = Modifier.padding(vertical = 8.dp)
             )
 
-            // Campo de texto para que el usuario ingrese el valor del peso
+            // Desplegable para seleccionar la unidad de peso
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(bottom = 8.dp)
+            ) {
+                Text("Unidad:", color = Color(0xFF009EE0))
+                Spacer(modifier = Modifier.width(8.dp))
+                DropdownMenu(unidad) { unidad = it }
+            }
+
+            // Campo de texto para ingresar el peso
             BasicTextField(
                 value = peso,
                 onValueChange = {
-                    // Solo permitir caracteres numéricos
+                    // Almacena solo caracteres numéricos
                     if (it.all { char -> char.isDigit() }) {
                         peso = it
                     }
@@ -66,18 +74,22 @@ fun CalibrarPeso(onBack: () -> Unit) {
                 modifier = Modifier
                     .background(Color.LightGray)
                     .padding(8.dp)
-                    .fillMaxWidth()
+                    .width(200.dp)
             )
 
-            // Botón para iniciar el proceso de calibración
             Button(
                 onClick = {
-                    calibrando = true
-                    mensaje = "Calibrando..."
+                    if (peso.isBlank() || peso.toIntOrNull() == null) { // Verifica si no es un número
+                        mensaje = "Error de calibración: Ingrese un número válido"
+                    } else {
+                        calibrando = true
+                        mensaje = "Calibrando..."
+                    }
                 },
-                colors = ButtonDefaults.buttonColors(backgroundColor = Naranja)
+                colors = ButtonDefaults.buttonColors(backgroundColor = Naranja),
+                modifier = Modifier.padding(top = 16.dp)
             ) {
-                Text("Calibrar", color = Color.Black)
+                Text("Calibrar", color = Color.White)
             }
 
             LaunchedEffect(calibrando) {
@@ -88,27 +100,45 @@ fun CalibrarPeso(onBack: () -> Unit) {
                 }
             }
 
-            // Mostrar el estado de la calibración según el valor de `calibrando` y `mensaje`
             if (calibrando) {
-                Text(
-                    text = mensaje,
-                    color = Color(0xFF009EE0)
-                )
+                Text(text = mensaje, color = Color(0xFF009EE0))
             } else if (mensaje.isNotEmpty()) {
-                Text(
-                    text = mensaje,
-                    color = Color.Green
-                )
+                Text(text = mensaje, color = if (mensaje.contains("Error")) Color.Red else Color.Green)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Botón para volver a la pantalla anterior
             Button(
                 onClick = onBack,
                 colors = ButtonDefaults.buttonColors(backgroundColor = Naranja)
             ) {
                 Text("Volver", color = Color.White)
+            }
+        }
+    }
+}
+
+// Composable para el menú desplegable de selección de unidad
+@Composable
+fun DropdownMenu(selectedUnit: String, onUnitSelected: (String) -> Unit) {
+    var expanded by remember { mutableStateOf(false) }
+    val unidades = listOf("KG", "Libras")
+
+    Box {
+        TextButton(onClick = { expanded = true }) {
+            Text(selectedUnit, color = Color(0xFF009EE0))
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            unidades.forEach { unidad ->
+                DropdownMenuItem(onClick = {
+                    onUnitSelected(unidad)
+                    expanded = false
+                }) {
+                    Text(unidad)
+                }
             }
         }
     }
