@@ -58,6 +58,7 @@ fun MenuUsuario() {
         "ficha_screen" -> FichaScreen(onClose = { currentScreen = "menu_usuario" })
         "enviar_video_screen" -> EnviarVideo(onBack = { currentScreen = "menu_usuario" })
         "recaudacion_screen" -> Recaudacion(onBack = { currentScreen = "menu_usuario" })
+        "OffsetAltura" -> OffsetAltura(onBack = { currentScreen = "menu_usuario" })
 
         else -> {
             Text(text = "Estado desconocido", color = Color.Red)

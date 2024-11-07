@@ -227,7 +227,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                 item {
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.offset_altura),
-                        texto = "Configurar altura",
+                        texto = "Offset altura",
                         color = AzulCian,
                         onClick = {}
                     )
@@ -235,7 +235,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                 item {
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.offset_peso),
-                        texto = "Configurar peso",
+                        texto = "Offset peso",
                         color = AzulCian,
                         onClick = {}
                     )

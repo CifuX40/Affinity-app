@@ -1,6 +1,5 @@
 package org.appaffinity.project
 
-import affinityapp.composeapp.generated.resources.Res
 import affinityapp.composeapp.generated.resources.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,11 +15,11 @@ import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun CalibrarPeso(onBack: () -> Unit) {
-    var peso by remember { mutableStateOf("") }
-    var calibrando by remember { mutableStateOf(false) }
-    var mensaje by remember { mutableStateOf("") }
-    var unidad by remember { mutableStateOf("KG") }
+fun OffsetAltura(onBack: () -> Unit) {
+    var altura by remember { mutableStateOf("") }
+    var calibrandoAltura by remember { mutableStateOf(false) }
+    var mensajeAltura by remember { mutableStateOf("") }
+    var unidadAltura by remember { mutableStateOf("KG") } // Estado para la unidad seleccionada
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -58,16 +57,16 @@ fun CalibrarPeso(onBack: () -> Unit) {
             ) {
                 Text("Unidad:", color = Color(0xFF009EE0))
                 Spacer(modifier = Modifier.width(8.dp))
-                DropdownMenu(unidad) { unidad = it }
+                CustomDropdownMenu(selectedUnit = unidadAltura) { unidadAltura = it }
             }
 
             // Campo de texto para ingresar el peso
             BasicTextField(
-                value = peso,
+                value = altura,
                 onValueChange = {
                     // Almacena solo caracteres numéricos
                     if (it.all { char -> char.isDigit() }) {
-                        peso = it
+                        altura = it
                     }
                 },
                 modifier = Modifier
@@ -78,11 +77,11 @@ fun CalibrarPeso(onBack: () -> Unit) {
 
             Button(
                 onClick = {
-                    if (peso.isBlank() || peso.toIntOrNull() == null) { // Verifica si no es un número
-                        mensaje = "Error de calibración: Ingrese un número válido"
+                    if (altura.isBlank() || altura.toIntOrNull() == null) { // Verifica si no es un número
+                        mensajeAltura = "Error de calibración: Ingrese un número válido"
                     } else {
-                        calibrando = true
-                        mensaje = "Calibrando..."
+                        calibrandoAltura = true
+                        mensajeAltura = "Calibrando..."
                     }
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Naranja),
@@ -91,20 +90,20 @@ fun CalibrarPeso(onBack: () -> Unit) {
                 Text("Calibrar", color = Color.White)
             }
 
-            LaunchedEffect(calibrando) {
-                if (calibrando) {
+            LaunchedEffect(calibrandoAltura) {
+                if (calibrandoAltura) {
                     delay(5000)
-                    mensaje = "Calibración completada"
-                    calibrando = false
+                    mensajeAltura = "Calibración completada"
+                    calibrandoAltura = false
                 }
             }
 
-            if (calibrando) {
-                Text(text = mensaje, color = Color(0xFF009EE0))
-            } else if (mensaje.isNotEmpty()) {
+            if (calibrandoAltura) {
+                Text(text = mensajeAltura, color = Color(0xFF009EE0))
+            } else if (mensajeAltura.isNotEmpty()) {
                 Text(
-                    text = mensaje,
-                    color = if (mensaje.contains("Error")) Color.Red else Color.Green
+                    text = mensajeAltura,
+                    color = if (mensajeAltura.contains("Error")) Color.Red else Color.Green
                 )
             }
 
@@ -112,7 +111,7 @@ fun CalibrarPeso(onBack: () -> Unit) {
 
             Button(
                 onClick = onBack,
-                colors = ButtonDefaults.buttonColors(backgroundColor = Naranja)
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFFFA500))
             ) {
                 Text("Volver", color = Color.White)
             }
@@ -120,9 +119,9 @@ fun CalibrarPeso(onBack: () -> Unit) {
     }
 }
 
-// Composable para el menú desplegable de selección de unidad
+// Composable personalizado para el menú desplegable de selección de unidad
 @Composable
-fun DropdownMenu(selectedUnit: String, onUnitSelected: (String) -> Unit) {
+fun CustomDropdownMenu(selectedUnit: String, onUnitSelected: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     val unidades = listOf("KG", "Libras")
 
