@@ -47,10 +47,6 @@ fun MenuUsuario() {
                 onNavigateToRecaudacion = {
                     println("Navegando a la pantalla de recaudación")
                     currentScreen = "recaudacion_screen"
-                },
-                onNavigateToOffsetAltura = {
-                    println("Navegando a la pantalla de OffsetAltura")
-                    currentScreen = "OffsetAltura"
                 }
             )
         }
@@ -78,8 +74,7 @@ fun DisplayMenuUsuario(
     onNavigateToTarifas: () -> Unit,
     onNavigateToFicha: () -> Unit,
     onNavigateToEnviarVideo: () -> Unit,
-    onNavigateToRecaudacion: () -> Unit,
-    onNavigateToOffsetAltura: () -> Unit
+    onNavigateToRecaudacion: () -> Unit
 ) {
     var currentStep by remember { mutableStateOf(0) }
 

@@ -19,7 +19,7 @@ fun Boton_Naranja(
     text: String,
     modifier: Modifier = Modifier
 ) {
-    androidx.compose.material.Button(
+    Button(
         onClick = onClick,
         modifier = modifier.padding(8.dp),
         colors = ButtonDefaults.buttonColors(backgroundColor = Naranja) // Fondo color naranja
