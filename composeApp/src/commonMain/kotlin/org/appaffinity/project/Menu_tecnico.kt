@@ -1,20 +1,17 @@
 package org.appaffinity.project
 
 import affinityapp.composeapp.generated.resources.*
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.*
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.layout.*
+import androidx.compose.ui.text.font.*
 import androidx.compose.ui.unit.*
-import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.*
 
 @Composable
 fun MenuTecnico(onBack: () -> Unit) {
@@ -26,8 +23,10 @@ fun MenuTecnico(onBack: () -> Unit) {
     } else {
         // Solicita la contraseña antes de acceder al menú técnico
         SolicitarContrasena(
-            onAccesoPermitido = { accesoPermitido = true }, // Permite el acceso si la contraseña es correcta
-            onBack = onBack // Permite volver a la pantalla anterior
+            onAccesoPermitido = {
+                accesoPermitido = true
+            }, // Permite el acceso si la contraseña es correcta
+            onBack = onBack
         )
     }
 }
@@ -44,7 +43,6 @@ fun SolicitarContrasena(onAccesoPermitido: () -> Unit, onBack: () -> Unit) {
             .background(Blanco),
         contentAlignment = Alignment.Center
     ) {
-        // Imagen de fondo
         Image(
             painter = painterResource(Res.drawable.fondo_de_pantalla),
             contentDescription = "Fondo de Pantalla",
@@ -58,7 +56,6 @@ fun SolicitarContrasena(onAccesoPermitido: () -> Unit, onBack: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.padding(16.dp)
         ) {
-            // Título de la pantalla
             Text(
                 text = "Introduce la contraseña",
                 style = MaterialTheme.typography.h4,
@@ -84,9 +81,9 @@ fun SolicitarContrasena(onAccesoPermitido: () -> Unit, onBack: () -> Unit) {
                     // Verifica si la contraseña es correcta
                     if (contrasena.length == 4) {
                         if (contrasena == "9876") {
-                            mostrarError = false // No hay error
+                            mostrarError = false
                             contrasena = ""
-                            onAccesoPermitido() // Permite el acceso
+                            onAccesoPermitido()
                         } else {
                             mostrarError = true // Muestra error si es incorrecta
                             contrasena = "" // Resetea la contraseña
@@ -97,8 +94,6 @@ fun SolicitarContrasena(onAccesoPermitido: () -> Unit, onBack: () -> Unit) {
             )
 
             Spacer(modifier = Modifier.height(16.dp))
-
-            // Botón para volver a la pantalla de usuario
             Boton_Naranja(onClick = onBack, text = "Volver a Usuario")
 
             // Muestra un mensaje de error si la contraseña es incorrecta
@@ -123,13 +118,12 @@ fun TecladoNumerico(onNumeroClick: (String) -> Unit, onBorrarClick: () -> Unit) 
         modifier = Modifier.fillMaxWidth()
     ) {
         val filas = listOf(
-            listOf("1", "2", "3"), // Primera fila de números
-            listOf("4", "5", "6"), // Segunda fila
-            listOf("7", "8", "9"), // Tercera fila
-            listOf("Borrar", "0") // Cuarta fila con botón de borrar y el número 0
+            listOf("1", "2", "3"),
+            listOf("4", "5", "6"),
+            listOf("7", "8", "9"),
+            listOf("Borrar", "0")
         )
 
-        // Para cada fila, crea un conjunto de botones
         for (fila in filas) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -138,14 +132,12 @@ fun TecladoNumerico(onNumeroClick: (String) -> Unit, onBorrarClick: () -> Unit) 
             ) {
                 for (item in fila) {
                     if (item == "Borrar") {
-                        // Botón de borrar
                         Boton_Naranja(
                             onClick = onBorrarClick,
                             text = item,
                             modifier = Modifier.weight(1f)
                         )
                     } else {
-                        // Botones numéricos
                         Boton_Naranja(
                             onClick = { onNumeroClick(item) },
                             text = item,
@@ -158,41 +150,32 @@ fun TecladoNumerico(onNumeroClick: (String) -> Unit, onBorrarClick: () -> Unit) 
     }
 }
 
-// Composable que representa la pantalla del menú técnico
 @Composable
 fun TecnicoScreen(onUsuarioClick: () -> Unit) {
-    var showCalibrarPeso by remember { mutableStateOf(false) } // Estado para mostrar la pantalla de calibración de peso
-    var showErrorDialog by remember { mutableStateOf(false) } // Estado para mostrar el diálogo de error
-    var showReiniciarDialog by remember { mutableStateOf(false) } // Estado para mostrar el diálogo de reinicio
-    var showOffsetAltura by remember { mutableStateOf(false) } // Estado para mostrar la pantalla de offset de altura
+    var showCalibrarPeso by remember { mutableStateOf(false) }
+    var showErrorDialog by remember { mutableStateOf(false) }
+    var showReiniciarDialog by remember { mutableStateOf(false) }
+    var showOffsetAltura by remember { mutableStateOf(false) }
 
-    // Si se está mostrando la pantalla de calibrar peso, reemplaza el contenido
     if (showCalibrarPeso) {
-        CalibrarPeso(onBack = { showCalibrarPeso = false }) // Regresa desde calibración
+        CalibrarPeso(onBack = { showCalibrarPeso = false })
         return
     }
-
-    // Si se está mostrando la pantalla de Offset Altura
     if (showOffsetAltura) {
-        OffsetAltura(onBack = { showOffsetAltura = false }) // Regresa desde offset altura
+        OffsetAltura(onBack = { showOffsetAltura = false })
         return
     }
-
-    // Diseño de la pantalla principal del menú técnico
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Blanco)
     ) {
-        // Imagen de fondo
         Image(
             painter = painterResource(Res.drawable.fondo_de_pantalla),
             contentDescription = "Fondo de Pantalla",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
-
-        // Columna con los botones de menú técnico
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -200,7 +183,6 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Título del menú técnico
             Text(
                 text = "Menu Técnico",
                 style = MaterialTheme.typography.h4,
@@ -214,7 +196,6 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                // Botones de menú técnico
                 item {
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.calibrar_peso),
@@ -271,7 +252,6 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                         onClick = { showReiniciarDialog = true }
                     )
                 }
-                // Botón de regreso a la pantalla de usuario
                 item {
                     BotonConImagenCustom(
                         imagen = painterResource(Res.drawable.usuario),
@@ -282,8 +262,6 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                 }
             }
         }
-
-        // Diálogo que muestra un mensaje de error
         if (showErrorDialog) {
             AlertDialog(
                 onDismissRequest = { showErrorDialog = false },
@@ -296,12 +274,9 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                 }
             )
         }
-
-        // Diálogo de reinicio
         if (showReiniciarDialog) {
             Reiniciar(
                 onReiniciar = {
-                    // Lógica para reiniciar el dispositivo
                     showReiniciarDialog = false
                 },
                 onCancel = { showReiniciarDialog = false }

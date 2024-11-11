@@ -1,7 +1,7 @@
 package org.appaffinity.project
 
 import affinityapp.composeapp.generated.resources.*
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -13,7 +13,7 @@ import kotlinx.coroutines.*
 import org.jetbrains.compose.resources.*
 import java.awt.*
 import java.io.*
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.*
 import javax.swing.*
 
 @Composable

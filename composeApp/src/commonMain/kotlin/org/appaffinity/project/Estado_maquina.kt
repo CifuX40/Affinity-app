@@ -6,11 +6,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.*
 import androidx.compose.ui.unit.*
-import androidx.compose.ui.graphics.*
-import kotlinx.coroutines.delay
-import org.jetbrains.compose.resources.painterResource
+import kotlinx.coroutines.*
+import org.jetbrains.compose.resources.*
 
 @Composable
 fun EstadoMaquina(onButtonClick: () -> Unit) {
@@ -35,39 +35,39 @@ fun EstadoMaquina(onButtonClick: () -> Unit) {
                 .fillMaxSize()
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center // Centrar verticalmente
+            verticalArrangement = Arrangement.Center
         ) {
             // Mostrar todos los textos como etiquetas
             for ((index, mensaje) in mensajes.withIndex()) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween // Espaciado entre el texto y "Ok"
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
                         text = mensaje,
                         fontSize = 30.sp,
-                        color = Color.Black // Cambiar a negro directamente
+                        color = Color.Black
                     )
                     // Mostrar "Ok" solo si no es el último mensaje
                     if (index < mensajes.size - 1) {
                         Text(
                             text = "Ok",
                             fontSize = 30.sp,
-                            color = Color.Black // Cambiar a negro directamente
+                            color = Color.Black
                         )
                     }
                 }
-                Spacer(modifier = Modifier.height(8.dp)) // Espacio entre las etiquetas
+                Spacer(modifier = Modifier.height(8.dp))
             }
 
             // Mostrar el botón solo si el último mensaje es "Proceso completado."
             if (mensajes.last() == Localization.getString("Proceso completado.")) {
-                Spacer(modifier = Modifier.height(16.dp)) // Espacio antes del botón
+                Spacer(modifier = Modifier.height(16.dp))
                 Button(
                     onClick = onButtonClick,
-                    modifier = Modifier.align(Alignment.CenterHorizontally) // Centrar el botón
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {
-                    Text("Continuar") // Texto del botón
+                    Text("Continuar")
                 }
             }
         }
@@ -81,7 +81,7 @@ fun EstadoMaquina(onButtonClick: () -> Unit) {
             delay(4000)
             mensajes.add(Localization.getString("Conectando peso..."))
             delay(4000)
-            mensajes.add(Localization.getString("Proceso completado.")) // No tendrá "Ok"
+            mensajes.add(Localization.getString("Proceso completado."))
         }
     }
 }

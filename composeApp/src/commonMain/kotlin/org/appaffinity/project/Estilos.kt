@@ -1,10 +1,10 @@
 package org.appaffinity.project
 
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.*
 
 // Definición de colores
@@ -17,7 +17,7 @@ val Naranja = Color(0xFFF5B130)
 fun Boton_Naranja(
     onClick: () -> Unit,
     text: String,
-    modifier: Modifier = Modifier // Permite modificar el botón si es necesario
+    modifier: Modifier = Modifier
 ) {
     androidx.compose.material.Button(
         onClick = onClick,
@@ -25,6 +25,6 @@ fun Boton_Naranja(
         colors = ButtonDefaults.buttonColors(backgroundColor = Naranja) // Fondo color naranja
 
     ) {
-        Text(text, color = Color.White) // Color del texto del botón
+        Text(text, color = Color.White)
     }
 }

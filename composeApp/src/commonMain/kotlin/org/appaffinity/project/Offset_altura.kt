@@ -1,25 +1,24 @@
 package org.appaffinity.project
 
 import affinityapp.composeapp.generated.resources.*
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.layout.*
 import androidx.compose.ui.unit.*
 import kotlinx.coroutines.delay
-import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.*
 
 @Composable
 fun OffsetAltura(onBack: () -> Unit) {
     var altura by remember { mutableStateOf("") }
     var calibrandoAltura by remember { mutableStateOf(false) }
     var mensajeAltura by remember { mutableStateOf("") }
-    var unidadAltura by remember { mutableStateOf("CM") } // Estado para la unidad seleccionada
+    var unidadAltura by remember { mutableStateOf("CM") }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -59,8 +58,6 @@ fun OffsetAltura(onBack: () -> Unit) {
                 Spacer(modifier = Modifier.width(8.dp))
                 CustomDropdownMenu(selectedUnit = unidadAltura) { unidadAltura = it }
             }
-
-            // Campo de texto para ingresar el peso
             BasicTextField(
                 value = altura,
                 onValueChange = {

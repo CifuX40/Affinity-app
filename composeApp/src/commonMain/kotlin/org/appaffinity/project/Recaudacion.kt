@@ -1,18 +1,17 @@
 package org.appaffinity.project
 
 import affinityapp.composeapp.generated.resources.*
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.*
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.layout.*
+import androidx.compose.ui.text.font.*
 import androidx.compose.ui.unit.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import org.jetbrains.compose.resources.painterResource
-import kotlin.random.Random
+import org.jetbrains.compose.resources.*
+import kotlin.random.*
 
 @Composable
 fun Recaudacion(onBack: () -> Unit) {
@@ -42,7 +41,6 @@ fun Recaudacion(onBack: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Título
             Text(
                 text = "Recaudación de servicios",
                 fontSize = 24.sp,

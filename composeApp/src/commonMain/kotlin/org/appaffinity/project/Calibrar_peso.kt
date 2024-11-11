@@ -1,19 +1,17 @@
 package org.appaffinity.project
 
-import affinityapp.composeapp.generated.resources.Res
 import affinityapp.composeapp.generated.resources.*
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.layout.*
 import androidx.compose.ui.unit.*
-import kotlinx.coroutines.delay
-import org.jetbrains.compose.resources.painterResource
+import kotlinx.coroutines.*
+import org.jetbrains.compose.resources.*
 
 @Composable
 fun CalibrarPeso(onBack: () -> Unit) {

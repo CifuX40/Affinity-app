@@ -9,10 +9,9 @@ import androidx.compose.ui.*
 import androidx.compose.ui.layout.*
 import androidx.compose.ui.text.font.*
 import androidx.compose.ui.unit.*
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.encodeToString
-import org.jetbrains.compose.resources.painterResource
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
+import org.jetbrains.compose.resources.*
 import java.io.File
 
 // Marca la clase Tarifa como serializable

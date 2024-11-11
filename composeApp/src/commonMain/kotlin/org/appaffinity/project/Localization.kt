@@ -1,8 +1,6 @@
 package org.appaffinity.project
 
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 
 object Localization {
     private val strings = mapOf(

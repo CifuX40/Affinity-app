@@ -1,19 +1,16 @@
 package org.appaffinity.project
 
 import affinityapp.composeapp.generated.resources.*
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.*
+import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import org.jetbrains.compose.resources.painterResource
+import androidx.compose.ui.*
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.layout.*
 import androidx.compose.ui.unit.*
+import org.jetbrains.compose.resources.*
 
 // Pantalla que permite al usuario seleccionar entre varias opciones y muestra un diálogo de confirmación cuando se selecciona una opción.
 @Composable
@@ -55,7 +52,7 @@ fun FichaScreen(onClose: () -> Unit) {
     }
 
     Box(
-        modifier = Modifier.fillMaxSize() // Box completamente transparente, no se agrega fondo
+        modifier = Modifier.fillMaxSize()
     ) {
         Image(
             painter = painterResource(Res.drawable.fondo_de_pantalla),
@@ -68,7 +65,7 @@ fun FichaScreen(onClose: () -> Unit) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                .background(Color.Transparent, shape = RoundedCornerShape(10.dp)), // Fondo transparente
+                .background(Color.Transparent, shape = RoundedCornerShape(10.dp)),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -80,7 +77,6 @@ fun FichaScreen(onClose: () -> Unit) {
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Usa Boton_Naranja para todos los botones
             Boton_Naranja(
                 onClick = {
                     selectedOption = Localization.getString("fichas_farmaceuticas")
