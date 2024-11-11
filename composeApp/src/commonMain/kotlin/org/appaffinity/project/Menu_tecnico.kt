@@ -156,6 +156,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
     var showErrorDialog by remember { mutableStateOf(false) }
     var showReiniciarDialog by remember { mutableStateOf(false) }
     var showOffsetAltura by remember { mutableStateOf(false) }
+    var showOffsetPeso by remember { mutableStateOf(false) } // Nueva variable para el botón de "Offset peso"
 
     if (showCalibrarPeso) {
         CalibrarPeso(onBack = { showCalibrarPeso = false })
@@ -163,6 +164,10 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
     }
     if (showOffsetAltura) {
         OffsetAltura(onBack = { showOffsetAltura = false })
+        return
+    }
+    if (showOffsetPeso) {
+        OffsetPeso(onBack = { showOffsetPeso = false }) // Navegar a la pantalla OffsetPeso
         return
     }
     Box(
@@ -225,7 +230,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                         imagen = painterResource(Res.drawable.offset_peso),
                         texto = "Offset peso",
                         color = AzulCian,
-                        onClick = {}
+                        onClick = { showOffsetPeso = true } // Activar la pantalla de OffsetPeso
                     )
                 }
                 item {
@@ -272,14 +277,6 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                         Text("Aceptar")
                     }
                 }
-            )
-        }
-        if (showReiniciarDialog) {
-            Reiniciar(
-                onReiniciar = {
-                    showReiniciarDialog = false
-                },
-                onCancel = { showReiniciarDialog = false }
             )
         }
     }

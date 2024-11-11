@@ -81,7 +81,7 @@ fun OffsetAltura(onBack: () -> Unit) {
                         mensajeAltura = "Calibrando..."
                     }
                 },
-                colors = ButtonDefaults.buttonColors(backgroundColor = Naranja),
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFFFA500)), // Color definido directamente
                 modifier = Modifier.padding(top = 16.dp)
             ) {
                 Text("Calibrar", color = Color.White)
@@ -108,7 +108,7 @@ fun OffsetAltura(onBack: () -> Unit) {
 
             Button(
                 onClick = onBack,
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFFFA500))
+                colors = ButtonDefaults.buttonColors(backgroundColor = Naranja)
             ) {
                 Text("Volver", color = Color.White)
             }
