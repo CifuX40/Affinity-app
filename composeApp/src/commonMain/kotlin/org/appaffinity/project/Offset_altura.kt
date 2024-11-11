@@ -19,6 +19,8 @@ fun OffsetAltura(onBack: () -> Unit) {
     var calibrandoAltura by remember { mutableStateOf(false) }
     var mensajeAltura by remember { mutableStateOf("") }
     var unidadAltura by remember { mutableStateOf("CM") }
+    var expanded by remember { mutableStateOf(false) }  // Control del menú desplegable
+    val unidades = listOf("CM", "Pulgadas")
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -49,15 +51,34 @@ fun OffsetAltura(onBack: () -> Unit) {
                 modifier = Modifier.padding(vertical = 8.dp)
             )
 
-            // Desplegable para seleccionar la unidad de peso
+            // Desplegable para seleccionar la unidad de altura
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(bottom = 8.dp)
             ) {
                 Text("Unidad:", color = Color(0xFF009EE0))
                 Spacer(modifier = Modifier.width(8.dp))
-                CustomDropdownMenu(selectedUnit = unidadAltura) { unidadAltura = it }
+                TextButton(onClick = { expanded = true }) {
+                    Text(unidadAltura, color = Color(0xFF009EE0))
+                }
+
+                // Usamos el DropdownMenu directamente
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    unidades.forEach { unidad ->
+                        DropdownMenuItem(onClick = {
+                            unidadAltura = unidad  // Actualiza la unidad seleccionada
+                            expanded = false  // Cierra el menú desplegable
+                        }) {
+                            Text(unidad)
+                        }
+                    }
+                }
             }
+
+            // Campo de texto para ingresar la altura
             BasicTextField(
                 value = altura,
                 onValueChange = {
@@ -72,6 +93,7 @@ fun OffsetAltura(onBack: () -> Unit) {
                     .width(200.dp)
             )
 
+            // Botón para iniciar la calibración
             Button(
                 onClick = {
                     if (altura.isBlank() || altura.toIntOrNull() == null) { // Verifica si no es un número
@@ -81,7 +103,7 @@ fun OffsetAltura(onBack: () -> Unit) {
                         mensajeAltura = "Calibrando..."
                     }
                 },
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFFFA500)), // Color definido directamente
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFFFA500)),
                 modifier = Modifier.padding(top = 16.dp)
             ) {
                 Text("Calibrar", color = Color.White)
@@ -111,32 +133,6 @@ fun OffsetAltura(onBack: () -> Unit) {
                 colors = ButtonDefaults.buttonColors(backgroundColor = Naranja)
             ) {
                 Text("Volver", color = Color.White)
-            }
-        }
-    }
-}
-
-// Composable personalizado para el menú desplegable de selección de unidad
-@Composable
-fun CustomDropdownMenu(selectedUnit: String, onUnitSelected: (String) -> Unit) {
-    var expanded by remember { mutableStateOf(false) }
-    val unidades = listOf("CM", "Pulgadas")
-
-    Box {
-        TextButton(onClick = { expanded = true }) {
-            Text(selectedUnit, color = Color(0xFF009EE0))
-        }
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            unidades.forEach { unidad ->
-                DropdownMenuItem(onClick = {
-                    onUnitSelected(unidad)
-                    expanded = false
-                }) {
-                    Text(unidad)
-                }
             }
         }
     }
