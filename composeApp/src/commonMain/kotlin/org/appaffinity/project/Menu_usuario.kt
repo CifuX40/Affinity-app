@@ -59,6 +59,7 @@ fun MenuUsuario() {
         "enviar_video_screen" -> EnviarVideo(onBack = { currentScreen = "menu_usuario" })
         "recaudacion_screen" -> Recaudacion(onBack = { currentScreen = "menu_usuario" })
         "OffsetAltura" -> OffsetAltura(onBack = { currentScreen = "menu_usuario" })
+        "Modo_pruebas" -> ModoPruebas(onBack = { currentScreen = "menu_usuario" })
 
         else -> {
             Text(text = "Estado desconocido", color = Color.Red)

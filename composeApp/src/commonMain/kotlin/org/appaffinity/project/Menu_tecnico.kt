@@ -156,7 +156,8 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
     var showErrorDialog by remember { mutableStateOf(false) }
     var showReiniciarDialog by remember { mutableStateOf(false) }
     var showOffsetAltura by remember { mutableStateOf(false) }
-    var showOffsetPeso by remember { mutableStateOf(false) } // Nueva variable para el botón de "Offset peso"
+    var showOffsetPeso by remember { mutableStateOf(false) }
+    var showModoPrueba by remember { mutableStateOf(false) } // Nueva variable para "Modo pruebas"
 
     if (showCalibrarPeso) {
         CalibrarPeso(onBack = { showCalibrarPeso = false })
@@ -168,6 +169,10 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
     }
     if (showOffsetPeso) {
         OffsetPeso(onBack = { showOffsetPeso = false }) // Navegar a la pantalla OffsetPeso
+        return
+    }
+    if (showModoPrueba) {
+        ModoPruebas(onBack = { showModoPrueba = false }) // Navegar a la pantalla ModoPruebas
         return
     }
     Box(
@@ -238,7 +243,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                         imagen = painterResource(Res.drawable.modo_pruebas),
                         texto = "Modo pruebas",
                         color = AzulCian,
-                        onClick = {}
+                        onClick = { showModoPrueba = true } // Activar la pantalla de ModoPruebas
                     )
                 }
                 item {

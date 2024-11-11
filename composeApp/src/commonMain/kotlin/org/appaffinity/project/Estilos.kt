@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.*
 
 // Definición de colores
-val Negro = Color(0xFF1A171B)
+val Negro = Color(0xFF000000)
 val AzulCian = Color(0xFF009EE0)
 val Blanco = Color(0xFFFFFFFF)
 val Naranja = Color(0xFFF5B130)
