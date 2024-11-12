@@ -20,7 +20,7 @@ import java.io.File
 data class Medidas(val centimetros: Int, val kilogramos: Int, val tension: Int)
 
 // Nombre del archivo JSON
-const val ARCHIVO_MEDIDAS = "Modo_pruebas.json" // Renombré la constante para evitar conflictos
+const val ARCHIVO_MEDIDAS = "Modo_pruebas.json"
 
 // Función para guardar las medidas en el archivo JSON
 fun guardarMedidas(medidas: Medidas) {
@@ -72,17 +72,31 @@ fun mostrarNotificacionWindows(mensaje: String) {
 @Composable
 fun Modo_Pruebas(onAceptarClick: () -> Unit) {
     var centimetros by remember { mutableStateOf("") }
-    var kilogramos by remember { mutableStateOf("") } // Cambié gramos a kilogramos
+    var kilogramos by remember { mutableStateOf("") }
     var tension by remember { mutableStateOf("") }
     var medidasGuardadas by remember { mutableStateOf<Medidas?>(null) }
+    var resultado by remember { mutableStateOf("") }
 
     // Cargar los datos al iniciar la pantalla
     LaunchedEffect(Unit) {
         medidasGuardadas = cargarMedidas()
         medidasGuardadas?.let {
             centimetros = it.centimetros.toString()
-            kilogramos = it.kilogramos.toString() // Ahora se carga kilogramos
+            kilogramos = it.kilogramos.toString()
             tension = it.tension.toString()
+        }
+    }
+
+    // Función para comparar las medidas con una tolerancia pequeña
+    fun compararMedidas(medidas: Medidas, medidasGuardadas: Medidas): String {
+        val diferenciaCentimetros = Math.abs(medidas.centimetros - medidasGuardadas.centimetros)
+        val diferenciaKilogramos = Math.abs(medidas.kilogramos - medidasGuardadas.kilogramos)
+        val diferenciaTension = Math.abs(medidas.tension - medidasGuardadas.tension)
+
+        return if (diferenciaCentimetros <= 5 && diferenciaKilogramos <= 2 && diferenciaTension <= 2) {
+            "OK"
+        } else {
+            "ERROR"
         }
     }
 
@@ -158,22 +172,30 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
             Button(
                 onClick = {
                     if (centimetros.isNotEmpty() && kilogramos.isNotEmpty() && tension.isNotEmpty()) {
-                        val medidas = Medidas(
+                        val medidasIngresadas = Medidas(
                             centimetros = centimetros.toInt(),
-                            kilogramos = kilogramos.toInt(), // Cambié gramos a kilogramos
+                            kilogramos = kilogramos.toInt(),
                             tension = tension.toInt()
                         )
-                        medidasGuardadas = medidas
-                        guardarMedidas(medidas)
-                        mostrarNotificacionWindows("Medidas guardadas exitosamente.")
+                        medidasGuardadas?.let { medidas ->
+                            resultado = compararMedidas(medidasIngresadas, medidas)
+                        }
                     } else {
                         mostrarNotificacionWindows("Por favor, completa todos los campos.")
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = "Guardar")
+                Text(text = "Comparar")
             }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = resultado,
+                fontSize = 20.sp,
+                color = if (resultado == "OK") Color.Green else Color.Red
+            )
 
             Spacer(modifier = Modifier.height(8.dp))
 
