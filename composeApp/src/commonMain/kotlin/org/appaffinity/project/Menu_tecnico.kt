@@ -168,11 +168,11 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
         return
     }
     if (showOffsetPeso) {
-        OffsetPeso(onBack = { showOffsetPeso = false }) // Navegar a la pantalla OffsetPeso
+        OffsetPeso(onBack = { showOffsetPeso = false })
         return
     }
     if (showModoPrueba) {
-        ModoPruebas(onBack = { showModoPrueba = false }) // Navegar a la pantalla ModoPruebas
+        Modo_Pruebas(onBack = { showModoPrueba = false })
         return
     }
     Box(

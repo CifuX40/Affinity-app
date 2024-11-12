@@ -1,22 +1,28 @@
 package org.appaffinity.project
 
-import affinityapp.composeapp.generated.resources.*
+import affinityapp.composeapp.generated.resources.Res
+import affinityapp.composeapp.generated.resources.fondo_de_pantalla
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
-import androidx.compose.ui.layout.*
-import androidx.compose.ui.text.font.*
-import androidx.compose.ui.unit.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 import org.jetbrains.compose.resources.*
-import java.io.File
 import java.io.IOException
 import kotlin.math.*
 
-// Definición de la estructura del JSON
+@Serializable
+data class ModoPruebas(val peso: String, val altura: String, val tension: String)
+
+// Nombre del archivo JSON
+const val NOMBRE_ARCHIVO = "Modo_pruebas.json"
+
 @Serializable
 data class Medidas(
     val centimetros: Int,
@@ -25,7 +31,7 @@ data class Medidas(
 )
 
 @Composable
-fun ModoPruebas(onBack: () -> Unit) {
+fun Modo_Pruebas(onBack: () -> Unit) {
     // Estados para los valores ingresados y los mensajes de resultado o error
     var inputCentimetros by remember { mutableStateOf("") }
     var inputGramos by remember { mutableStateOf("") }
@@ -35,7 +41,7 @@ fun ModoPruebas(onBack: () -> Unit) {
 
     // Intentar cargar datos del archivo JSON
     val medidasJson = try {
-        loadMedidasFromJson("org/appaffinity/project/Modo_pruebas.json")
+        loadMedidasFromJson("/$NOMBRE_ARCHIVO")
     } catch (e: IOException) {
         errorMessage = "Error al cargar datos de prueba: archivo no encontrado o inválido"
         null
@@ -47,13 +53,12 @@ fun ModoPruebas(onBack: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Blanco),
+            .background(Color.White),
         contentAlignment = Alignment.Center
     ) {
-        // Fondo de pantalla
         Image(
             painter = painterResource(Res.drawable.fondo_de_pantalla),
-            contentDescription = "Fondo de Pantalla",
+            contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
@@ -67,7 +72,7 @@ fun ModoPruebas(onBack: () -> Unit) {
             Text(
                 text = "Modo Pruebas",
                 style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.Bold),
-                color = Negro
+                color = Color.Black
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -75,36 +80,36 @@ fun ModoPruebas(onBack: () -> Unit) {
             // Campos de entrada para los valores de medidas
             OutlinedTextField(
                 value = inputCentimetros,
-                onValueChange = { inputCentimetros = it },
+                onValueChange = { if (it.matches(Regex("^[0-9,.]*$"))) inputCentimetros = it },
                 label = { Text("Ingrese Centímetros") },
-                isError = inputCentimetros.toIntOrNull() == null
+                isError = inputCentimetros.toDoubleOrNull() == null
             )
             OutlinedTextField(
                 value = inputGramos,
-                onValueChange = { inputGramos = it },
+                onValueChange = { if (it.matches(Regex("^[0-9,.]*$"))) inputGramos = it },
                 label = { Text("Ingrese Gramos") },
-                isError = inputGramos.toIntOrNull() == null
+                isError = inputGramos.toDoubleOrNull() == null
             )
             OutlinedTextField(
                 value = inputTension,
-                onValueChange = { inputTension = it },
+                onValueChange = { if (it.matches(Regex("^[0-9,.]*$"))) inputTension = it },
                 label = { Text("Ingrese Tensión") },
-                isError = inputTension.toIntOrNull() == null
+                isError = inputTension.toDoubleOrNull() == null
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
             // Mostrar mensaje de error de carga, si lo hay
             errorMessage?.let {
-                Text(text = it, color = Rojo, style = MaterialTheme.typography.body1)
+                Text(text = it, color = Color.Red, style = MaterialTheme.typography.body1)
             }
 
             // Botón para verificar los valores
             Button(
                 onClick = {
-                    val centimetros = inputCentimetros.toIntOrNull()
-                    val gramos = inputGramos.toIntOrNull()
-                    val tension = inputTension.toIntOrNull()
+                    val centimetros = inputCentimetros.replace(",", ".").toDoubleOrNull()?.toInt()
+                    val gramos = inputGramos.replace(",", ".").toDoubleOrNull()?.toInt()
+                    val tension = inputTension.replace(",", ".").toDoubleOrNull()?.toInt()
 
                     // Validación de que todos los valores ingresados sean válidos
                     if (medidasJson != null && centimetros != null && gramos != null && tension != null) {
@@ -121,7 +126,7 @@ fun ModoPruebas(onBack: () -> Unit) {
             // Mensaje de resultado
             Text(
                 text = resultado,
-                color = if (resultado == "OK") Verde else Rojo,
+                color = if (resultado == "OK") Color.Green else Color.Red,
                 style = MaterialTheme.typography.h6
             )
 
@@ -136,10 +141,9 @@ fun ModoPruebas(onBack: () -> Unit) {
 }
 
 // Función para cargar los datos del JSON
-fun loadMedidasFromJson(path: String): Medidas {
-    val file = File(path)
-    if (!file.exists()) throw IOException("Archivo no encontrado en la ruta especificada")
-    val jsonContent = file.readText()
+fun loadMedidasFromJson(path: String): Medidas? {
+    val jsonContent = object {}::class.java.getResource(path)?.readText()
+        ?: throw IOException("Archivo no encontrado en los recursos en $path")
     return Json.decodeFromString(jsonContent)
 }
 
