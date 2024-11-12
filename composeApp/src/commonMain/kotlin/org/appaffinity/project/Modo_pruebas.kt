@@ -112,7 +112,10 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
 
             medidasGuardadas?.let { medidas ->
                 Text(text = "Centímetros: ${medidas.centimetros}", fontSize = 20.sp)
-                Text(text = "Kilogramos: ${medidas.kilogramos}", fontSize = 20.sp) // Mostramos kilogramos
+                Text(
+                    text = "Kilogramos: ${medidas.kilogramos}",
+                    fontSize = 20.sp
+                ) // Mostramos kilogramos
                 Text(text = "Tensión: ${medidas.tension}", fontSize = 20.sp)
             } ?: Text(
                 text = "No hay medidas disponibles",
