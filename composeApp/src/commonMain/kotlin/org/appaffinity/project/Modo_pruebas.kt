@@ -7,7 +7,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.layout.*
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.*
 import androidx.compose.ui.unit.*
 import kotlinx.serialization.*
@@ -17,10 +17,10 @@ import java.io.File
 
 // Marca la clase Medidas como serializable
 @Serializable
-data class Medidas(val centimetros: Int, val gramos: Int, val tension: Int)
+data class Medidas(val centimetros: Int, val kilogramos: Int, val tension: Int)
 
 // Nombre del archivo JSON
-const val ARCHIVO_MEDIDAS = "Guardar_medidas.json" // Renombré la constante para evitar conflictos
+const val ARCHIVO_MEDIDAS = "Modo_pruebas.json" // Renombré la constante para evitar conflictos
 
 // Función para guardar las medidas en el archivo JSON
 fun guardarMedidas(medidas: Medidas) {
@@ -63,11 +63,16 @@ fun esAndroidDetectado(): Boolean {
     }
 }
 
+// Función para mostrar una notificación en consola
+fun mostrarNotificacionWindows(mensaje: String) {
+    println(mensaje)
+}
+
 // Composable que representa la pantalla de pruebas
 @Composable
 fun Modo_Pruebas(onAceptarClick: () -> Unit) {
     var centimetros by remember { mutableStateOf("") }
-    var gramos by remember { mutableStateOf("") }
+    var kilogramos by remember { mutableStateOf("") } // Cambié gramos a kilogramos
     var tension by remember { mutableStateOf("") }
     var medidasGuardadas by remember { mutableStateOf<Medidas?>(null) }
 
@@ -76,7 +81,7 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
         medidasGuardadas = cargarMedidas()
         medidasGuardadas?.let {
             centimetros = it.centimetros.toString()
-            gramos = it.gramos.toString()
+            kilogramos = it.kilogramos.toString() // Ahora se carga kilogramos
             tension = it.tension.toString()
         }
     }
@@ -107,7 +112,7 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
 
             medidasGuardadas?.let { medidas ->
                 Text(text = "Centímetros: ${medidas.centimetros}", fontSize = 20.sp)
-                Text(text = "Gramos: ${medidas.gramos}", fontSize = 20.sp)
+                Text(text = "Kilogramos: ${medidas.kilogramos}", fontSize = 20.sp) // Mostramos kilogramos
                 Text(text = "Tensión: ${medidas.tension}", fontSize = 20.sp)
             } ?: Text(
                 text = "No hay medidas disponibles",
@@ -128,9 +133,9 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
             Spacer(modifier = Modifier.height(8.dp))
 
             TextField(
-                value = gramos,
-                onValueChange = { if (it.all { char -> char.isDigit() }) gramos = it },
-                label = { Text("Gramos") },
+                value = kilogramos, // Usamos kilogramos en lugar de gramos
+                onValueChange = { if (it.all { char -> char.isDigit() }) kilogramos = it },
+                label = { Text("Kilogramos") }, // Actualizamos la etiqueta
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
@@ -149,10 +154,10 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
 
             Button(
                 onClick = {
-                    if (centimetros.isNotEmpty() && gramos.isNotEmpty() && tension.isNotEmpty()) {
+                    if (centimetros.isNotEmpty() && kilogramos.isNotEmpty() && tension.isNotEmpty()) {
                         val medidas = Medidas(
                             centimetros = centimetros.toInt(),
-                            gramos = gramos.toInt(),
+                            kilogramos = kilogramos.toInt(), // Cambié gramos a kilogramos
                             tension = tension.toInt()
                         )
                         medidasGuardadas = medidas
@@ -177,9 +182,4 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
             }
         }
     }
-}
-
-// Función para mostrar una notificación en consola (usando el nuevo nombre)
-fun mostrarNotificacionWindows(mensaje: String) {
-    println(mensaje)
 }

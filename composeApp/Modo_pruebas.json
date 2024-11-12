@@ -1,7 +1,5 @@
 {
-  "medidas": {
-    "centimetros": 180,
-    "gramos": 60,
-    "tension": 220
-  }
+  "centimetros": 180,
+  "kilogramos": 60,
+  "tension": 220
 }
