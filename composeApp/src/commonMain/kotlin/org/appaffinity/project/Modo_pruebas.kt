@@ -25,7 +25,21 @@ data class Medidas(
     val tensionDiastolica: Int
 )
 
+@Serializable
+data class Historial(
+    val registros: MutableList<HistorialItem> = mutableListOf()
+)
+
+@Serializable
+data class HistorialItem(
+    val medidas: Medidas,
+    val resultado: String,
+    val detalleError: String?,
+    val fecha: String
+)
+
 const val ARCHIVO_MEDIDAS = "Modo_pruebas.json"
+const val ARCHIVO_HISTORIAL = "Historial.json"
 
 fun guardarMedidas(medidas: Medidas) {
     if (esAndroidDetectado()) {
@@ -56,6 +70,27 @@ fun cargarMedidas(): Medidas? {
     }
 }
 
+fun cargarHistorial(): Historial {
+    return try {
+        val archivo = File(ARCHIVO_HISTORIAL)
+        if (archivo.exists()) {
+            val jsonHistorial = archivo.readText()
+            Json.decodeFromString<Historial>(jsonHistorial)
+        } else {
+            Historial()
+        }
+    } catch (e: Exception) {
+        println("Error al leer el archivo de historial: ${e.message}")
+        Historial()
+    }
+}
+
+fun guardarHistorial(historial: Historial) {
+    val jsonHistorial = Json.encodeToString(historial)
+    val archivo = File(ARCHIVO_HISTORIAL)
+    archivo.writeText(jsonHistorial)
+}
+
 fun esAndroidDetectado(): Boolean {
     return try {
         Class.forName("android.os.Build")
@@ -75,19 +110,14 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
     var kilogramos by remember { mutableStateOf("") }
     var tensionSistolica by remember { mutableStateOf("") }
     var tensionDiastolica by remember { mutableStateOf("") }
-    var medidasGuardadas by remember { mutableStateOf<Medidas?>(null) }
+    var historial by remember { mutableStateOf(cargarHistorial()) }
     var resultado by remember { mutableStateOf("") }
     var errorDetalle by remember { mutableStateOf("") }
+    var mostrarHistorial by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        medidasGuardadas = cargarMedidas()
-        medidasGuardadas?.let {
-            centimetros = it.centimetros.toString()
-            kilogramos = it.kilogramos.toString()
-            tensionSistolica = it.tensionSistolica.toString()
-            tensionDiastolica = it.tensionDiastolica.toString()
-        }
-    }
+    // Cargar las medidas guardadas al inicio
+    val medidasGuardadas = cargarMedidas()
+    val medidasGuardadasValidas = medidasGuardadas ?: Medidas(0, 0, 0, 0)
 
     fun compararMedidas(medidas: Medidas, medidasGuardadas: Medidas): String {
         val diferenciaCentimetros = Math.abs(medidas.centimetros - medidasGuardadas.centimetros)
@@ -100,7 +130,7 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
         if (diferenciaCentimetros > 5 || diferenciaKilogramos > 2 || diferenciaSistolica > 5 || diferenciaDiastolica > 5) {
             val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
             val horaError = sdf.format(Date())
-            errorDetalle = "Diferencias encontradas: \n" +
+            errorDetalle = "Diferencias encontradas:\n" +
                     "Centímetros: $diferenciaCentimetros\n" +
                     "Kilogramos: $diferenciaKilogramos\n" +
                     "Tensión Sistolica: $diferenciaSistolica\n" +
@@ -124,7 +154,7 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                .verticalScroll(rememberScrollState()), // Habilita el desplazamiento vertical
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -133,19 +163,6 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
                 fontSize = 30.sp,
                 color = Color.Black,
                 fontWeight = FontWeight.Bold
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            medidasGuardadas?.let { medidas ->
-                Text(text = "Centímetros: ${medidas.centimetros}", fontSize = 20.sp)
-                Text(text = "Kilogramos: ${medidas.kilogramos}", fontSize = 20.sp)
-                Text(text = "Tensión Sistolica: ${medidas.tensionSistolica}", fontSize = 20.sp)
-                Text(text = "Tensión Diastolica: ${medidas.tensionDiastolica}", fontSize = 20.sp)
-            } ?: Text(
-                text = "No hay medidas disponibles",
-                color = Color.Cyan,
-                fontSize = 20.sp
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -199,9 +216,18 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
                             tensionSistolica = tensionSistolica.toInt(),
                             tensionDiastolica = tensionDiastolica.toInt()
                         )
-                        medidasGuardadas?.let { medidas ->
-                            resultado = compararMedidas(medidasIngresadas, medidas)
-                        }
+                        resultado = compararMedidas(medidasIngresadas, medidasGuardadasValidas)
+
+                        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+                        val fecha = sdf.format(Date())
+                        val historialItem = HistorialItem(
+                            medidas = medidasIngresadas,
+                            resultado = resultado,
+                            detalleError = errorDetalle.takeIf { resultado == "ERROR" },
+                            fecha = fecha
+                        )
+                        historial.registros.add(historialItem)
+                        guardarHistorial(historial)
                     } else {
                         mostrarNotificacionWindows("Por favor, completa todos los campos.")
                     }
@@ -231,11 +257,44 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
             Spacer(modifier = Modifier.height(8.dp))
 
             Button(
+                onClick = { mostrarHistorial = true },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "Ver Historial de Errores")
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Button(
                 onClick = onAceptarClick,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = "Regresar")
             }
         }
+    }
+
+    if (mostrarHistorial) {
+        AlertDialog(
+            onDismissRequest = { mostrarHistorial = false },
+            title = { Text("Historial de Errores") },
+            text = {
+                Column {
+                    historial.registros.forEach { item ->
+                        Text(
+                            text = "Fecha: ${item.fecha} - Resultado: ${item.resultado}",
+                            fontWeight = FontWeight.Bold
+                        )
+                        item.detalleError?.let { Text(text = it) }
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
+                }
+            },
+            confirmButton = {
+                Button(onClick = { mostrarHistorial = false }) {
+                    Text("Cerrar")
+                }
+            }
+        )
     }
 }
