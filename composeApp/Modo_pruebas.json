@@ -1,5 +1,6 @@
 {
   "centimetros": 180,
   "kilogramos": 60,
-  "tension": 220
+  "tensionSistolica": 120,
+  "tensionDiastolica": 80
 }
