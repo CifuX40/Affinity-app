@@ -1,61 +1,87 @@
 package org.appaffinity.project
 
-import affinityapp.composeapp.generated.resources.Res
-import affinityapp.composeapp.generated.resources.fondo_de_pantalla
+import affinityapp.composeapp.generated.resources.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.layout.*
+import androidx.compose.ui.text.font.*
+import androidx.compose.ui.unit.*
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 import org.jetbrains.compose.resources.*
-import java.io.IOException
-import kotlin.math.*
+import java.io.File
 
+// Marca la clase Medidas como serializable
 @Serializable
-data class ModoPruebas(val peso: String, val altura: String, val tension: String)
+data class Medidas(val centimetros: Int, val gramos: Int, val tension: Int)
 
 // Nombre del archivo JSON
-const val NOMBRE_ARCHIVO = "Modo_pruebas.json"
+const val ARCHIVO_MEDIDAS = "Guardar_medidas.json" // Renombré la constante para evitar conflictos
 
-@Serializable
-data class Medidas(
-    val centimetros: Int,
-    val gramos: Int,
-    val tension: Int
-)
+// Función para guardar las medidas en el archivo JSON
+fun guardarMedidas(medidas: Medidas) {
+    if (esAndroidDetectado()) {
+        mostrarNotificacionWindows("Esta función solo está disponible en Windows.")
+        return
+    }
+    val jsonMedidas = Json.encodeToString(medidas)
+    val archivo = File(ARCHIVO_MEDIDAS) // Uso de la nueva constante para evitar conflicto
+    archivo.writeText(jsonMedidas)
+}
 
-@Composable
-fun Modo_Pruebas(onBack: () -> Unit) {
-    // Estados para los valores ingresados y los mensajes de resultado o error
-    var inputCentimetros by remember { mutableStateOf("") }
-    var inputGramos by remember { mutableStateOf("") }
-    var inputTension by remember { mutableStateOf("") }
-    var resultado by remember { mutableStateOf("") }
-    var errorMessage by remember { mutableStateOf<String?>(null) }
-
-    // Intentar cargar datos del archivo JSON
-    val medidasJson = try {
-        loadMedidasFromJson("/$NOMBRE_ARCHIVO")
-    } catch (e: IOException) {
-        errorMessage = "Error al cargar datos de prueba: archivo no encontrado o inválido"
-        null
-    } catch (e: SerializationException) {
-        errorMessage = "Error en el formato del archivo JSON"
+// Función para cargar las medidas desde el archivo JSON
+fun cargarMedidas(): Medidas? {
+    if (esAndroidDetectado()) {
+        mostrarNotificacionWindows("Esta función solo está disponible en Windows.")
+        return null
+    }
+    return try {
+        val archivo = File(ARCHIVO_MEDIDAS) // Uso de la nueva constante para evitar conflicto
+        if (archivo.exists()) {  // Verifico si el archivo existe
+            val jsonMedidas = archivo.readText() // Se utiliza el File para leer el contenido
+            Json.decodeFromString<Medidas>(jsonMedidas)
+        } else {
+            null
+        }
+    } catch (e: Exception) {
+        println("Error al leer el archivo: ${e.message}")
         null
     }
+}
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White),
-        contentAlignment = Alignment.Center
-    ) {
+// Función para verificar si se está ejecutando en Android
+fun esAndroidDetectado(): Boolean {
+    return try {
+        Class.forName("android.os.Build")
+        true
+    } catch (e: ClassNotFoundException) {
+        false
+    }
+}
+
+// Composable que representa la pantalla de pruebas
+@Composable
+fun Modo_Pruebas(onAceptarClick: () -> Unit) {
+    var centimetros by remember { mutableStateOf("") }
+    var gramos by remember { mutableStateOf("") }
+    var tension by remember { mutableStateOf("") }
+    var medidasGuardadas by remember { mutableStateOf<Medidas?>(null) }
+
+    // Cargar los datos al iniciar la pantalla
+    LaunchedEffect(Unit) {
+        medidasGuardadas = cargarMedidas()
+        medidasGuardadas?.let {
+            centimetros = it.centimetros.toString()
+            gramos = it.gramos.toString()
+            tension = it.tension.toString()
+        }
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(Res.drawable.fondo_de_pantalla),
             contentDescription = null,
@@ -63,99 +89,97 @@ fun Modo_Pruebas(onBack: () -> Unit) {
             contentScale = ContentScale.Crop
         )
 
-        // Contenido de la pantalla "Modo pruebas"
         Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.padding(16.dp)
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
                 text = "Modo Pruebas",
-                style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.Bold),
-                color = Color.Black
+                fontSize = 30.sp,
+                color = Color.Black,
+                fontWeight = FontWeight.Bold
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Campos de entrada para los valores de medidas
-            OutlinedTextField(
-                value = inputCentimetros,
-                onValueChange = { if (it.matches(Regex("^[0-9,.]*$"))) inputCentimetros = it },
-                label = { Text("Ingrese Centímetros") },
-                isError = inputCentimetros.toDoubleOrNull() == null
-            )
-            OutlinedTextField(
-                value = inputGramos,
-                onValueChange = { if (it.matches(Regex("^[0-9,.]*$"))) inputGramos = it },
-                label = { Text("Ingrese Gramos") },
-                isError = inputGramos.toDoubleOrNull() == null
-            )
-            OutlinedTextField(
-                value = inputTension,
-                onValueChange = { if (it.matches(Regex("^[0-9,.]*$"))) inputTension = it },
-                label = { Text("Ingrese Tensión") },
-                isError = inputTension.toDoubleOrNull() == null
+            medidasGuardadas?.let { medidas ->
+                Text(text = "Centímetros: ${medidas.centimetros}", fontSize = 20.sp)
+                Text(text = "Gramos: ${medidas.gramos}", fontSize = 20.sp)
+                Text(text = "Tensión: ${medidas.tension}", fontSize = 20.sp)
+            } ?: Text(
+                text = "No hay medidas disponibles",
+                color = Color.Cyan,
+                fontSize = 20.sp
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Mostrar mensaje de error de carga, si lo hay
-            errorMessage?.let {
-                Text(text = it, color = Color.Red, style = MaterialTheme.typography.body1)
-            }
+            TextField(
+                value = centimetros,
+                onValueChange = { if (it.all { char -> char.isDigit() }) centimetros = it },
+                label = { Text("Centímetros") },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
 
-            // Botón para verificar los valores
+            Spacer(modifier = Modifier.height(8.dp))
+
+            TextField(
+                value = gramos,
+                onValueChange = { if (it.all { char -> char.isDigit() }) gramos = it },
+                label = { Text("Gramos") },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            TextField(
+                value = tension,
+                onValueChange = { if (it.all { char -> char.isDigit() }) tension = it },
+                label = { Text("Tensión") },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             Button(
                 onClick = {
-                    val centimetros = inputCentimetros.replace(",", ".").toDoubleOrNull()?.toInt()
-                    val gramos = inputGramos.replace(",", ".").toDoubleOrNull()?.toInt()
-                    val tension = inputTension.replace(",", ".").toDoubleOrNull()?.toInt()
-
-                    // Validación de que todos los valores ingresados sean válidos
-                    if (medidasJson != null && centimetros != null && gramos != null && tension != null) {
-                        val isCorrect = verifyValues(medidasJson, centimetros, gramos, tension)
-                        resultado = if (isCorrect) "OK" else "Error"
+                    if (centimetros.isNotEmpty() && gramos.isNotEmpty() && tension.isNotEmpty()) {
+                        val medidas = Medidas(
+                            centimetros = centimetros.toInt(),
+                            gramos = gramos.toInt(),
+                            tension = tension.toInt()
+                        )
+                        medidasGuardadas = medidas
+                        guardarMedidas(medidas)
+                        mostrarNotificacionWindows("Medidas guardadas exitosamente.")
                     } else {
-                        resultado = "Por favor, ingrese valores numéricos válidos."
+                        mostrarNotificacionWindows("Por favor, completa todos los campos.")
                     }
-                }
+                },
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Verificar")
+                Text(text = "Guardar")
             }
 
-            // Mensaje de resultado
-            Text(
-                text = resultado,
-                color = if (resultado == "OK") Color.Green else Color.Red,
-                style = MaterialTheme.typography.h6
-            )
+            Spacer(modifier = Modifier.height(8.dp))
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Botón para volver atrás
-            Button(onClick = onBack) {
-                Text("Volver")
+            Button(
+                onClick = onAceptarClick,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "Regresar")
             }
         }
     }
 }
 
-// Función para cargar los datos del JSON
-fun loadMedidasFromJson(path: String): Medidas? {
-    val jsonContent = object {}::class.java.getResource(path)?.readText()
-        ?: throw IOException("Archivo no encontrado en los recursos en $path")
-    return Json.decodeFromString(jsonContent)
-}
-
-// Función para verificar los valores ingresados con un margen de error
-fun verifyValues(
-    medidas: Medidas,
-    centimetros: Int,
-    gramos: Int,
-    tension: Int,
-    margen: Int = 5
-): Boolean {
-    return abs(medidas.centimetros - centimetros) <= margen &&
-            abs(medidas.gramos - gramos) <= margen &&
-            abs(medidas.tension - tension) <= margen
+// Función para mostrar una notificación en consola (usando el nuevo nombre)
+fun mostrarNotificacionWindows(mensaje: String) {
+    println(mensaje)
 }

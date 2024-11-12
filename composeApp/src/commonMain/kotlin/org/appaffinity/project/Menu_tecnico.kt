@@ -172,9 +172,10 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
         return
     }
     if (showModoPrueba) {
-        Modo_Pruebas(onBack = { showModoPrueba = false })
+        Modo_Pruebas(onAceptarClick = { showModoPrueba = false })
         return
     }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
