@@ -128,8 +128,10 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
     fun compararMedidas(medidas: Medidas, medidasGuardadas: Medidas): String {
         val diferenciaCentimetros = Math.abs(medidas.centimetros - medidasGuardadas.centimetros)
         val diferenciaKilogramos = Math.abs(medidas.kilogramos - medidasGuardadas.kilogramos)
-        val diferenciaSistolica = Math.abs(medidas.tensionSistolica - medidasGuardadas.tensionSistolica)
-        val diferenciaDiastolica = Math.abs(medidas.tensionDiastolica - medidasGuardadas.tensionDiastolica)
+        val diferenciaSistolica =
+            Math.abs(medidas.tensionSistolica - medidasGuardadas.tensionSistolica)
+        val diferenciaDiastolica =
+            Math.abs(medidas.tensionDiastolica - medidasGuardadas.tensionDiastolica)
 
         if (diferenciaCentimetros > 5 || diferenciaKilogramos > 2 || diferenciaSistolica > 5 || diferenciaDiastolica > 5) {
             val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
@@ -277,13 +279,16 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
             }
         }
     }
-
     if (mostrarHistorial) {
         AlertDialog(
             onDismissRequest = { mostrarHistorial = false },
             title = { Text("Historial de Errores") },
             text = {
-                Column {
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight(0.5f) // Limita la altura para que sea más adecuado para scroll
+                        .verticalScroll(rememberScrollState()) // Añade scroll vertical
+                ) {
                     historial.registros.forEach { item ->
                         Text(
                             text = "Fecha: ${item.fecha} - Resultado: ${item.resultado}",
