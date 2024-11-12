@@ -91,6 +91,13 @@ fun guardarHistorial(historial: Historial) {
     archivo.writeText(jsonHistorial)
 }
 
+fun limpiarHistorial() {
+    val archivo = File(ARCHIVO_HISTORIAL)
+    if (archivo.exists()) {
+        archivo.writeText(Json.encodeToString(Historial()))
+    }
+}
+
 fun esAndroidDetectado(): Boolean {
     return try {
         Class.forName("android.os.Build")
@@ -115,17 +122,14 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
     var errorDetalle by remember { mutableStateOf("") }
     var mostrarHistorial by remember { mutableStateOf(false) }
 
-    // Cargar las medidas guardadas al inicio
     val medidasGuardadas = cargarMedidas()
     val medidasGuardadasValidas = medidasGuardadas ?: Medidas(0, 0, 0, 0)
 
     fun compararMedidas(medidas: Medidas, medidasGuardadas: Medidas): String {
         val diferenciaCentimetros = Math.abs(medidas.centimetros - medidasGuardadas.centimetros)
         val diferenciaKilogramos = Math.abs(medidas.kilogramos - medidasGuardadas.kilogramos)
-        val diferenciaSistolica =
-            Math.abs(medidas.tensionSistolica - medidasGuardadas.tensionSistolica)
-        val diferenciaDiastolica =
-            Math.abs(medidas.tensionDiastolica - medidasGuardadas.tensionDiastolica)
+        val diferenciaSistolica = Math.abs(medidas.tensionSistolica - medidasGuardadas.tensionSistolica)
+        val diferenciaDiastolica = Math.abs(medidas.tensionDiastolica - medidasGuardadas.tensionDiastolica)
 
         if (diferenciaCentimetros > 5 || diferenciaKilogramos > 2 || diferenciaSistolica > 5 || diferenciaDiastolica > 5) {
             val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
@@ -293,6 +297,15 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
             confirmButton = {
                 Button(onClick = { mostrarHistorial = false }) {
                     Text("Cerrar")
+                }
+            },
+            dismissButton = {
+                Button(onClick = {
+                    historial.registros.clear()
+                    limpiarHistorial()
+                    mostrarHistorial = false
+                }) {
+                    Text("Limpiar Historial")
                 }
             }
         )
