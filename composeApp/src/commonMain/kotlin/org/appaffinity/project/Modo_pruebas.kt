@@ -186,8 +186,8 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
             TextField(
                 value = centimetros,
                 onValueChange = {
-                    // Permite números con decimales
-                    if (it.matches(Regex("^[0-9]*\\.?[0-9]+$"))) centimetros = it
+                    // Permite números con decimales y caracteres especiales
+                    centimetros = it
                 },
                 label = { Text("Centímetros") },
                 modifier = Modifier.fillMaxWidth(),
@@ -200,8 +200,8 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
             TextField(
                 value = kilogramos,
                 onValueChange = {
-                    // Permite números con decimales
-                    if (it.matches(Regex("^[0-9]*\\.?[0-9]+$"))) kilogramos = it
+                    // Permite números con decimales y caracteres especiales
+                    kilogramos = it
                 },
                 label = { Text("Kilogramos") },
                 modifier = Modifier.fillMaxWidth(),
@@ -214,8 +214,8 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
             TextField(
                 value = tensionSistolica,
                 onValueChange = {
-                    // Permite solo números enteros
-                    if (it.matches(Regex("^[0-9]+$"))) tensionSistolica = it
+                    // Permite números enteros y caracteres especiales
+                    tensionSistolica = it
                 },
                 label = { Text("Tensión Sistolica") },
                 modifier = Modifier.fillMaxWidth(),
@@ -228,10 +228,10 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
             TextField(
                 value = tensionDiastolica,
                 onValueChange = {
-                    // Permite solo números enteros
-                    if (it.matches(Regex("^[0-9]+$"))) tensionDiastolica = it
+                    // Permite números enteros y caracteres especiales
+                    tensionDiastolica = it
                 },
-                label = { Text("Tensión Diastolica") },
+                label = { Text("Tensión Diastólica") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
