@@ -7,14 +7,14 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.*
 import androidx.compose.ui.text.font.*
 import androidx.compose.ui.unit.*
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 import org.jetbrains.compose.resources.*
 import java.io.File
-import java.text.SimpleDateFormat
+import java.text.*
 import java.util.*
 
 @Serializable
@@ -286,8 +286,8 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
             text = {
                 Column(
                     modifier = Modifier
-                        .fillMaxHeight(0.5f) // Limita la altura para que sea más adecuado para scroll
-                        .verticalScroll(rememberScrollState()) // Añade scroll vertical
+                        .fillMaxHeight(0.5f)
+                        .verticalScroll(rememberScrollState())
                 ) {
                     historial.registros.forEach { item ->
                         Text(
