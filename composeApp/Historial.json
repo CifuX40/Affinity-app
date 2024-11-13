@@ -1,1 +1,26 @@
-{}
+{
+  "registros": [
+    {
+      "medidas": {
+        "centimetros": 180.0,
+        "kilogramos": 60.0,
+        "tensionSistolica": 120,
+        "tensionDiastolica": 80
+      },
+      "resultado": "OK",
+      "detalleError": null,
+      "fecha": "13/11/2024 10:10:10"
+    },
+    {
+      "medidas": {
+        "centimetros": 181.0,
+        "kilogramos": 60.0,
+        "tensionSistolica": 120,
+        "tensionDiastolica": 80
+      },
+      "resultado": "OK",
+      "detalleError": null,
+      "fecha": "13/11/2024 10:10:24"
+    }
+  ]
+}

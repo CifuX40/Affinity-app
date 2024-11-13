@@ -19,8 +19,8 @@ import java.util.*
 
 @Serializable
 data class Medidas(
-    val centimetros: Int,
-    val kilogramos: Int,
+    val centimetros: Float,
+    val kilogramos: Float,
     val tensionSistolica: Int,
     val tensionDiastolica: Int
 )
@@ -123,8 +123,14 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
     var mostrarHistorial by remember { mutableStateOf(false) }
 
     val medidasGuardadas = cargarMedidas()
-    val medidasGuardadasValidas = medidasGuardadas ?: Medidas(0, 0, 0, 0)
+    val medidasGuardadasValidas = medidasGuardadas ?: Medidas(0f, 0f, 0, 0)
 
+    // Margen de error
+    val margenErrorCentimetros = 1
+    val margenErrorKilogramos = 0.5
+    val margenErrorTension = 3
+
+    // Función de comparación con margen de error
     fun compararMedidas(medidas: Medidas, medidasGuardadas: Medidas): String {
         val diferenciaCentimetros = medidas.centimetros - medidasGuardadas.centimetros
         val diferenciaKilogramos = medidas.kilogramos - medidasGuardadas.kilogramos
@@ -133,10 +139,11 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
 
         val detallesErrores = mutableListOf<String>()
 
-        if (diferenciaCentimetros != 0) detallesErrores.add("Centímetros: $diferenciaCentimetros")
-        if (diferenciaKilogramos != 0) detallesErrores.add("Kilogramos: $diferenciaKilogramos")
-        if (diferenciaSistolica != 0) detallesErrores.add("Tensión Sistólica: $diferenciaSistolica")
-        if (diferenciaDiastolica != 0) detallesErrores.add("Tensión Diastólica: $diferenciaDiastolica")
+        // Verificar si la diferencia está fuera del margen de error
+        if (Math.abs(diferenciaCentimetros) > margenErrorCentimetros) detallesErrores.add("Centímetros: $diferenciaCentimetros")
+        if (Math.abs(diferenciaKilogramos) > margenErrorKilogramos) detallesErrores.add("Kilogramos: $diferenciaKilogramos")
+        if (Math.abs(diferenciaSistolica) > margenErrorTension) detallesErrores.add("Tensión Sistólica: $diferenciaSistolica")
+        if (Math.abs(diferenciaDiastolica) > margenErrorTension) detallesErrores.add("Tensión Diastólica: $diferenciaDiastolica")
 
         return if (detallesErrores.isNotEmpty()) {
             val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
@@ -175,9 +182,13 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Campo para Centímetros
             TextField(
                 value = centimetros,
-                onValueChange = { if (it.all { char -> char.isDigit() }) centimetros = it },
+                onValueChange = {
+                    // Permite números con decimales
+                    if (it.matches(Regex("^[0-9]*\\.?[0-9]+$"))) centimetros = it
+                },
                 label = { Text("Centímetros") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
@@ -185,9 +196,13 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            // Campo para Kilogramos
             TextField(
                 value = kilogramos,
-                onValueChange = { if (it.all { char -> char.isDigit() }) kilogramos = it },
+                onValueChange = {
+                    // Permite números con decimales
+                    if (it.matches(Regex("^[0-9]*\\.?[0-9]+$"))) kilogramos = it
+                },
                 label = { Text("Kilogramos") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
@@ -195,9 +210,13 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            // Campo para Tensión Sistólica
             TextField(
                 value = tensionSistolica,
-                onValueChange = { if (it.all { char -> char.isDigit() }) tensionSistolica = it },
+                onValueChange = {
+                    // Permite solo números enteros
+                    if (it.matches(Regex("^[0-9]+$"))) tensionSistolica = it
+                },
                 label = { Text("Tensión Sistolica") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
@@ -205,9 +224,13 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            // Campo para Tensión Diastólica
             TextField(
                 value = tensionDiastolica,
-                onValueChange = { if (it.all { char -> char.isDigit() }) tensionDiastolica = it },
+                onValueChange = {
+                    // Permite solo números enteros
+                    if (it.matches(Regex("^[0-9]+$"))) tensionDiastolica = it
+                },
                 label = { Text("Tensión Diastolica") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
@@ -218,24 +241,29 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
             Button(
                 onClick = {
                     if (centimetros.isNotEmpty() && kilogramos.isNotEmpty() && tensionSistolica.isNotEmpty() && tensionDiastolica.isNotEmpty()) {
-                        val medidasIngresadas = Medidas(
-                            centimetros = centimetros.toInt(),
-                            kilogramos = kilogramos.toInt(),
-                            tensionSistolica = tensionSistolica.toInt(),
-                            tensionDiastolica = tensionDiastolica.toInt()
-                        )
-                        resultado = compararMedidas(medidasIngresadas, medidasGuardadasValidas)
+                        // Validar y convertir los valores de entrada a flotantes
+                        try {
+                            val medidasIngresadas = Medidas(
+                                centimetros = centimetros.toFloat(),
+                                kilogramos = kilogramos.toFloat(),
+                                tensionSistolica = tensionSistolica.toInt(),
+                                tensionDiastolica = tensionDiastolica.toInt()
+                            )
+                            resultado = compararMedidas(medidasIngresadas, medidasGuardadasValidas)
 
-                        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
-                        val fecha = sdf.format(Date())
-                        val historialItem = HistorialItem(
-                            medidas = medidasIngresadas,
-                            resultado = resultado,
-                            detalleError = errorDetalle.takeIf { resultado == "ERROR" },
-                            fecha = fecha
-                        )
-                        historial.registros.add(historialItem)
-                        guardarHistorial(historial)
+                            val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+                            val fecha = sdf.format(Date())
+                            val historialItem = HistorialItem(
+                                medidas = medidasIngresadas,
+                                resultado = resultado,
+                                detalleError = errorDetalle.takeIf { resultado == "ERROR" },
+                                fecha = fecha
+                            )
+                            historial.registros.add(historialItem)
+                            guardarHistorial(historial)
+                        } catch (e: Exception) {
+                            mostrarNotificacionWindows("Por favor, ingresa valores válidos.")
+                        }
                     } else {
                         mostrarNotificacionWindows("Por favor, completa todos los campos.")
                     }
