@@ -126,26 +126,28 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
     val medidasGuardadasValidas = medidasGuardadas ?: Medidas(0, 0, 0, 0)
 
     fun compararMedidas(medidas: Medidas, medidasGuardadas: Medidas): String {
-        val diferenciaCentimetros = Math.abs(medidas.centimetros - medidasGuardadas.centimetros)
-        val diferenciaKilogramos = Math.abs(medidas.kilogramos - medidasGuardadas.kilogramos)
-        val diferenciaSistolica =
-            Math.abs(medidas.tensionSistolica - medidasGuardadas.tensionSistolica)
-        val diferenciaDiastolica =
-            Math.abs(medidas.tensionDiastolica - medidasGuardadas.tensionDiastolica)
+        val diferenciaCentimetros = medidas.centimetros - medidasGuardadas.centimetros
+        val diferenciaKilogramos = medidas.kilogramos - medidasGuardadas.kilogramos
+        val diferenciaSistolica = medidas.tensionSistolica - medidasGuardadas.tensionSistolica
+        val diferenciaDiastolica = medidas.tensionDiastolica - medidasGuardadas.tensionDiastolica
 
-        if (diferenciaCentimetros > 5 || diferenciaKilogramos > 2 || diferenciaSistolica > 5 || diferenciaDiastolica > 5) {
+        val detallesErrores = mutableListOf<String>()
+
+        if (diferenciaCentimetros != 0) detallesErrores.add("Centímetros: $diferenciaCentimetros")
+        if (diferenciaKilogramos != 0) detallesErrores.add("Kilogramos: $diferenciaKilogramos")
+        if (diferenciaSistolica != 0) detallesErrores.add("Tensión Sistólica: $diferenciaSistolica")
+        if (diferenciaDiastolica != 0) detallesErrores.add("Tensión Diastólica: $diferenciaDiastolica")
+
+        return if (detallesErrores.isNotEmpty()) {
             val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
             val horaError = sdf.format(Date())
             errorDetalle = "Diferencias encontradas:\n" +
-                    "Centímetros: $diferenciaCentimetros\n" +
-                    "Kilogramos: $diferenciaKilogramos\n" +
-                    "Tensión Sistolica: $diferenciaSistolica\n" +
-                    "Tensión Diastolica: $diferenciaDiastolica\n" +
-                    "Hora del error: $horaError"
-            return "ERROR"
+                    detallesErrores.joinToString("\n") +
+                    "\nHora del error: $horaError"
+            "ERROR"
+        } else {
+            "OK"
         }
-
-        return "OK"
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -271,48 +273,28 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Button(
-                onClick = onAceptarClick,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(text = "Regresar")
-            }
-        }
-    }
-    if (mostrarHistorial) {
-        AlertDialog(
-            onDismissRequest = { mostrarHistorial = false },
-            title = { Text("Historial de Errores") },
-            text = {
-                Column(
-                    modifier = Modifier
-                        .fillMaxHeight(0.5f)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    historial.registros.forEach { item ->
-                        Text(
-                            text = "Fecha: ${item.fecha} - Resultado: ${item.resultado}",
-                            fontWeight = FontWeight.Bold
-                        )
-                        item.detalleError?.let { Text(text = it) }
-                        Spacer(modifier = Modifier.height(8.dp))
+            if (mostrarHistorial) {
+                historial.registros.forEach { item ->
+                    Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
+                        Text("Fecha: ${item.fecha}")
+                        Text("Resultado: ${item.resultado}")
+                        item.detalleError?.let { Text("Detalle: $it") }
                     }
                 }
-            },
-            confirmButton = {
-                Button(onClick = { mostrarHistorial = false }) {
-                    Text("Cerrar")
-                }
-            },
-            dismissButton = {
-                Button(onClick = {
-                    historial.registros.clear()
-                    limpiarHistorial()
-                    mostrarHistorial = false
-                }) {
-                    Text("Limpiar Historial")
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Button(
+                    onClick = {
+                        limpiarHistorial()
+                        historial = Historial()
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red)
+                ) {
+                    Text(text = "Borrar Historial", color = Color.White)
                 }
             }
-        )
+        }
     }
 }
