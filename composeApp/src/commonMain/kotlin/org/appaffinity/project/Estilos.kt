@@ -12,8 +12,6 @@ val Negro = Color(0xFF000000)
 val AzulCian = Color(0xFF009EE0)
 val Blanco = Color(0xFFFFFFFF)
 val Naranja = Color(0xFFF5B130)
-val Verde = Color(0xFF4CAF50)
-val Rojo = Color(0xFFF44336)
 
 @Composable
 fun Boton_Naranja(
@@ -24,7 +22,7 @@ fun Boton_Naranja(
     Button(
         onClick = onClick,
         modifier = modifier.padding(8.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor = Naranja) // Fondo color naranja
+        colors = ButtonDefaults.buttonColors(backgroundColor = Naranja)
 
     ) {
         Text(text, color = Color.White)

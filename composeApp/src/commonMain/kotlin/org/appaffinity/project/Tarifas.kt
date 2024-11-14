@@ -28,7 +28,7 @@ fun guardarTarifa(tarifa: Tarifa) {
         return
     }
     val jsonTarifa = Json.encodeToString(tarifa)
-    val file = File(fileName) // Ruta relativa para escritorio
+    val file = File(fileName)
     file.writeText(jsonTarifa)
 }
 
