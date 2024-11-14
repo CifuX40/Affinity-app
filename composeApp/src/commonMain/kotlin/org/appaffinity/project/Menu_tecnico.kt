@@ -172,7 +172,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
         return
     }
     if (showModoPrueba) {
-        Modo_Pruebas(onAceptarClick = { showModoPrueba = false })
+        Modo_Pruebas(onBack = { showModoPrueba = false })
         return
     }
 

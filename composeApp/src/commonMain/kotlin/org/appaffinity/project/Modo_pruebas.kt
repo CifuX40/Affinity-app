@@ -112,7 +112,7 @@ fun mostrarNotificacionWindows(mensaje: String) {
 }
 
 @Composable
-fun Modo_Pruebas(onAceptarClick: () -> Unit) {
+fun Modo_Pruebas(onBack: () -> Unit) {
     var centimetros by remember { mutableStateOf("") }
     var kilogramos by remember { mutableStateOf("") }
     var tensionSistolica by remember { mutableStateOf("") }
@@ -125,12 +125,10 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
     val medidasGuardadas = cargarMedidas()
     val medidasGuardadasValidas = medidasGuardadas ?: Medidas(0f, 0f, 0, 0)
 
-    // Margen de error
     val margenErrorCentimetros = 1
     val margenErrorKilogramos = 0.5
     val margenErrorTension = 3
 
-    // Función de comparación con margen de error
     fun compararMedidas(medidas: Medidas, medidasGuardadas: Medidas): String {
         val diferenciaCentimetros = medidas.centimetros - medidasGuardadas.centimetros
         val diferenciaKilogramos = medidas.kilogramos - medidasGuardadas.kilogramos
@@ -139,7 +137,6 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
 
         val detallesErrores = mutableListOf<String>()
 
-        // Verificar si la diferencia está fuera del margen de error
         if (Math.abs(diferenciaCentimetros) > margenErrorCentimetros) detallesErrores.add("Centímetros: $diferenciaCentimetros")
         if (Math.abs(diferenciaKilogramos) > margenErrorKilogramos) detallesErrores.add("Kilogramos: $diferenciaKilogramos")
         if (Math.abs(diferenciaSistolica) > margenErrorTension) detallesErrores.add("Tensión Sistólica: $diferenciaSistolica")
@@ -182,55 +179,34 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Campo para Centímetros
+            // Campos de entrada
             TextField(
                 value = centimetros,
-                onValueChange = {
-                    // Permite números con decimales y caracteres especiales
-                    centimetros = it
-                },
+                onValueChange = { centimetros = it },
                 label = { Text("Centímetros") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
-
             Spacer(modifier = Modifier.height(8.dp))
-
-            // Campo para Kilogramos
             TextField(
                 value = kilogramos,
-                onValueChange = {
-                    // Permite números con decimales y caracteres especiales
-                    kilogramos = it
-                },
+                onValueChange = { kilogramos = it },
                 label = { Text("Kilogramos") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
-
             Spacer(modifier = Modifier.height(8.dp))
-
-            // Campo para Tensión Sistólica
             TextField(
                 value = tensionSistolica,
-                onValueChange = {
-                    // Permite números enteros y caracteres especiales
-                    tensionSistolica = it
-                },
+                onValueChange = { tensionSistolica = it },
                 label = { Text("Tensión Sistolica") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
-
             Spacer(modifier = Modifier.height(8.dp))
-
-            // Campo para Tensión Diastólica
             TextField(
                 value = tensionDiastolica,
-                onValueChange = {
-                    // Permite números enteros y caracteres especiales
-                    tensionDiastolica = it
-                },
+                onValueChange = { tensionDiastolica = it },
                 label = { Text("Tensión Diastólica") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
@@ -241,7 +217,6 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
             Button(
                 onClick = {
                     if (centimetros.isNotEmpty() && kilogramos.isNotEmpty() && tensionSistolica.isNotEmpty() && tensionDiastolica.isNotEmpty()) {
-                        // Validar y convertir los valores de entrada a flotantes
                         try {
                             val medidasIngresadas = Medidas(
                                 centimetros = centimetros.toFloat(),
@@ -281,15 +256,6 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
                 color = if (resultado == "OK") Color.Green else Color.Red
             )
 
-            if (resultado == "ERROR") {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = errorDetalle,
-                    fontSize = 16.sp,
-                    color = Color.Red
-                )
-            }
-
             Spacer(modifier = Modifier.height(8.dp))
 
             Button(
@@ -301,6 +267,15 @@ fun Modo_Pruebas(onAceptarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            // Botón Volver
+            Button(
+                onClick = onBack,
+                colors = ButtonDefaults.buttonColors(backgroundColor = Naranja)
+            ) {
+                Text("Volver", color = Color.White)
+            }
+
+            // Mostrar historial si es necesario
             if (mostrarHistorial) {
                 historial.registros.forEach { item ->
                     Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
