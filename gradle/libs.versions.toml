@@ -15,7 +15,6 @@ cameraEffects = "1.5.0"
 compiler = "3.2.0"
 compose-plugin = "1.7.0"
 core = "1.46.0"
-coreI18n = "1.0.0"
 firebaseCrashlyticsBuildtools = "3.0.2"
 firebaseDatabaseKtx = "21.0.0"
 junit = "4.13.2"
@@ -32,8 +31,6 @@ uiDesktop = "1.7.0"
 [libraries]
 androidx-camera-effects = { module = "androidx.camera:camera-effects", version.ref = "cameraEffects" }
 androidx-compiler = { module = "androidx.databinding:compiler", version.ref = "compiler" }
-androidx-core-i18n = { module = "androidx.core:core-i18n", version.ref = "coreI18n" }
-androidx-material3-android = { module = "androidx.compose.material3:material3-android", version.ref = "material3Android" }
 androidx-material3-jvmstubs = { module = "androidx.compose.material3:material3-jvmstubs", version.ref = "material3Jvmstubs" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 androidx-navigation-runtime-ktx = { module = "androidx.navigation:navigation-runtime-ktx", version.ref = "navigationCompose" }
