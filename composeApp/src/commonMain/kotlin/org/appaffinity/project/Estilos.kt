@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.*
 val Negro = Color(0xFF000000)
 val AzulCian = Color(0xFF009EE0)
 val Blanco = Color(0xFFFFFFFF)
-val Naranja = Color(0xFFF5B130)
+val Naranja = Color(0xFFFFA500)
 
 @Composable
 fun Boton_Naranja(
