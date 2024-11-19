@@ -15,27 +15,24 @@ import org.jetbrains.compose.resources.*
 
 @Composable
 fun MenuTecnico(onBack: () -> Unit) {
-    var accesoPermitido by remember { mutableStateOf(false) } // Variable que controla el acceso
+    var accesoPermitido by remember { mutableStateOf(false) }
 
-    // Si el acceso está permitido, muestra la pantalla técnica
     if (accesoPermitido) {
         TecnicoScreen(onUsuarioClick = onBack)
     } else {
-        // Solicita la contraseña antes de acceder al menú técnico
         SolicitarContrasena(
             onAccesoPermitido = {
                 accesoPermitido = true
-            }, // Permite el acceso si la contraseña es correcta
+            },
             onBack = onBack
         )
     }
 }
 
-// Composable que solicita una contraseña para el acceso al menú técnico
 @Composable
 fun SolicitarContrasena(onAccesoPermitido: () -> Unit, onBack: () -> Unit) {
-    var contrasena by remember { mutableStateOf("") } // Almacena la contraseña ingresada
-    var mostrarError by remember { mutableStateOf(false) } // Controla si se muestra un error de contraseña
+    var contrasena by remember { mutableStateOf("") }
+    var mostrarError by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -50,7 +47,6 @@ fun SolicitarContrasena(onAccesoPermitido: () -> Unit, onBack: () -> Unit) {
             contentScale = ContentScale.Crop
         )
 
-        // Columna que contiene el texto y el teclado numérico
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -65,7 +61,6 @@ fun SolicitarContrasena(onAccesoPermitido: () -> Unit, onBack: () -> Unit) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Muestra la contraseña ingresada como asteriscos
             Text(
                 text = "*".repeat(contrasena.length),
                 fontSize = 24.sp,
@@ -74,29 +69,26 @@ fun SolicitarContrasena(onAccesoPermitido: () -> Unit, onBack: () -> Unit) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Teclado numérico para ingresar la contraseña
             TecladoNumerico(
                 onNumeroClick = { numero ->
-                    contrasena += numero // Agrega el número a la contraseña
-                    // Verifica si la contraseña es correcta
+                    contrasena += numero
                     if (contrasena.length == 4) {
                         if (contrasena == "9876") {
                             mostrarError = false
                             contrasena = ""
                             onAccesoPermitido()
                         } else {
-                            mostrarError = true // Muestra error si es incorrecta
-                            contrasena = "" // Resetea la contraseña
+                            mostrarError = true
+                            contrasena = ""
                         }
                     }
                 },
-                onBorrarClick = { contrasena = "" } // Limpia la contraseña
+                onBorrarClick = { contrasena = "" }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
             Boton_Naranja(onClick = onBack, text = "Volver a Usuario")
 
-            // Muestra un mensaje de error si la contraseña es incorrecta
             if (mostrarError) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
@@ -109,7 +101,6 @@ fun SolicitarContrasena(onAccesoPermitido: () -> Unit, onBack: () -> Unit) {
     }
 }
 
-// Composable que representa un teclado numérico para ingresar la contraseña
 @Composable
 fun TecladoNumerico(onNumeroClick: (String) -> Unit, onBorrarClick: () -> Unit) {
     Column(
@@ -158,6 +149,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
     var showOffsetAltura by remember { mutableStateOf(false) }
     var showOffsetPeso by remember { mutableStateOf(false) }
     var showModoPrueba by remember { mutableStateOf(false) }
+    var showCambiarContrasenaScreen by remember { mutableStateOf(false) }
 
     if (showCalibrarPeso) {
         CalibrarPeso(onBack = { showCalibrarPeso = false })
@@ -200,7 +192,6 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                 color = Negro
             )
 
-            // Grid que organiza los botones en una cuadrícula de 3 columnas
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -252,7 +243,7 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
                         imagen = painterResource(Res.drawable.contrasena),
                         texto = "Contraseña",
                         color = AzulCian,
-                        onClick = {}
+                        onClick = { showCambiarContrasenaScreen = true }
                     )
                 }
                 item {
