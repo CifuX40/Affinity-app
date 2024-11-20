@@ -17,6 +17,7 @@ compose-plugin = "1.7.0"
 core = "1.46.0"
 firebaseCrashlyticsBuildtools = "3.0.2"
 firebaseDatabaseKtx = "21.0.0"
+gson = "2.11.0"
 junit = "4.13.2"
 kotlin = "2.0.21"
 kotlinx-coroutines = "1.9.0"
@@ -39,6 +40,7 @@ androidx-ui-desktop = { module = "androidx.compose.ui:ui-desktop", version.ref =
 androidx-ui-tooling-preview-android = { module = "androidx.compose.ui:ui-tooling-preview-android", version.ref = "uiAndroid" }
 androidx-ui-tooling-preview-desktop = { module = "androidx.compose.ui:ui-tooling-preview-desktop", version.ref = "uiDesktop" }
 core = { module = "com.google.ar:core", version.ref = "core" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

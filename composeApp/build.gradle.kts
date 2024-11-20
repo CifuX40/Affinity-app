@@ -37,6 +37,7 @@ kotlin {
                 implementation(libs.androidx.lifecycle.runtime.compose)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.kotlinx.serialization.json)
+                implementation(libs.gson)
             }
         }
 
@@ -67,8 +68,8 @@ android {
 
     defaultConfig {
         applicationId = "compose.project.demo"
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        minSdk = 21
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
     }
