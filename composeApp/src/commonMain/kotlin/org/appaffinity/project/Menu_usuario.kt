@@ -60,9 +60,6 @@ fun MenuUsuario() {
         "recaudacion_screen" -> Recaudacion(onBack = { currentScreen = "menu_usuario" })
         "OffsetAltura" -> OffsetAltura(onBack = { currentScreen = "menu_usuario" })
         "Modo_pruebas" -> Modo_Pruebas { currentScreen = "menu_usuario" }
-        "CambiarContrasenaScreen" -> CambiarContrasenaScreen(onBack = {
-            currentScreen = "menu_usuario"
-        })
 
         else -> {
             Text(text = "Estado desconocido", color = Color.Red)

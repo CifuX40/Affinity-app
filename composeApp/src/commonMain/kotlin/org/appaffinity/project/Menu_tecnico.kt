@@ -167,6 +167,10 @@ fun TecnicoScreen(onUsuarioClick: () -> Unit) {
         Modo_Pruebas(onBack = { showModoPrueba = false })
         return
     }
+    if (showCambiarContrasenaScreen) {
+        CambiarContrasenaScreen(onBack = { showCambiarContrasenaScreen = false })
+        return
+    }
 
     Box(
         modifier = Modifier
