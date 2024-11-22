@@ -2,18 +2,18 @@ package org.appaffinity.project
 
 import affinityapp.composeapp.generated.resources.*
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.input.pointer.*
+import androidx.compose.ui.layout.*
+import androidx.compose.ui.platform.*
 import androidx.compose.ui.text.font.*
+import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.*
-import androidx.compose.ui.text.input.KeyboardType
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 import org.jetbrains.compose.resources.*
@@ -127,18 +127,12 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Label para mostrar el teclado numérico
             Text(
                 text = Localization.getString("precio_peso"),
                 modifier = Modifier
-                    .clickable {
-                        // Mostrar el teclado para 'peso'
-                        keyboardController?.show()
-                    }
                     .padding(8.dp)
             )
 
-            // Entrada de peso
             TextField(
                 value = peso,
                 onValueChange = { if (it.all { char -> char.isDigit() }) peso = it },
@@ -149,18 +143,12 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Label para mostrar el teclado numérico
             Text(
                 text = Localization.getString("precio_altura"),
                 modifier = Modifier
-                    .clickable {
-                        // Mostrar el teclado para 'altura'
-                        keyboardController?.show()
-                    }
                     .padding(8.dp)
             )
 
-            // Entrada de altura
             TextField(
                 value = altura,
                 onValueChange = { if (it.all { char -> char.isDigit() }) altura = it },
@@ -171,18 +159,12 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Label para mostrar el teclado numérico
             Text(
                 text = Localization.getString("precio_tension"),
                 modifier = Modifier
-                    .clickable {
-                        // Mostrar el teclado para 'tension'
-                        keyboardController?.show()
-                    }
                     .padding(8.dp)
             )
 
-            // Entrada de tensión
             TextField(
                 value = tension,
                 onValueChange = { if (it.all { char -> char.isDigit() }) tension = it },
@@ -205,7 +187,7 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
                         tarifaGuardada = tarifa
                         guardarTarifa(tarifa)
                         mostrarNotificacion("Tarifa guardada exitosamente.")
-                        keyboardController?.hide() // Ocultar el teclado al guardar la tarifa
+                        keyboardController?.hide()
                     } else {
                         mostrarNotificacion("Por favor, completa todos los campos.")
                     }
