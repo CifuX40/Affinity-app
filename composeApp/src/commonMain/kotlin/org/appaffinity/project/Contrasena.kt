@@ -1,13 +1,18 @@
 package org.appaffinity.project
 
+import affinityapp.composeapp.generated.resources.*
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
+import androidx.compose.ui.layout.*
 import androidx.compose.ui.text.font.*
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.*
+import org.jetbrains.compose.resources.*
 
 @Composable
 fun CambiarContrasenaScreen(onBack: () -> Unit) {
@@ -17,15 +22,25 @@ fun CambiarContrasenaScreen(onBack: () -> Unit) {
     var mensajeError by remember { mutableStateOf("") }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        contentAlignment = Alignment.Center
+        modifier = Modifier.fillMaxSize()
     ) {
+        // Imagen de fondo que ocupa toda la pantalla
+        Image(
+            painter = painterResource(Res.drawable.fondo_de_pantalla),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    color = Color.White.copy(alpha = 0.9f),
+                    shape = RoundedCornerShape(16.dp)
+                )
+                .padding(16.dp)
         ) {
             Text(
                 text = "Cambiar Contraseña",
