@@ -9,8 +9,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.*
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.*
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import org.jetbrains.compose.resources.*
 
 @Composable
@@ -19,7 +21,8 @@ fun OffsetAltura(onBack: () -> Unit) {
     var calibrandoAltura by remember { mutableStateOf(false) }
     var mensajeAltura by remember { mutableStateOf("") }
     var unidadAltura by remember { mutableStateOf("CM") }
-    var expanded by remember { mutableStateOf(false) }  // Control del menú desplegable
+    var expanded by remember { mutableStateOf(false) }
+    val keyboardController = LocalSoftwareKeyboardController.current
     val unidades = listOf("CM", "Pulgadas")
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -69,8 +72,8 @@ fun OffsetAltura(onBack: () -> Unit) {
                 ) {
                     unidades.forEach { unidad ->
                         DropdownMenuItem(onClick = {
-                            unidadAltura = unidad  // Actualiza la unidad seleccionada
-                            expanded = false  // Cierra el menú desplegable
+                            unidadAltura = unidad
+                            expanded = false
                         }) {
                             Text(unidad)
                         }
@@ -87,20 +90,23 @@ fun OffsetAltura(onBack: () -> Unit) {
                         altura = it
                     }
                 },
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                 modifier = Modifier
                     .background(Color.LightGray)
                     .padding(8.dp)
-                    .width(200.dp)
+                    .width(200.dp),
+                singleLine = true
             )
 
             // Botón para iniciar la calibración
             Button(
                 onClick = {
-                    if (altura.isBlank() || altura.toIntOrNull() == null) { // Verifica si no es un número
+                    if (altura.isBlank() || altura.toIntOrNull() == null) {
                         mensajeAltura = "Error de calibración: Ingrese un número válido"
                     } else {
                         calibrandoAltura = true
                         mensajeAltura = "Calibrando..."
+                        keyboardController?.hide() // Ocultar teclado al iniciar calibración
                     }
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFFFA500)),
@@ -111,7 +117,7 @@ fun OffsetAltura(onBack: () -> Unit) {
 
             LaunchedEffect(calibrandoAltura) {
                 if (calibrandoAltura) {
-                    delay(5000)
+                    delay(5000) // simula calibración por 5 segundos
                     mensajeAltura = "Calibración completada"
                     calibrandoAltura = false
                 }

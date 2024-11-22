@@ -4,6 +4,7 @@ import affinityapp.composeapp.generated.resources.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
@@ -56,6 +57,7 @@ fun CambiarContrasenaScreen(onBack: () -> Unit) {
                 label = { Text("Contraseña Actual") },
                 visualTransformation = PasswordVisualTransformation(),
                 isError = mensajeError.isNotEmpty(),
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -66,6 +68,7 @@ fun CambiarContrasenaScreen(onBack: () -> Unit) {
                 label = { Text("Nueva Contraseña") },
                 visualTransformation = PasswordVisualTransformation(),
                 isError = mensajeError.isNotEmpty(),
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -76,6 +79,7 @@ fun CambiarContrasenaScreen(onBack: () -> Unit) {
                 label = { Text("Confirmar Nueva Contraseña") },
                 visualTransformation = PasswordVisualTransformation(),
                 isError = mensajeError.isNotEmpty(),
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -91,7 +95,10 @@ fun CambiarContrasenaScreen(onBack: () -> Unit) {
             // Botón para cambiar la contraseña
             Button(
                 onClick = {
-                    if (nuevaContrasena == confirmacionContrasena) {
+                    // Verificar que todos los campos estén llenos
+                    if (contrasenaActual.isEmpty() || nuevaContrasena.isEmpty() || confirmacionContrasena.isEmpty()) {
+                        mensajeError = "Por favor, rellene todos los campos."
+                    } else if (nuevaContrasena == confirmacionContrasena) {
                         if (contrasenaActual == "9876") {
                             mensajeError = ""
                             // Actualiza la contraseña

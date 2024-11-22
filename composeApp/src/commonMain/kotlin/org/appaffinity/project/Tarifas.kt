@@ -2,23 +2,26 @@ package org.appaffinity.project
 
 import affinityapp.composeapp.generated.resources.*
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
-import androidx.compose.ui.layout.*
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.*
 import androidx.compose.ui.unit.*
+import androidx.compose.ui.text.input.KeyboardType
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 import org.jetbrains.compose.resources.*
 import java.io.File
 
-// Marca la clase Tarifa como serializable
 @Serializable
 data class Tarifa(val peso: String, val altura: String, val tension: String)
 
-// Nombre del archivo JSON
 const val fileName = "Guardar_tarifas.json"
 
 // Función para guardar la tarifa en el archivo JSON solo en Windows
@@ -70,6 +73,8 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
     var tension by remember { mutableStateOf("") }
     var tarifaGuardada by remember { mutableStateOf<Tarifa?>(null) }
 
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     // Cargar los datos al iniciar la pantalla
     LaunchedEffect(Unit) {
         tarifaGuardada = cargarTarifa()
@@ -91,7 +96,13 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(16.dp)
+                .pointerInput(Unit) {
+                    detectTapGestures(onTap = {
+                        // Ocultar el teclado al hacer clic fuera de los campos
+                        keyboardController?.hide()
+                    })
+                },
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -116,36 +127,73 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Label para mostrar el teclado numérico
+            Text(
+                text = Localization.getString("precio_peso"),
+                modifier = Modifier
+                    .clickable {
+                        // Mostrar el teclado para 'peso'
+                        keyboardController?.show()
+                    }
+                    .padding(8.dp)
+            )
+
+            // Entrada de peso
             TextField(
                 value = peso,
                 onValueChange = { if (it.all { char -> char.isDigit() }) peso = it },
-                label = { Text(Localization.getString("precio_peso")) },
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            // Label para mostrar el teclado numérico
+            Text(
+                text = Localization.getString("precio_altura"),
+                modifier = Modifier
+                    .clickable {
+                        // Mostrar el teclado para 'altura'
+                        keyboardController?.show()
+                    }
+                    .padding(8.dp)
+            )
+
+            // Entrada de altura
             TextField(
                 value = altura,
                 onValueChange = { if (it.all { char -> char.isDigit() }) altura = it },
-                label = { Text(Localization.getString("precio_altura")) },
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            // Label para mostrar el teclado numérico
+            Text(
+                text = Localization.getString("precio_tension"),
+                modifier = Modifier
+                    .clickable {
+                        // Mostrar el teclado para 'tension'
+                        keyboardController?.show()
+                    }
+                    .padding(8.dp)
+            )
+
+            // Entrada de tensión
             TextField(
                 value = tension,
                 onValueChange = { if (it.all { char -> char.isDigit() }) tension = it },
-                label = { Text(Localization.getString("precio_tension")) },
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Botón para guardar la tarifa
             Boton_Naranja(
                 onClick = {
                     if (peso.isNotEmpty() && altura.isNotEmpty() && tension.isNotEmpty()) {
@@ -157,6 +205,7 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
                         tarifaGuardada = tarifa
                         guardarTarifa(tarifa)
                         mostrarNotificacion("Tarifa guardada exitosamente.")
+                        keyboardController?.hide() // Ocultar el teclado al guardar la tarifa
                     } else {
                         mostrarNotificacion("Por favor, completa todos los campos.")
                     }
@@ -166,8 +215,12 @@ fun TarifaScreen(onAceptarClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            // Botón para regresar
             Boton_Naranja(
-                onClick = onAceptarClick,
+                onClick = {
+                    onAceptarClick()
+                    keyboardController?.hide()
+                },
                 text = Localization.getString("regresar")
             )
         }

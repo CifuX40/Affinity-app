@@ -9,6 +9,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.*
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.*
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.*
@@ -19,6 +21,7 @@ fun OffsetPeso(onBack: () -> Unit) {
     var calibrandoPeso by remember { mutableStateOf(false) }
     var mensajePeso by remember { mutableStateOf("") }
     var unidadPeso by remember { mutableStateOf("Gramos") }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -71,6 +74,7 @@ fun OffsetPeso(onBack: () -> Unit) {
                         peso = it
                     }
                 },
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                 modifier = Modifier
                     .background(Color.LightGray)
                     .padding(8.dp)
@@ -85,6 +89,7 @@ fun OffsetPeso(onBack: () -> Unit) {
                     } else {
                         calibrandoPeso = true
                         mensajePeso = "Calibrando..."
+                        keyboardController?.hide() // Oculta el teclado cuando se hace clic en calibrar
                     }
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Naranja),
@@ -95,7 +100,7 @@ fun OffsetPeso(onBack: () -> Unit) {
 
             LaunchedEffect(calibrandoPeso) {
                 if (calibrandoPeso) {
-                    delay(5000)
+                    delay(5000) // Simula calibración por 5 segundos
                     mensajePeso = "Calibración completada"
                     calibrandoPeso = false
                 }
@@ -140,7 +145,7 @@ fun CustomDropdownMenu(selectedUnit: String, onUnitSelected: (String) -> Unit) {
         ) {
             unidades.forEach { unidad ->
                 DropdownMenuItem(onClick = {
-                    onUnitSelected(unidad) // Llama al lambda pasado
+                    onUnitSelected(unidad)
                     expanded = false
                 }) {
                     Text(unidad)

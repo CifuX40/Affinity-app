@@ -3,12 +3,14 @@ package org.appaffinity.project
 import affinityapp.composeapp.generated.resources.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.*
 import androidx.compose.ui.text.font.*
+import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.*
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
@@ -179,13 +181,14 @@ fun Modo_Pruebas(onBack: () -> Unit) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Campos de entrada
+            // Campos de entrada con teclado numérico
             TextField(
                 value = centimetros,
                 onValueChange = { centimetros = it },
                 label = { Text("Centímetros") },
                 modifier = Modifier.fillMaxWidth(),
-                singleLine = true
+                singleLine = true,
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
             )
             Spacer(modifier = Modifier.height(8.dp))
             TextField(
@@ -193,7 +196,8 @@ fun Modo_Pruebas(onBack: () -> Unit) {
                 onValueChange = { kilogramos = it },
                 label = { Text("Kilogramos") },
                 modifier = Modifier.fillMaxWidth(),
-                singleLine = true
+                singleLine = true,
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
             )
             Spacer(modifier = Modifier.height(8.dp))
             TextField(
@@ -201,7 +205,8 @@ fun Modo_Pruebas(onBack: () -> Unit) {
                 onValueChange = { tensionSistolica = it },
                 label = { Text("Tensión Sistolica") },
                 modifier = Modifier.fillMaxWidth(),
-                singleLine = true
+                singleLine = true,
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
             )
             Spacer(modifier = Modifier.height(8.dp))
             TextField(
@@ -209,7 +214,8 @@ fun Modo_Pruebas(onBack: () -> Unit) {
                 onValueChange = { tensionDiastolica = it },
                 label = { Text("Tensión Diastólica") },
                 modifier = Modifier.fillMaxWidth(),
-                singleLine = true
+                singleLine = true,
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
             )
 
             Spacer(modifier = Modifier.height(16.dp))
