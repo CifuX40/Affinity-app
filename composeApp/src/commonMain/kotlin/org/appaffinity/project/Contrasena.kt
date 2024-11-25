@@ -4,7 +4,7 @@ import affinityapp.composeapp.generated.resources.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.*
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
@@ -102,7 +102,6 @@ fun CambiarContrasenaScreen(onBack: () -> Unit) {
                         if (contrasenaActual == "9876") {
                             mensajeError = ""
                             // Actualiza la contraseña
-                            // Este es un lugar donde podrías actualizar la contraseña en tu sistema
                             onBack()
                         } else {
                             mensajeError = "La contraseña actual es incorrecta"

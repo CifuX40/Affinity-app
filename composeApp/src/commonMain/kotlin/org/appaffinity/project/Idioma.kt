@@ -36,7 +36,7 @@ fun IdiomaScreen(onAceptarClick: () -> Unit) {
                 .padding(16.dp)
         ) {
             Text(
-                Localization.getString("selecciona_idioma"), // Obtiene el texto "Selecciona idioma" desde Localization.
+                Localization.getString("selecciona_idioma"),
                 fontSize = 30.sp,
                 color = Naranja,
                 fontWeight = FontWeight.Bold
@@ -68,7 +68,7 @@ fun IdiomaScreen(onAceptarClick: () -> Unit) {
 
             Boton_Naranja(
                 onClick = {
-                    Localization.setLanguage(idiomaSeleccionado) // Establece el idioma seleccionado en la configuración.
+                    Localization.setLanguage(idiomaSeleccionado)
                     onAceptarClick()
                 },
                 text = Localization.getString("aceptar")
