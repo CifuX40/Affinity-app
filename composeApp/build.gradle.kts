@@ -2,7 +2,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform) version "2.0.21"
-    alias(libs.plugins.androidApplication) version "8.7.2"
+    alias(libs.plugins.androidApplication) version "8.7.3"
     alias(libs.plugins.jetbrainsCompose) version "1.7.0"
     alias(libs.plugins.compose.compiler) version "2.0.21"
     kotlin("plugin.serialization") version libs.versions.kotlin.get()
