@@ -28,23 +28,23 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
-                implementation("com.google.code.gson:gson:2.10.1")
+                implementation(libs.kotlinx.datetime)
+                implementation(libs.kotlinx.serialization.json)
+                implementation(libs.gson)
 
                 // Dependencias de Ktor para REST API
-                implementation("io.ktor:ktor-client-core:2.3.4")
-                implementation("io.ktor:ktor-client-cio:2.3.4")
-                implementation("io.ktor:ktor-client-json:2.3.4")
-                implementation("io.ktor:ktor-client-serialization:2.3.4")
-                implementation("io.ktor:ktor-client-logging:2.3.4")
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.cio)
+                implementation(libs.ktor.client.json)
+                implementation(libs.ktor.client.serialization)
+                implementation(libs.ktor.client.logging)
             }
         }
 
         val androidMain by getting {
             dependencies {
                 implementation(libs.androidx.activity.compose)
-                implementation(libs.core.ktx.v1120)
+                implementation(libs.core.ktx)
                 implementation(libs.androidx.navigation.compose)
 
                 // Firebase para Android
