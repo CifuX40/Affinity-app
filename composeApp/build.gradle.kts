@@ -48,18 +48,18 @@ kotlin {
                 implementation(libs.androidx.navigation.compose)
 
                 // Firebase para Android
-                implementation(enforcedPlatform("com.google.firebase:firebase-bom:33.6.0"))
-                implementation("com.google.firebase:firebase-analytics")
-                implementation("com.google.firebase:firebase-auth")
-                implementation("com.google.firebase:firebase-database")
-                implementation("com.google.firebase:firebase-storage")
+                implementation(libs.firebase.bom)
+                implementation(libs.google.firebase.analytics)
+                implementation(libs.google.firebase.auth)
+                implementation(libs.google.firebase.database)
+                implementation(libs.google.firebase.storage)
             }
         }
 
         val desktopMain by getting {
             dependencies {
-                implementation("org.jetbrains.compose.desktop:desktop-jvm:1.5.10")
-                implementation("io.ktor:ktor-client-cio:2.3.4")
+                implementation(libs.desktop.jvm)
+                implementation(libs.ktor.client.cio)
             }
         }
     }

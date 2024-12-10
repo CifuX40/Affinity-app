@@ -19,7 +19,9 @@ compose-plugin = "1.7.0"
 core = "1.46.0"
 coreKtxVersion = "1.15.0"
 desktopJvm = "1.7.0"
+desktopJvmVersion = "1.5.10"
 firebaseBom = "33.7.0"
+firebaseBomVersion = "33.6.0"
 firebaseCrashlyticsBuildtools = "3.0.2"
 firebaseDatabaseKtx = "21.0.0"
 gson = "2.11.0"
@@ -54,11 +56,17 @@ androidx-ui-tooling-preview-desktop = { module = "androidx.compose.ui:ui-tooling
 core = { module = "com.google.ar:core", version.ref = "core" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
 desktop-jvm = { module = "org.jetbrains.compose.desktop:desktop-jvm", version.ref = "desktopJvm" }
+desktop-jvm-v1510 = { module = "org.jetbrains.compose.desktop:desktop-jvm", version.ref = "desktopJvmVersion" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-bom-v3360 = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBomVersion" }
 firebase-database = { module = "com.google.firebase:firebase-database" }
 firebase-storage = { module = "com.google.firebase:firebase-storage" }
+google-firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+google-firebase-database = { module = "com.google.firebase:firebase-database" }
+google-firebase-auth = { module = "com.google.firebase:firebase-auth" }
+google-firebase-storage = { module = "com.google.firebase:firebase-storage" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 gson-v2101 = { module = "com.google.code.gson:gson", version.ref = "gsonVersion" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
