@@ -1,11 +1,11 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform) version "2.0.21"
-    alias(libs.plugins.androidApplication) version "8.7.3"
-    alias(libs.plugins.jetbrainsCompose) version "1.7.0"
-    alias(libs.plugins.compose.compiler) version "2.0.21"
-    kotlin("plugin.serialization") version libs.versions.kotlin.get()
+    kotlin("multiplatform") version "2.0.21"
+    id("org.jetbrains.compose") version "1.7.0"
+    id("com.android.application")
+    kotlin("plugin.serialization") version "1.9.10"
+    id("com.google.gms.google-services")
 }
 
 kotlin {
@@ -28,32 +28,38 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material)
-                implementation(compose.ui)
-                implementation(compose.components.resources)
-                implementation(libs.androidx.lifecycle.viewmodel)
-                implementation(libs.androidx.lifecycle.runtime.compose)
-                implementation(libs.kotlinx.datetime)
-                implementation(libs.kotlinx.serialization.json)
-                implementation(libs.gson)
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+                implementation("com.google.code.gson:gson:2.10.1")
+
+                // Dependencias de Ktor para REST API
+                implementation("io.ktor:ktor-client-core:2.3.4")
+                implementation("io.ktor:ktor-client-cio:2.3.4")
+                implementation("io.ktor:ktor-client-json:2.3.4")
+                implementation("io.ktor:ktor-client-serialization:2.3.4")
+                implementation("io.ktor:ktor-client-logging:2.3.4")
             }
         }
 
         val androidMain by getting {
             dependencies {
-                implementation(compose.preview)
                 implementation(libs.androidx.activity.compose)
-                implementation(libs.androidx.core.ktx)
+                implementation(libs.core.ktx.v1120)
                 implementation(libs.androidx.navigation.compose)
+
+                // Firebase para Android
+                implementation(enforcedPlatform("com.google.firebase:firebase-bom:33.6.0"))
+                implementation("com.google.firebase:firebase-analytics")
+                implementation("com.google.firebase:firebase-auth")
+                implementation("com.google.firebase:firebase-database")
+                implementation("com.google.firebase:firebase-storage")
             }
         }
 
         val desktopMain by getting {
             dependencies {
-                implementation(compose.desktop.currentOs)
-                implementation(libs.kotlinx.coroutines.swing)
+                implementation("org.jetbrains.compose.desktop:desktop-jvm:1.5.10")
+                implementation("io.ktor:ktor-client-cio:2.3.4")
             }
         }
     }
@@ -62,10 +68,6 @@ kotlin {
 android {
     namespace = "compose.project.demo"
     compileSdk = 35
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].res.srcDirs("src/androidMain/res")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
-
     defaultConfig {
         applicationId = "compose.project.demo"
         minSdk = 21
@@ -73,37 +75,24 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
-
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
     buildFeatures {
         compose = true
     }
+}
 
-    compose.desktop {
-        application {
-            mainClass = "org.appaffinity.project.MainKt"
-
-            nativeDistributions {
-                targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-                packageName = "compose.project.demo"
-                packageVersion = "1.0.0"
-            }
+compose.desktop {
+    application {
+        mainClass = "org.appaffinity.project.MainKt"
+        nativeDistributions {
+            targetFormats(
+                TargetFormat.Dmg,
+                TargetFormat.Msi,
+                TargetFormat.Deb
+            )
+            packageName = "compose.project.demo"
+            packageVersion = "1.0.0"
         }
     }
 }
+
+apply(plugin = "com.google.gms.google-services")
