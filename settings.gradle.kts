@@ -24,6 +24,8 @@ dependencyResolutionManagement {
                 includeGroupAndSubgroups("com.google")
             }
         }
+        gradlePluginPortal()
+        google()
         mavenCentral()
     }
 }

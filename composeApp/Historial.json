@@ -1,1 +1,15 @@
-{}
+{
+  "registros": [
+    {
+      "medidas": {
+        "centimetros": 33.0,
+        "kilogramos": 4.0,
+        "tensionSistolica": 6,
+        "tensionDiastolica": 55
+      },
+      "resultado": "ERROR",
+      "detalleError": "Diferencias encontradas:\nCentímetros: -147.0\nKilogramos: -56.0\nTensión Sistólica: -114\nTensión Diastólica: -25\nHora del error: 12/12/2024 09:59:18",
+      "fecha": "12/12/2024 09:59:18"
+    }
+  ]
+}
