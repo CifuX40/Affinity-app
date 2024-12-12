@@ -1,82 +1,69 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("multiplatform") version "2.0.21"
-    id("org.jetbrains.compose") version "1.7.0"
-    id("com.android.application")
-    kotlin("plugin.serialization") version "1.9.10"
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
     id("com.google.gms.google-services")
 }
 
 kotlin {
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
         }
     }
 
-    jvm("desktop") {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
-        }
-    }
+    jvm("desktop")
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.kotlinx.datetime)
-                implementation(libs.kotlinx.serialization.json)
-                implementation(libs.gson)
+        val desktopMain by getting
 
-                // Dependencias de Ktor para REST API
-                implementation(libs.ktor.client.core)
-                implementation(libs.ktor.client.cio)
-                implementation(libs.ktor.client.json)
-                implementation(libs.ktor.client.serialization)
-                implementation(libs.ktor.client.logging)
-            }
+        androidMain.dependencies {
+            implementation(compose.preview)
+            implementation(libs.androidx.activity.compose)
         }
-
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.androidx.activity.compose)
-                implementation(libs.core.ktx)
-                implementation(libs.androidx.navigation.compose)
-
-                // Firebase para Android
-                implementation(libs.firebase.bom)
-                implementation(libs.google.firebase.analytics)
-                implementation(libs.google.firebase.auth)
-                implementation(libs.google.firebase.database)
-                implementation(libs.google.firebase.storage)
-            }
+        commonMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material)
+            implementation(compose.ui)
+            implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
+            implementation(libs.androidx.lifecycle.viewmodel)
+            implementation(libs.androidx.lifecycle.runtime.compose)
         }
-
-        val desktopMain by getting {
-            dependencies {
-                implementation(libs.desktop.jvm)
-                implementation(libs.ktor.client.cio)
-            }
+        desktopMain.dependencies {
+            implementation(compose.desktop.currentOs)
+            implementation(libs.kotlinx.coroutines.swing)
         }
     }
 }
 
 android {
     namespace = "compose.project.demo"
-    compileSdk = 35
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
+
     defaultConfig {
         applicationId = "compose.project.demo"
-        minSdk = 21
-        targetSdk = 35
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
     }
     buildFeatures {
         compose = true
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    dependencies {
+        debugImplementation(compose.uiTooling)
     }
 }
 
